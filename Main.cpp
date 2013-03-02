@@ -3,11 +3,10 @@
 #include <cmath>
 #include <vector>
 
-#include "ShaderLoader.h"
-#include "Triangle.struct"
+#include "World.hpp"
 
 const int ROTATION_SPEED = 1;
-World world();
+World world;
 
 
 /* Fetches the model and puts it into GPU memory */
@@ -20,12 +19,24 @@ void init()
 
 
 
+/*	Causes the current thread to sleep for the specified number of milliseconds */
+void sleep(int milliseconds)
+{
+	std::chrono::milliseconds duration(milliseconds);
+	std::this_thread::sleep_for(duration); //forget time.h or windows.h, this is the real way to sleep!
+}
+
+
+
 /* Clears the screen, applies view angle, and renders the model */
 void render()
 {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	world.render();	
 	glutSwapBuffers();
+
+	sleep(50); //20 fps
+	glutPostRedisplay();
 }
 
 
@@ -63,25 +74,6 @@ void handleKeyboardInput(unsigned char key, int x, int y)
 
 
 
-/*	Causes the current thread to sleep for the specified number of milliseconds */
-void sleep(int milliseconds)
-{
-	std::chrono::milliseconds duration(milliseconds);
-	std::this_thread::sleep_for(duration); //forget time.h or windows.h, this is the real way to sleep!
-}
-
-
-
-/* 	Called when Glut has nothing else to do.
-	This waits to preserve framerate, and then redisplays the model. */
-void onIdle()
-{
-	sleep(50); //20 fps
-	glutPostRedisplay();
-}
-
-
-
 /* Initializes glut. Sets the window size and title to the specified values */
 void initializeGlutWindow(int width, int height, const std::string& windowTitle)
 {
@@ -106,8 +98,7 @@ int main(int argc, char **argv)
 	init();
 
 	glutDisplayFunc(render);
-	glutKeyboardFunc(keyboardInput);
-	glutIdleFunc(onIdle);
+	glutKeyboardFunc(handleKeyboardInput);
 
 	glutMainLoop();
 	return 0;

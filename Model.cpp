@@ -10,6 +10,12 @@ Model::Model():
 }
 
 
+GLuint Model::getProgram()
+{
+	return program;
+}
+
+
 std::vector<Point> Model::getVertices()
 {
 	std::cout << "DERP!!!!" << std::endl;

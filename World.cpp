@@ -1,16 +1,19 @@
+#include "World.hpp"
 
 
-cameraAngle = glGetUniformLocation(program, "cameraAngle");
 
-void init()
+void World::init()
 {
-
+	model = new Model();
 }
 
 
 
-void render()
+void World::render()
 {
+	int res = 512; //todo: this is a hack
+
+	cameraAngle = glGetUniformLocation(model->getProgram(), "cameraAngle");
 	glUniform3fv(cameraAngle, 1, rotation); //apply view angle
 	glDrawArrays(GL_POINTS, 0, res * res);
 }
@@ -19,24 +22,24 @@ void render()
 
 void World::rotateCameraX(float theta)
 {
-	cameraAngle[X_AXIS] += theta;
-	ensureRotationRange(cameraAngle[X_AXIS]);
+	rotation[X_AXIS] += theta;
+	ensureRotationRange(rotation[X_AXIS]);
 }
 
 
 
 void World::rotateCameraY(float theta)
 {
-	cameraAngle[Y_AXIS] += theta;
-	ensureRotationRange(cameraAngle[Y_AXIS]);
+	rotation[Y_AXIS] += theta;
+	ensureRotationRange(rotation[Y_AXIS]);
 }
 
 
 
 void World::rotateCameraZ(float theta)
 {
-	cameraAngle[Z_AXIS] += theta;
-	ensureRotationRange(cameraAngle[Z_AXIS]);
+	rotation[Z_AXIS] += theta;
+	ensureRotationRange(rotation[Z_AXIS]);
 }
 
 

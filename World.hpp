@@ -1,6 +1,10 @@
 #ifndef WORLD_HPP
 #define WORLD_HPP
 
+#include "ShaderLoader.hpp"
+#include "Model.hpp"
+#include "Triangle.struct"
+
 class World
 {
 	public:
@@ -15,6 +19,16 @@ class World
 		const float ZOOM = 0.7f;
 		GLfloat rotation[3] = {114, 0, 16}; //initial view
 		GLuint cameraAngle;
-		
+		Model* model;
+
 		void ensureRotationRange(float& value);
-}
+
+		enum CameraAxis
+		{
+			X_AXIS = 0,
+			Y_AXIS = 1,
+			Z_AXIS = 2
+		};
+};
+
+#endif

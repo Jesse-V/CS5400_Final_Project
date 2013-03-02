@@ -4,15 +4,15 @@
 #include <vector>
 #include "Triangle.struct"
 
-class Program
+class Model
 {
 	public:
-		Program();
+		Model();
 		GLuint getProgram();
 		std::vector<Point> getVertices();
 
 	private:
-		Gluint program;
+		GLuint program;
 		
 		void initializeProgram();
 		void bindVertices();
