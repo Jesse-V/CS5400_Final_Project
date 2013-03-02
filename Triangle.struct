@@ -2,20 +2,23 @@
 #ifndef __TRIANGLE_STRUCT__
 #define __TRIANGLE_STRUCT__
 
-#include <GL/glew.h>
-
 /* Defines a three-dimensional point */
 struct Point
 {
 	float x, y, z, w;
 
-	Point(GLfloat s = GLfloat(0.0)):
+	Point(float s = float(0.0)):
 			x(s), y(s), z(s), w(1)
 		{}
 
-	Point(GLfloat x, GLfloat y, GLfloat z):
+	Point(float x, float y, float z):
 			x(x), y(y), z(z), w(1)
 		{}
+
+	Point(float x, float y, float z, float w):
+			x(x), y(y), z(z), w(w)
+		{}
+
 
 	bool operator<(const Point& other) const
 	{

@@ -3,7 +3,7 @@
 #include <cmath>
 #include <vector>
 
-#include "Shader.h"
+#include "ShaderLoader.h"
 #include "Triangle.struct"
 
 const int ROTATION_SPEED = 1;
@@ -15,70 +15,18 @@ GLuint cameraAngle;
 int res = 512;
 
 
-/* Returns the vertices that describe the on-screen shapes */
-std::vector<Point> getVertices()
-{
-	Point a(0, 0, 0);
-	Point b(1, 1, 0);
-
-	std::vector<Point> vertices;
-
-	for (float x = 0; x < res; x++)
-	{
-		for (float y = 0; y < res; y++)
-		{
-			float xCoord = (x / res) * (b.x - a.x);
-			float yCoord = (y / res) * (b.y - a.y);
-			Point pt(xCoord, yCoord, 0);
-			vertices.push_back(pt);
-		}
-	}
-
-	std::cout << "Coord count: " << vertices.size() << std::endl;
-	return vertices;
-}
 
 
 
-void storeVertices(std::vector<Point> vertices)
-{
-	GLuint buffer; //pointer to the GPU memory
-	int size = vertices.size() * sizeof(Point);
-	glGenBuffers(1, &buffer);
-	glBindBuffer(GL_ARRAY_BUFFER, buffer);
-	glBufferData(GL_ARRAY_BUFFER, size, NULL, GL_STATIC_DRAW);
-	glBufferSubData(GL_ARRAY_BUFFER, 0, size, vertices.data()); //save vertices
-}
 
 
-void bindVertices()
-{
-	GLuint vao;
-	glGenVertexArrays(1, &vao);
-	glBindVertexArray(vao);
-}
-
-
-void initializeProgram()
-{
-	GLuint program = InitShader("vertex.glsl", "fragment.glsl");
-	glUseProgram(program);
-
-	GLuint vertPosition = glGetAttribLocation(program, "vertPosition");
-	glEnableVertexAttribArray(vertPosition);
-	glVertexAttribPointer(vertPosition, 4, GL_FLOAT, GL_FALSE, 0, BUFFER_OFFSET(0));
-
-	cameraAngle = glGetUniformLocation(program, "cameraAngle");
-}
 
 
 
 /* Fetches the model and puts it into GPU memory */
 void init()
 {
-	bindVertices();
-	storeVertices(getVertices());
-	initializeProgram();
+	
 
 	glEnable(GL_DEPTH_TEST);
 	glClearColor(1.0, 1.0, 1.0, 1.0);

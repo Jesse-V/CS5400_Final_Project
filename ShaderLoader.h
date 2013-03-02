@@ -1,6 +1,6 @@
 
-#ifndef __ANGEL_SHADER__
-#define __ANGEL_SHADER__
+#ifndef ANGEL_SHADER
+#define ANGEL_SHADER
 
 #include <GL/glew.h>
 #include <GL/freeglut.h>
@@ -20,7 +20,7 @@
 namespace Angel
 {
 	//  Helper function to load vertex and fragment shader files
-	GLuint InitShader( const char* vertexShaderFile,
+	GLuint initShader( const char* vertexShaderFile,
 			   const char* fragmentShaderFile );
 
 	//  Degrees-to-radians constant 

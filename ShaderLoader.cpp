@@ -1,5 +1,5 @@
 
-#include "Shader.h"
+#include "ShaderLoader.h"
 
 namespace Angel
 {
@@ -26,7 +26,7 @@ namespace Angel
 
 
 	// Create a GLSL program object from vertex and fragment shader files
-	GLuint InitShader(const char* vShaderFile, const char* fShaderFile)
+	GLuint initShader(const char* vShaderFile, const char* fShaderFile)
 	{
 		struct Shader
 		{
@@ -77,15 +77,16 @@ namespace Angel
 		/* link  and error check */
 		glLinkProgram(program);
 
-		GLint  linked;
+		GLint linked;
 		glGetProgramiv(program, GL_LINK_STATUS, &linked);
 		if (!linked)
 		{
 			std::cerr << "Shader program failed to link" << std::endl;
-			GLint  logSize;
-			glGetProgramiv( program, GL_INFO_LOG_LENGTH, &logSize);
+			GLint logSize;
+			glGetProgramiv(program, GL_INFO_LOG_LENGTH, &logSize);
+			
 			char* logMsg = new char[logSize];
-			glGetProgramInfoLog( program, logSize, NULL, logMsg );
+			glGetProgramInfoLog(program, logSize, NULL, logMsg );
 			std::cerr << logMsg << std::endl;
 			delete [] logMsg;
 
