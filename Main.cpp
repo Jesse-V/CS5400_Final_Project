@@ -7,27 +7,13 @@
 #include "Triangle.struct"
 
 const int ROTATION_SPEED = 1;
-const float ZOOM = 0.7f;
-GLfloat rotation[3] = {114, 0, 16}; //initial view
-
-GLuint cameraAngle;
-
-int res = 512;
-
-
-
-
-
-
-
-
+World world();
 
 
 /* Fetches the model and puts it into GPU memory */
 void init()
 {
-	
-
+	world.init();
 	glEnable(GL_DEPTH_TEST);
 	glClearColor(1.0, 1.0, 1.0, 1.0);
 }
@@ -38,60 +24,41 @@ void init()
 void render()
 {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	
-	glUniform3fv(cameraAngle, 1, rotation); //apply view angle
-	glDrawArrays(GL_POINTS, 0, res * res);
-	
+	world.render();	
 	glutSwapBuffers();
 }
 
 
 
-/* Ensures that 'value' is in the range of [0, 360) */
-void modRotation(float& value)
-{
-	while (value >= 360.0)
-		value -= 360.0;
-
-	while (value < 0)
-		value += 360.0;
-}
-
-
-
 /*	Handles keyboard input. Does rotation according to user input */
-void keyboardInput(unsigned char key, int x, int y)
+void handleKeyboardInput(unsigned char key, int x, int y)
 {
 	switch (key)
 	{
 		case 'w':
-			rotation[0] += ROTATION_SPEED; //add to X axis
+			world.rotateCameraX(ROTATION_SPEED);
 			break;
 
 		case 's':
-			rotation[0] -= ROTATION_SPEED; //subtract from X axis
+			world.rotateCameraX(-ROTATION_SPEED);
 			break;
 
 		case 'd':
-			rotation[1] += ROTATION_SPEED; //add to Y axis
+			world.rotateCameraY(ROTATION_SPEED);
 			break;
 
 		case 'a':
-			rotation[1] -= ROTATION_SPEED; //subtract from Y axis
+			world.rotateCameraX(-ROTATION_SPEED);
 			break;
 
 		case 'e':
-			rotation[2] += ROTATION_SPEED; //add to Z axis
+			world.rotateCameraZ(ROTATION_SPEED);
 			break;
 
 		case 'q':
-			rotation[2] -= ROTATION_SPEED; //subtract from Z axis
+			world.rotateCameraX(-ROTATION_SPEED);
 			break;
 	}
-
-	modRotation(rotation[0]);
-	modRotation(rotation[1]);
-	modRotation(rotation[2]);
 }
 
 
@@ -122,6 +89,7 @@ void initializeGlutWindow(int width, int height, const std::string& windowTitle)
 	glutInitWindowSize(width, height);
 	glutCreateWindow(windowTitle.c_str());
 }
+
 
 
 /*	Entry point for the program.

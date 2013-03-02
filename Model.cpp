@@ -41,20 +41,18 @@ void Model::bindVertices()
 
 
 
+void Model::initializeProgram()
+{
+	program = initShader("Mandelbrot/vertex.glsl", "Mandelbrot/fragment.glsl");
+	glUseProgram(program);
+	initVertexPositionAttribute(program);
+}
+
+
+
 void Model::initVertexPositionAttribute(const GLuint& program)
 {
 	GLuint vertPosition = glGetAttribLocation(program, "vertPosition");
 	glEnableVertexAttribArray(vertPosition);
 	glVertexAttribPointer(vertPosition, 4, GL_FLOAT, GL_FALSE, 0, BUFFER_OFFSET(0));
 }
-
-
-
-void Model::initializeProgram()
-{
-	GLuint program = initShader("Mandelbrot/vertex.glsl", "Mandelbrot/fragment.glsl");
-	glUseProgram(program);
-	initVertexPositionAttribute(program);
-	
-}
-

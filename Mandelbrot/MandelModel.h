@@ -7,4 +7,7 @@ class MandelModel: public Model
 {
 	public:
 		virtual std::vector<Point> getVertices();
+
+	private:
+		int res = 512;
 }

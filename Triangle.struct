@@ -1,6 +1,6 @@
 
-#ifndef __TRIANGLE_STRUCT__
-#define __TRIANGLE_STRUCT__
+#ifndef TRIANGLE_STRUCT
+#define TRIANGLE_STRUCT
 
 /* Defines a three-dimensional point */
 struct Point
