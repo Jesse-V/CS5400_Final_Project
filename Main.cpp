@@ -2,51 +2,73 @@
 #include <thread>
 #include <cmath>
 #include <vector>
-#include <assert.h>
 
 #include "Shader.h"
 #include "Triangle.struct"
-#include "Sierpinski.cpp"
 
 const int ROTATION_SPEED = 1;
 const float ZOOM = 0.7f;
 GLfloat rotation[3] = {114, 0, 16}; //initial view
 
-GLuint theta;
+GLuint cameraAngle;
 
-void initializeMemBuffer(Point (&vertices)[NUM_VERTICES], Point (&colors)[NUM_VERTICES])
+int res = 512;
+
+
+/* Returns the vertices that describe the on-screen shapes */
+std::vector<Point> getVertices()
 {
-	GLuint buffer; //sets aside GPU memory for the vertices and color information
-	glGenBuffers(1, &buffer);
-	glBindBuffer(GL_ARRAY_BUFFER, buffer);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(vertices) + sizeof(colors), NULL, GL_STATIC_DRAW);
+	Point a(0, 0, 0);
+	Point b(1, 1, 0);
 
-	glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(vertices), vertices); //save vertices
-	glBufferSubData(GL_ARRAY_BUFFER, sizeof(vertices), sizeof(colors), colors); //save colors after vertices
+	std::vector<Point> vertices;
+
+	for (float x = 0; x < res; x++)
+	{
+		for (float y = 0; y < res; y++)
+		{
+			float xCoord = (x / res) * (b.x - a.x);
+			float yCoord = (y / res) * (b.y - a.y);
+			Point pt(xCoord, yCoord, 0);
+			vertices.push_back(pt);
+		}
+	}
+
+	std::cout << "Coord count: " << vertices.size() << std::endl;
+	return vertices;
 }
 
 
-/*	Initializes the GPU memory with the given vertices and color information */
-void initializeProgram(Point (&vertices)[NUM_VERTICES], Point (&colors)[NUM_VERTICES])
+
+void storeVertices(std::vector<Point> vertices)
+{
+	GLuint buffer; //pointer to the GPU memory
+	int size = vertices.size() * sizeof(Point);
+	glGenBuffers(1, &buffer);
+	glBindBuffer(GL_ARRAY_BUFFER, buffer);
+	glBufferData(GL_ARRAY_BUFFER, size, NULL, GL_STATIC_DRAW);
+	glBufferSubData(GL_ARRAY_BUFFER, 0, size, vertices.data()); //save vertices
+}
+
+
+void bindVertices()
+{
+	GLuint vao;
+	glGenVertexArrays(1, &vao);
+	glBindVertexArray(vao);
+}
+
+
+void initializeProgram()
 {
 	GLuint program = InitShader("vertex.glsl", "fragment.glsl");
 	glUseProgram(program);
 
-	GLuint vao;
-	glGenVertexArrays(1, &vao);
-	glBindVertexArray(vao);
+	GLuint vertPosition = glGetAttribLocation(program, "vertPosition");
+	glEnableVertexAttribArray(vertPosition);
+	glVertexAttribPointer(vertPosition, 4, GL_FLOAT, GL_FALSE, 0, BUFFER_OFFSET(0));
 
-	initializeMemBuffer(vertices, colors);
-
-	GLuint vPosition = glGetAttribLocation(program, "vPosition");
-	glEnableVertexAttribArray(vPosition);
-	glVertexAttribPointer(vPosition, 4, GL_FLOAT, GL_FALSE, 0, BUFFER_OFFSET(0));
-
-	GLuint vColor = glGetAttribLocation(program, "vColor");
-	glEnableVertexAttribArray(vColor);
-	glVertexAttribPointer(vColor, 4, GL_FLOAT, GL_FALSE, 0, BUFFER_OFFSET(sizeof(vertices)));
-
-	theta = glGetUniformLocation(program, "theta");
+	cameraAngle = glGetUniformLocation(program, "cameraAngle");
 }
 
 
@@ -54,19 +76,9 @@ void initializeProgram(Point (&vertices)[NUM_VERTICES], Point (&colors)[NUM_VERT
 /* Fetches the model and puts it into GPU memory */
 void init()
 {
-	auto vertices = getVertices();
-	auto colors = colorModel(vertices);
-	assert(vertices.size() == colors.size()); //just to double-check
-
-	Point pointsArray[NUM_VERTICES];
-	Point colorsArray[NUM_VERTICES];
-	for (int j = 0; j < NUM_VERTICES; j++) //convert to pointer array so sizeof works
-	{
-		pointsArray[j] = vertices[j] * ZOOM;
-		colorsArray[j] = colors[j] * ZOOM;
-	}
-
-	initializeProgram(pointsArray, colorsArray);
+	bindVertices();
+	storeVertices(getVertices());
+	initializeProgram();
 
 	glEnable(GL_DEPTH_TEST);
 	glClearColor(1.0, 1.0, 1.0, 1.0);
@@ -79,8 +91,8 @@ void render()
 {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	
-	glUniform3fv(theta, 1, rotation); //apply view angle
-	glDrawArrays(GL_TRIANGLES, 0, NUM_VERTICES);
+	glUniform3fv(cameraAngle, 1, rotation); //apply view angle
+	glDrawArrays(GL_POINTS, 0, res * res);
 	
 	glutSwapBuffers();
 }

@@ -1,14 +1,12 @@
 #version 150
 
-in vec4 vPosition;
-in vec4 vColor;
-out vec4 color;
+uniform vec3 cameraAngle; //camera rotation
+in vec4 vertPosition; //location of point from Main.cpp
+out vec4 fragmentColor; 
 
-uniform vec3 theta;
-
-void main()
+mat4 cameraView()
 {
-	vec3 angles = radians(theta);
+	vec3 angles = radians(cameraAngle);
 	vec3 c = cos(angles);
 	vec3 s = sin(angles);
 
@@ -33,6 +31,20 @@ void main()
 		0.0,	0.0,	0.0,	1.0
 		);
 
-	color = vColor;
-	gl_Position = rx * ry * rz * vPosition;
+	return rx * ry * rz;
 }
+
+
+vec4 getColor()
+{
+	return vec4(0, 0, 0, 1);
+}
+
+
+void main()
+{
+	gl_Position = cameraView() * vertPosition;
+	fragmentColor = getColor();
+}
+
+//http://stackoverflow.com/questions/8632550/how-does-the-default-glsl-shaders-look-like-for-version-330
