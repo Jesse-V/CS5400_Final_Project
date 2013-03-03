@@ -1,5 +1,5 @@
 
-#include "MandelModel.h"
+#include "MandelModel.hpp"
 
 /* Returns the vertices that describe the on-screen shapes */
 std::vector<Point> MandelModel::getVertices()

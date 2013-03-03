@@ -2,7 +2,7 @@
 #include "Model.hpp"
 
 
-Model::Model():
+Model::Model()
 {
 	bindVertices();
 	storeVertices(getVertices());
@@ -10,10 +10,12 @@ Model::Model():
 }
 
 
+
 GLuint Model::getProgram()
 {
 	return program;
 }
+
 
 
 std::vector<Point> Model::getVertices()

@@ -1,7 +1,7 @@
 #ifndef MANDEL_MODEL_HPP
 #define MANDEL_MODEL_HPP
 
-#include "Model.h"
+#include "../Model.hpp"
 
 class MandelModel: public Model
 {
@@ -10,4 +10,6 @@ class MandelModel: public Model
 
 	private:
 		int res = 512;
-}
+};
+
+#endif

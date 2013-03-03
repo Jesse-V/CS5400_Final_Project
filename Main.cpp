@@ -4,6 +4,7 @@
 #include <vector>
 
 #include "World.hpp"
+#include "Mandelbrot/MandelModel.hpp"
 
 const int ROTATION_SPEED = 1;
 World world;
@@ -12,7 +13,8 @@ World world;
 /* Fetches the model and puts it into GPU memory */
 void init()
 {
-	world.init();
+	MandelModel model;
+	world.init(model);
 	glEnable(GL_DEPTH_TEST);
 	glClearColor(1.0, 1.0, 1.0, 1.0);
 }

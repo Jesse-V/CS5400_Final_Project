@@ -1,5 +1,5 @@
-#ifndef PROGRAM_HPP
-#define PROGRAM_HPP
+#ifndef MODEL_HPP
+#define MODEL_HPP
 
 #include <vector>
 #include "Triangle.struct"
