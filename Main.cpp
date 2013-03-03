@@ -1,7 +1,10 @@
 #include <chrono>
 #include <thread>
-#include <cmath>
 #include <vector>
+#include <iostream>
+#include <GL/glew.h>
+#include <GL/freeglut.h>
+#include <GL/freeglut_ext.h>
 
 #include "World.hpp"
 #include "Mandelbrot/MandelModel.hpp"
@@ -13,9 +16,8 @@ World world;
 /* Fetches the model and puts it into GPU memory */
 void init()
 {
-	MandelModel model();
-	world.init(model);
-	
+	world.addModel(dynamic_cast<Model*>(new MandelModel()));
+
 	glEnable(GL_DEPTH_TEST);
 	glClearColor(1.0, 1.0, 1.0, 1.0);
 }

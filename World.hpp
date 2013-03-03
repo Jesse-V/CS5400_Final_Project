@@ -1,14 +1,12 @@
 #ifndef WORLD_HPP
 #define WORLD_HPP
 
-#include "ShaderLoader.hpp"
 #include "Model.hpp"
-#include "Triangle.struct"
 
 class World
 {
 	public:
-		void init(Model model);
+		void addModel(Model* model);
 		void render();
 		void rotateCameraX(float theta);
 		void rotateCameraY(float theta);
@@ -20,7 +18,7 @@ class World
 		GLfloat rotation[3] = {114, 0, 16}; //initial view
 		GLuint cameraAngle;
 		//std::shared_ptr<Model> model;
-		Model model;
+		Model* model;
 
 		void ensureRotationRange(float& value);
 

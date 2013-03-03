@@ -1,5 +1,6 @@
 
 #include "MandelModel.hpp"
+#include <iostream>
 
 MandelModel::MandelModel()
 {

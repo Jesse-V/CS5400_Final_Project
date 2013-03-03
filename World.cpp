@@ -1,8 +1,10 @@
+
 #include "World.hpp"
 #include "Model.hpp"
+#include <GL/glew.h>
 
 
-void World::init(Model model)
+void World::addModel(Model* model)
 {
 	this->model = model;
 }
@@ -13,7 +15,8 @@ void World::render()
 {
 	int res = 512; //todo: this is a hack
 
-	cameraAngle = glGetUniformLocation(model.getProgram(), "cameraAngle");
+	cameraAngle = glGetUniformLocation(model->getProgram(), "cameraAngle");
+	
 	glUniform3fv(cameraAngle, 1, rotation); //apply view angle
 	glDrawArrays(GL_POINTS, 0, res * res);
 }

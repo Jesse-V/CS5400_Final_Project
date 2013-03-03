@@ -3,13 +3,14 @@
 
 #include <vector>
 #include "Triangle.struct"
+#include <GL/glew.h>
 
 class Model
 {
 	public:
 		Model();
 		GLuint getProgram();
-		std::vector<Point> getVertices();
+		virtual std::vector<Point> getVertices();
 
 	private:
 		GLuint program;
