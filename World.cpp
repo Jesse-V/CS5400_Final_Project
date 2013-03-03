@@ -2,7 +2,7 @@
 #include "Model.hpp"
 
 
-void World::init(const Model& model)
+void World::init(Model model)
 {
 	this->model = model;
 }

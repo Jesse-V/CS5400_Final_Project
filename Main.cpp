@@ -13,8 +13,9 @@ World world;
 /* Fetches the model and puts it into GPU memory */
 void init()
 {
-	MandelModel model;
+	MandelModel model();
 	world.init(model);
+	
 	glEnable(GL_DEPTH_TEST);
 	glClearColor(1.0, 1.0, 1.0, 1.0);
 }

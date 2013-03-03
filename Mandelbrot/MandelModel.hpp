@@ -6,6 +6,8 @@
 class MandelModel: public Model
 {
 	public:
+		MandelModel();
+
 		virtual std::vector<Point> getVertices();
 
 	private:

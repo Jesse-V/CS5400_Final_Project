@@ -1,6 +1,11 @@
 
 #include "MandelModel.hpp"
 
+MandelModel::MandelModel()
+{
+
+}
+
 /* Returns the vertices that describe the on-screen shapes */
 std::vector<Point> MandelModel::getVertices()
 {

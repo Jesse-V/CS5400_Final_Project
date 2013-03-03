@@ -8,7 +8,7 @@
 class World
 {
 	public:
-		void init(const Model& model);
+		void init(Model model);
 		void render();
 		void rotateCameraX(float theta);
 		void rotateCameraY(float theta);
@@ -19,6 +19,7 @@ class World
 		const float ZOOM = 0.7f;
 		GLfloat rotation[3] = {114, 0, 16}; //initial view
 		GLuint cameraAngle;
+		//std::shared_ptr<Model> model;
 		Model model;
 
 		void ensureRotationRange(float& value);
