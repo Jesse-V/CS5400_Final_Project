@@ -4,6 +4,7 @@
 #include <vector>
 #include "Triangle.struct"
 #include <GL/glew.h>
+#include <string>
 
 class Model
 {
@@ -17,7 +18,7 @@ class Model
 		GLuint program;
 		int vertexCount;
 
-		void initializeProgram();
+		void initializeProgram(const std::string& vertexShader, const std::string& fragmentShader);
 		void bindVertices();
 		void storeVertices(std::vector<Point> vertices);
 		void initVertexPositionAttribute(const GLuint& program);

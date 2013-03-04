@@ -3,11 +3,13 @@
 
 #include "Model.hpp"
 #include <memory>
+#include <vector>
 
 class World
 {
 	public:
-		void addModel(std::shared_ptr<Model> model);
+		World();
+		void addModel(const std::shared_ptr<Model>& model);
 		void render();
 		void rotateCameraX(float theta);
 		void rotateCameraY(float theta);
@@ -18,7 +20,7 @@ class World
 		const float ZOOM = 0.7f;
 		GLfloat rotation[3] = {114, 0, 16}; //initial view
 		GLuint cameraAngle;
-		std::shared_ptr<Model> model;
+		std::vector<std::shared_ptr<Model>> models;
 
 		void ensureRotationRange(float& value);
 

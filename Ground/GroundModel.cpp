@@ -1,21 +1,21 @@
 
-#include "MandelModel.hpp"
+#include "GroundModel.hpp"
 #include <iostream>
 
-MandelModel::MandelModel(int resolution):
+GroundModel::GroundModel(int resolution):
 	resolution(resolution)
 {
 	storeVertices(getVertices());
-	initializeProgram("Mandelbrot/vertex.glsl", "Mandelbrot/fragment.glsl");
+	initializeProgram("Ground/vertex.glsl", "Ground/fragment.glsl");
 }
 
 
 
 /* Returns the vertices that describe the on-screen shapes */
-std::vector<Point> MandelModel::getVertices()
+std::vector<Point> GroundModel::getVertices()
 {
-	Point a(0, 0, 0);
-	Point b(1, 1, 0);
+	Point a(0.2, 0.2, 0.2);
+	Point b(1.2, 1.2, 0.2);
 
 	std::vector<Point> vertices;
 

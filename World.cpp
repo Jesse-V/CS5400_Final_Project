@@ -2,21 +2,37 @@
 #include "World.hpp"
 #include "Model.hpp"
 #include <GL/glew.h>
+#include <algorithm>
+#include <iostream>
 
 
-void World::addModel(std::shared_ptr<Model> model)
+World::World()
 {
-	this->model = model;
+
+}
+
+
+
+void World::addModel(const std::shared_ptr<Model>& model)
+{
+	models.push_back(model);
 }
 
 
 
 void World::render()
 {
-	cameraAngle = glGetUniformLocation(model->getProgram(), "cameraAngle");
-	glUniform3fv(cameraAngle, 1, rotation); //apply view angle
+	int totalVertexCount = 0;
 
-	glDrawArrays(GL_POINTS, 0, model->getVertexCount());
+	for_each (models.begin(), models.end(), 
+		[&](const std::shared_ptr<Model>& model)
+		{
+			cameraAngle = glGetUniformLocation(model->getProgram(), "cameraAngle");
+			glUniform3fv(cameraAngle, 1, rotation); //apply view angle
+			totalVertexCount += model->getVertexCount();
+		});
+
+	glDrawArrays(GL_POINTS, 0, totalVertexCount);
 }
 	
 
