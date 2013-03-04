@@ -5,7 +5,8 @@
 #include <exception>
 
 
-Model::Model()
+Model::Model():
+	program(NULL), vertexCount(0)
 {
 	bindVertices();
 }
@@ -30,12 +31,14 @@ void Model::bindVertices()
 
 void Model::storeVertices(std::vector<Point> vertices)
 {
+	vertexCount = vertices.size();
+	int memSize = vertexCount * sizeof(Point);
+	
 	GLuint buffer; //pointer to the GPU memory
-	int size = vertices.size() * sizeof(Point);
 	glGenBuffers(1, &buffer);
 	glBindBuffer(GL_ARRAY_BUFFER, buffer);
-	glBufferData(GL_ARRAY_BUFFER, size, NULL, GL_STATIC_DRAW);
-	glBufferSubData(GL_ARRAY_BUFFER, 0, size, vertices.data()); //save vertices
+	glBufferData(GL_ARRAY_BUFFER, memSize, NULL, GL_STATIC_DRAW);
+	glBufferSubData(GL_ARRAY_BUFFER, 0, memSize, vertices.data()); //save vertices
 }
 
 
@@ -55,3 +58,11 @@ void Model::initVertexPositionAttribute(const GLuint& program)
 	glEnableVertexAttribArray(vertPosition);
 	glVertexAttribPointer(vertPosition, 4, GL_FLOAT, GL_FALSE, 0, BUFFER_OFFSET(0));
 }
+
+
+
+int Model::getVertexCount()
+{
+	return vertexCount;
+}
+

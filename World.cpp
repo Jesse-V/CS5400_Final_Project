@@ -13,12 +13,10 @@ void World::addModel(std::shared_ptr<Model> model)
 
 void World::render()
 {
-	int res = 512; //todo: fix this hack
-
 	cameraAngle = glGetUniformLocation(model->getProgram(), "cameraAngle");
-	
 	glUniform3fv(cameraAngle, 1, rotation); //apply view angle
-	glDrawArrays(GL_POINTS, 0, res * res);
+
+	glDrawArrays(GL_POINTS, 0, model->getVertexCount());
 }
 	
 

@@ -2,7 +2,8 @@
 #include "MandelModel.hpp"
 #include <iostream>
 
-MandelModel::MandelModel()
+MandelModel::MandelModel(int resolution):
+	resolution(resolution)
 {
 	storeVertices(getVertices());
 	initializeProgram();
@@ -18,17 +19,16 @@ std::vector<Point> MandelModel::getVertices()
 
 	std::vector<Point> vertices;
 
-	for (float x = 0; x < res; x++)
+	for (float x = 0; x < resolution; x++)
 	{
-		for (float y = 0; y < res; y++)
+		for (float y = 0; y < resolution; y++)
 		{
-			float xCoord = (x / res) * (b.x - a.x);
-			float yCoord = (y / res) * (b.y - a.y);
+			float xCoord = (x / resolution) * (b.x - a.x);
+			float yCoord = (y / resolution) * (b.y - a.y);
 			Point pt(xCoord, yCoord, 0);
 			vertices.push_back(pt);
 		}
 	}
 
-	std::cout << "Coord count: " << vertices.size() << std::endl;
 	return vertices;
 }

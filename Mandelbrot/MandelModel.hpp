@@ -6,11 +6,11 @@
 class MandelModel: public Model
 {
 	public:
-		MandelModel();
+		MandelModel(int resolution);
 		std::vector<Point> getVertices();
 
 	private:
-		int res = 512;
+		int resolution;
 };
 
 #endif

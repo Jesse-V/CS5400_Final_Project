@@ -11,10 +11,12 @@ class Model
 		Model();
 		GLuint getProgram();
 		virtual std::vector<Point> getVertices() = 0;
+		int getVertexCount();
 
 	protected:
 		GLuint program;
-		
+		int vertexCount;
+
 		void initializeProgram();
 		void bindVertices();
 		void storeVertices(std::vector<Point> vertices);

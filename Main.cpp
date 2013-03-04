@@ -13,10 +13,9 @@ const int ROTATION_SPEED = 1;
 World world;
 
 
-/* Fetches the model and puts it into GPU memory */
 void init()
 {
-	world.addModel(std::make_shared<MandelModel>());
+	world.addModel(std::make_shared<MandelModel>(512));
 
 	glEnable(GL_DEPTH_TEST);
 	glClearColor(1.0, 1.0, 1.0, 1.0);
