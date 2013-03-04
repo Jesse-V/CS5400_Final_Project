@@ -4,7 +4,7 @@
 #include <GL/glew.h>
 
 
-void World::addModel(Model* model)
+void World::addModel(std::shared_ptr<Model> model)
 {
 	this->model = model;
 }

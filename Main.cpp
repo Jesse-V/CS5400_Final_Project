@@ -16,7 +16,7 @@ World world;
 /* Fetches the model and puts it into GPU memory */
 void init()
 {
-	world.addModel(new MandelModel());
+	world.addModel(std::make_shared<MandelModel>());
 
 	glEnable(GL_DEPTH_TEST);
 	glClearColor(1.0, 1.0, 1.0, 1.0);
