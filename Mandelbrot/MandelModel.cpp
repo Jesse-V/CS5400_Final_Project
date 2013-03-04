@@ -4,8 +4,11 @@
 
 MandelModel::MandelModel()
 {
-
+	storeVertices(getVertices());
+	initializeProgram();
 }
+
+
 
 /* Returns the vertices that describe the on-screen shapes */
 std::vector<Point> MandelModel::getVertices()

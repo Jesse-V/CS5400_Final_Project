@@ -1,12 +1,13 @@
 
 #include "Model.hpp"
+#include <iostream> //temp
+#include "ShaderLoader.hpp"
+#include <exception>
 
 
 Model::Model()
 {
 	bindVertices();
-	storeVertices(getVertices());
-	initializeProgram();
 }
 
 
@@ -18,12 +19,11 @@ GLuint Model::getProgram()
 
 
 
-std::vector<Point> Model::getVertices()
+void Model::bindVertices()
 {
-	std::cout << "DERP!!!!" << std::endl;
-
-	std::vector<Point> vertices;
-	return vertices;
+	GLuint vao;
+	glGenVertexArrays(1, &vao);
+	glBindVertexArray(vao);
 }
 
 
@@ -36,15 +36,6 @@ void Model::storeVertices(std::vector<Point> vertices)
 	glBindBuffer(GL_ARRAY_BUFFER, buffer);
 	glBufferData(GL_ARRAY_BUFFER, size, NULL, GL_STATIC_DRAW);
 	glBufferSubData(GL_ARRAY_BUFFER, 0, size, vertices.data()); //save vertices
-}
-
-
-
-void Model::bindVertices()
-{
-	GLuint vao;
-	glGenVertexArrays(1, &vao);
-	glBindVertexArray(vao);
 }
 
 

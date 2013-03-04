@@ -13,7 +13,7 @@ void World::addModel(Model* model)
 
 void World::render()
 {
-	int res = 512; //todo: this is a hack
+	int res = 512; //todo: fix this hack
 
 	cameraAngle = glGetUniformLocation(model->getProgram(), "cameraAngle");
 	

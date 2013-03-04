@@ -10,9 +10,9 @@ class Model
 	public:
 		Model();
 		GLuint getProgram();
-		virtual std::vector<Point> getVertices();
+		virtual std::vector<Point> getVertices() = 0;
 
-	private:
+	protected:
 		GLuint program;
 		
 		void initializeProgram();
