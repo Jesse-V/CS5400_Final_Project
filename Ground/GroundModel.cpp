@@ -5,6 +5,7 @@
 GroundModel::GroundModel(int modelResolution):
 	resolution(modelResolution)
 {
+	bindVertices();
 	storeVertices(getVertices());
 	initializeProgram("Ground/vertex.glsl", "Ground/fragment.glsl");
 }

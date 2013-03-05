@@ -5,6 +5,7 @@
 MandelModel::MandelModel(int modelResolution):
 	resolution(modelResolution)
 {
+	bindVertices();
 	storeVertices(getVertices());
 	initializeProgram("Mandelbrot/vertex.glsl", "Mandelbrot/fragment.glsl");
 }

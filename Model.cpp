@@ -7,9 +7,7 @@
 
 Model::Model():
 	program(0), vertexCount(0)
-{
-	bindVertices();
-}
+{}
 
 
 

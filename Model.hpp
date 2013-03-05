@@ -9,19 +9,19 @@
 class Model
 {
 	public:
-		Model();
 		GLuint getProgram();
 		virtual std::vector<Point> getVertices() = 0;
 		int getVertexCount();
 
 	protected:
-		GLuint program;
-		int vertexCount;
-
+		Model();
 		void initializeProgram(const std::string& vertexShader, const std::string& fragmentShader);
 		void bindVertices();
 		void storeVertices(std::vector<Point> vertices);
 		void initVertexPositionAttribute(const GLuint& program);
+
+		GLuint program;
+		int vertexCount;
 };
 
 #endif
