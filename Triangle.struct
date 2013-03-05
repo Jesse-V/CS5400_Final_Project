@@ -2,27 +2,30 @@
 #ifndef TRIANGLE_STRUCT
 #define TRIANGLE_STRUCT
 
+#include <math.h>
+
+
 /* Defines a three-dimensional point */
 struct Point
 {
 	float x, y, z, w;
 
 	Point(float s = float(0.0)):
-			x(s), y(s), z(s), w(1)
-		{}
+		x(s), y(s), z(s), w(1)
+	{}
 
-	Point(float x, float y, float z):
-			x(x), y(y), z(z), w(1)
-		{}
+	Point(float initialX, float initialY, float initialZ):
+		x(initialX), y(initialY), z(initialZ), w(1)
+	{}
 
-	Point(float x, float y, float z, float w):
-			x(x), y(y), z(z), w(w)
-		{}
+	Point(float initialX, float initialY, float initialZ, float initialW):
+		x(initialX), y(initialY), z(initialZ), w(initialW)
+	{}
 
 
 	bool operator<(const Point& other) const
 	{
-		if (x == other.x)
+		if (fabs(x - other.x) < 0.00001)
 			return y < other.y;
 		return x < other.x;
 	}

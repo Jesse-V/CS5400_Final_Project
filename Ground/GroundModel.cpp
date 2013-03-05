@@ -2,8 +2,8 @@
 #include "GroundModel.hpp"
 #include <iostream>
 
-GroundModel::GroundModel(int resolution):
-	resolution(resolution)
+GroundModel::GroundModel(int modelResolution):
+	resolution(modelResolution)
 {
 	storeVertices(getVertices());
 	initializeProgram("Ground/vertex.glsl", "Ground/fragment.glsl");
@@ -14,8 +14,9 @@ GroundModel::GroundModel(int resolution):
 /* Returns the vertices that describe the on-screen shapes */
 std::vector<Point> GroundModel::getVertices()
 {
-	Point a(0.2, 0.2, 0.2);
-	Point b(1.2, 1.2, 0.2);
+	int zCoord = 0.2;
+	Point a(0.2, 0.2, zCoord);
+	Point b(1.2, 1.2, zCoord);
 
 	std::vector<Point> vertices;
 
@@ -25,7 +26,7 @@ std::vector<Point> GroundModel::getVertices()
 		{
 			float xCoord = (x / resolution) * (b.x - a.x);
 			float yCoord = (y / resolution) * (b.y - a.y);
-			Point pt(xCoord, yCoord, 0);
+			Point pt(xCoord, yCoord, zCoord);
 			vertices.push_back(pt);
 		}
 	}

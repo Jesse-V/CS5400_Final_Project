@@ -9,17 +9,15 @@ class World
 {
 	public:
 		World();
-		void addModel(const std::shared_ptr<Model>& model);
 		void render();
+		void addModel(const std::shared_ptr<Model>& model);
+		void setViewAngle(float xAxis, float yAxis, float zAxis);
 		void rotateCameraX(float theta);
 		void rotateCameraY(float theta);
 		void rotateCameraZ(float theta);
 	
 	private:
-		const int ROTATION_SPEED = 1;
-		const float ZOOM = 0.7f;
-		GLfloat rotation[3] = {114, 0, 16}; //initial view
-		GLuint cameraAngle;
+		GLfloat rotation[3];
 		std::vector<std::shared_ptr<Model>> models;
 
 		void ensureRotationRange(float& value);

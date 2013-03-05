@@ -2,8 +2,8 @@
 #include "MandelModel.hpp"
 #include <iostream>
 
-MandelModel::MandelModel(int resolution):
-	resolution(resolution)
+MandelModel::MandelModel(int modelResolution):
+	resolution(modelResolution)
 {
 	storeVertices(getVertices());
 	initializeProgram("Mandelbrot/vertex.glsl", "Mandelbrot/fragment.glsl");

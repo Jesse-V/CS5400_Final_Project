@@ -18,6 +18,7 @@ void init()
 {
 	world.addModel(std::make_shared<MandelModel>(512));
 	world.addModel(std::make_shared<GroundModel>(512));
+	world.setViewAngle(114, 0, 16);
 
 	glEnable(GL_DEPTH_TEST);
 	glClearColor(1.0, 1.0, 1.0, 1.0);
