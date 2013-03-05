@@ -66,7 +66,7 @@ void handleKeyboardInput(unsigned char key, int x, int y)
 			break;
 
 		case 'a':
-			world.rotateCameraX(-ROTATION_SPEED);
+			world.rotateCameraY(-ROTATION_SPEED);
 			break;
 
 		case 'e':
@@ -74,7 +74,7 @@ void handleKeyboardInput(unsigned char key, int x, int y)
 			break;
 
 		case 'q':
-			world.rotateCameraX(-ROTATION_SPEED);
+			world.rotateCameraZ(-ROTATION_SPEED);
 			break;
 	}
 }

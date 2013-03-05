@@ -17,10 +17,10 @@ class World
 		void rotateCameraZ(float theta);
 	
 	private:
+		void ensureRotationRange(float& value);
+
 		GLfloat rotation[3];
 		std::vector<std::shared_ptr<Model>> models;
-
-		void ensureRotationRange(float& value);
 
 		enum CameraAxis
 		{

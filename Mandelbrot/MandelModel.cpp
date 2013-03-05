@@ -1,6 +1,5 @@
 
 #include "MandelModel.hpp"
-#include <iostream>
 
 MandelModel::MandelModel(int modelResolution):
 	resolution(modelResolution)

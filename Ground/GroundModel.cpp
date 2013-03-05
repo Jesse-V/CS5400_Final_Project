@@ -1,6 +1,5 @@
 
 #include "GroundModel.hpp"
-#include <iostream>
 
 GroundModel::GroundModel(int modelResolution):
 	resolution(modelResolution)
