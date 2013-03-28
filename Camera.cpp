@@ -1,40 +1,5 @@
 
-#include "World.hpp"
-#include "Model.hpp"
-#include <GL/glew.h>
-#include <algorithm>
-#include <iostream>
-
-
-World::World()
-{
-	setViewAngle(0, 0, 0);
-}
-
-
-
-void World::addModel(const std::shared_ptr<Model>& model)
-{
-	models.push_back(model);
-}
-
-
-
-void World::render()
-{
-	int totalVertexCount = 0;
-
-	for_each (models.begin(), models.end(), 
-		[&](const std::shared_ptr<Model>& model)
-		{
-			GLuint cameraAngle = glGetUniformLocation(model->getProgram(), "cameraAngle");
-			glUniform3fv(cameraAngle, 1, rotation); //apply view angle
-			totalVertexCount += model->getVertexCount();
-		});
-
-	glDrawArrays(GL_POINTS, 0, totalVertexCount);
-}
-
+#include "Camera.hpp"
 
 
 void World::setViewAngle(float x, float y, float z)
@@ -43,7 +8,7 @@ void World::setViewAngle(float x, float y, float z)
 	rotation[Y_AXIS] = y;
 	rotation[Z_AXIS] = z;
 }
-	
+
 
 
 void World::rotateCameraX(float theta)

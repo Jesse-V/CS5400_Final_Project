@@ -20,10 +20,9 @@
 namespace Angel
 {
 	//  Helper function to load vertex and fragment shader files
-	GLuint initShader( const char* vertexShaderFile,
-			   const char* fragmentShaderFile );
+	GLuint initShader(const char* vertexShaderFile, const char* fragmentShaderFile );
 
-	//  Degrees-to-radians constant 
+	//  Degrees-to-radians constant
 	const GLfloat  DegreesToRadians = M_PI / 180.0;
 
 }
