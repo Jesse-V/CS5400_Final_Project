@@ -16,8 +16,8 @@ add_executable(OpenGL_program
     ShaderLoader/Program.cpp
     ShaderLoader/Shader.cpp
     Modeling/Mesh.cpp
-    Scene.cpp
-    Camera.cpp
+    World/Scene.cpp
+    World/Camera.cpp
     Modeling/RenderedObject.cpp
     Modeling/Cube.cpp
 )

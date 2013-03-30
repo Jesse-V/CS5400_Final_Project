@@ -18,11 +18,7 @@ class Scene
 		void addLight(const Light &);
 		void setAmbientLight(glm::vec3 rgb); // (0,0,0) is total darkness, (1.0,1,0,1,0) is total light
 		void render(const glm::vec3& eyePosition, const glm::vec3& lookDirection, const glm::vec3& upVector, const glm::mat4& projMatrix);
-
-		std::shared_ptr<cs5400::Program> getProgram()
-		{
-			return program;
-		}
+		std::shared_ptr<cs5400::Program> getProgram();
 
 	private:
 		std::shared_ptr<cs5400::Program> program;

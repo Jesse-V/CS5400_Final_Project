@@ -75,3 +75,10 @@ void Scene::render(const glm::vec3& eyePosition, const glm::vec3& lookDirection,
 			obj.render(modelMatrixUniform);
 		});
 }
+
+
+
+std::shared_ptr<cs5400::Program> Scene::getProgram()
+{
+	return program;
+}

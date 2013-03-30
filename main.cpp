@@ -1,6 +1,6 @@
 
-#include "Scene.hpp"
-#include "Camera.hpp"
+#include "World/Scene.hpp"
+#include "World/Camera.hpp"
 #include <iostream>
 
 
@@ -11,7 +11,7 @@ Camera camera;
 void onDisplay()
 {
 	// Clear the background as black
-	glClearColor(0.0, 0.0, 0.0, 1.0);
+	glClearColor(.39f, 0.58f, 0.93f, 0.0f);	//nice blue background
 	glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
 
 	// render the scene
@@ -20,6 +20,7 @@ void onDisplay()
 	// Display the newly rendered image to the screen
 	glutSwapBuffers();
 }
+
 
 
 void onKey(unsigned char key, int, int)
@@ -36,6 +37,7 @@ void onKey(unsigned char key, int, int)
 
 	glutPostRedisplay();
 }
+
 
 
 void onSpecialKey(int key, int, int)
@@ -63,9 +65,6 @@ int main(int argc, char **argv)
 	glutInitWindowSize(1024, 768);
 	glutCreateWindow("hw2");
 
-	std::cout << "\n\n\t***********************************\n";
-	std::cout <<     "\t* See README file for camera keys *\n";
-	std::cout <<     "\t***********************************\n\n\n";
 
 	// Extension wrangler initialising
 	GLenum glew_status = glewInit();
@@ -74,7 +73,8 @@ int main(int argc, char **argv)
 		return EXIT_FAILURE;
 	}
 
-	try {
+	try
+	{
 		glutDisplayFunc(onDisplay);
 		glutKeyboardFunc(onKey);
 		glutSpecialFunc(onSpecialKey);
@@ -92,8 +92,12 @@ int main(int argc, char **argv)
 
 		glutMainLoop();
 
-	} catch (std::exception &e) {
-		std::cerr << std::endl << std::endl << e.what() << std::endl << std::endl;
+	}
+	catch (std::exception &e)
+	{
+		std::cerr << std::endl << std::endl;
+		std::cerr << e.what();
+		std::cerr << std::endl << std::endl;
 	}
 
 	return EXIT_SUCCESS;
