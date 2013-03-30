@@ -15,18 +15,9 @@ std::shared_ptr<Mesh> Cube::getMesh()
 
 
 
-//make a cube, sides aligned with axes
+//make a cube, centered at the origin, sides aligned with axes
 void Cube::setVertices(std::shared_ptr<Mesh>& mesh)
 {
-	mesh->vertices.push_back(glm::vec3(-1.0f, -1.0f, -1.0f));
-	mesh->vertices.push_back(glm::vec3(-1.0f, 1.0f, -1.0f));
-	mesh->vertices.push_back(glm::vec3(1.0f, 1.0f, -1.0f));
-	mesh->vertices.push_back(glm::vec3(1.0f, -1.0f, -1.0f));
-	mesh->vertices.push_back(glm::vec3(-1.0f, -1.0f, 1.0f));
-	mesh->vertices.push_back(glm::vec3(-1.0f, 1.0f, 1.0f));
-	mesh->vertices.push_back(glm::vec3(1.0f, 1.0f, 1.0f));
-	mesh->vertices.push_back(glm::vec3(1.0f, -1.0f, 1.0f));
-/*
 	mesh->vertices.push_back(glm::vec3(-0.5, -0.5,  0.5));
 	mesh->vertices.push_back(glm::vec3(-0.5,  0.5,  0.5));
 	mesh->vertices.push_back(glm::vec3( 0.5,  0.5,  0.5));
@@ -34,7 +25,7 @@ void Cube::setVertices(std::shared_ptr<Mesh>& mesh)
 	mesh->vertices.push_back(glm::vec3(-0.5, -0.5, -0.5));
 	mesh->vertices.push_back(glm::vec3(-0.5,  0.5, -0.5));
 	mesh->vertices.push_back(glm::vec3( 0.5,  0.5, -0.5));
-	mesh->vertices.push_back(glm::vec3( 0.5, -0.5, -0.5));*/
+	mesh->vertices.push_back(glm::vec3( 0.5, -0.5, -0.5));
 }
 
 

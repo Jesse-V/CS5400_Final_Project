@@ -9,8 +9,7 @@
 class Camera
 {
 	public:
-		Camera();
-		Camera(const std::shared_ptr<Scene>& scene);
+		Camera(const std::shared_ptr<Scene>& scene = NULL);
 
 		void setScene(const std::shared_ptr<Scene>& scene);
 
@@ -19,7 +18,7 @@ class Camera
 
 		// Functions to move/direct the camera
 		void setPosition(glm::vec3 pos);
-		void lookAt(glm::vec3 look, glm::vec3 up);
+		void lookAt(glm::vec3 look, glm::vec3 up = glm::vec3(0.0, 1.0, 0.0));
 
 		void moveX(float units);
 		void moveY(float units);

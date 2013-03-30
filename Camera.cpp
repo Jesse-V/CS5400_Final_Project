@@ -4,13 +4,7 @@
 #include "Camera.hpp"
 #include "Scene.hpp"
 #include <memory>
-
-Camera::Camera()
-	: scene(NULL)
-{
-	reset();
-}
-
+#include <iostream>
 
 
 Camera::Camera(const std::shared_ptr<Scene>& scene)
@@ -24,9 +18,8 @@ Camera::Camera(const std::shared_ptr<Scene>& scene)
 // Reset the camera back to its defaults
 void Camera::reset()
 {
-	lookDirection = glm::normalize(glm::vec3(0.0, 0.0,-1.0));
-	upVector   = glm::normalize(glm::vec3(0.0, 1.0, 0.0));
-	position      = glm::vec3(0.0, 0.0, 0.5);
+	setPosition(glm::vec3(0.0, 0.0, 0.5));
+	lookAt(glm::vec3(0.0, 0.0, -1.0), glm::vec3(0.0, 1.0, 0.0));
 
 	fieldOfView   = 45.0f; // frustrum viewing apeture
 	aspectRatio   = 4.0f/3.0f;
@@ -47,7 +40,7 @@ void Camera::setScene(const std::shared_ptr<Scene>& newScene)
 // Set the camera to an arbitrary location without changing orientation
 void Camera::setPosition(glm::vec3 pos)
 {
-	position = pos;
+	position = glm::normalize(pos);
 }
 
 
@@ -56,7 +49,7 @@ void Camera::setPosition(glm::vec3 pos)
 void Camera::lookAt(glm::vec3 look, glm::vec3 up)
 {
 	lookDirection = glm::normalize(look);
-	upVector   = glm::normalize(up);
+	upVector = glm::normalize(up);
 }
 
 
@@ -68,6 +61,8 @@ void Camera::moveX(float units)
 	glm::vec3 shiftvector = abs_units * (units<0.0? -direction: direction);
 	position += shiftvector;
 	lookDirection = glm::normalize(lookDirection + shiftvector);
+
+	std::cout << "{" << lookDirection.x << ", " << lookDirection.y << ", " << lookDirection.z << "}, {" << position.x << ", " << position.y << ", " << position.z << "}, {" << upVector.x << ", " << upVector.y << ", " << upVector.z << "}" << std::endl;
 }
 
 
@@ -78,6 +73,8 @@ void Camera::moveY(float units)
 	glm::vec3 shiftvector = abs_units * (units<0.0? -upVector: upVector);
 	position += shiftvector;
 	lookDirection = glm::normalize(lookDirection + shiftvector);
+
+	std::cout << "{" << lookDirection.x << ", " << lookDirection.y << ", " << lookDirection.z << "}, {" << position.x << ", " << position.y << ", " << position.z << "}, {" << upVector.x << ", " << upVector.y << ", " << upVector.z << "}" << std::endl;
 }
 
 
@@ -88,6 +85,8 @@ void Camera::moveZ(float units)
 	glm::vec3 shiftvector = abs_units * (units<0.0? -lookDirection: lookDirection);
 	position += shiftvector;
 	lookDirection = glm::normalize(lookDirection + shiftvector);
+
+	std::cout << "{" << lookDirection.x << ", " << lookDirection.y << ", " << lookDirection.z << "}, {" << position.x << ", " << position.y << ", " << position.z << "}, {" << upVector.x << ", " << upVector.y << ", " << upVector.z << "}" << std::endl;
 }
 
 
@@ -103,17 +102,8 @@ void Camera::translate(glm::vec3 v)
 
 	position = pos.xyz();
 	lookDirection = look.xyz();
-}
 
-
-
-// Roll the camera along the look axis
-void Camera::roll(float theta)
-{
-	glm::vec4 up(upVector, 0.0);
-	glm::mat4 matrix = glm::rotate(glm::mat4(1.0f), theta, lookDirection);
-	up = matrix * up;
-	upVector = up.xyz();
+	std::cout << "{" << lookDirection.x << ", " << lookDirection.y << ", " << lookDirection.z << "}, {" << position.x << ", " << position.y << ", " << position.z << "}, {" << upVector.x << ", " << upVector.y << ", " << upVector.z << "}" << std::endl;
 }
 
 
@@ -133,6 +123,8 @@ void Camera::pitch(float theta)
 
 	lookDirection = look.xyz();
 	upVector = up.xyz();
+
+	std::cout << "{" << lookDirection.x << ", " << lookDirection.y << ", " << lookDirection.z << "}, {" << position.x << ", " << position.y << ", " << position.z << "}, {" << upVector.x << ", " << upVector.y << ", " << upVector.z << "}" << std::endl;
 }
 
 
@@ -144,6 +136,21 @@ void Camera::yaw(float theta)
 	glm::mat4 matrix = glm::rotate(glm::mat4(1.0f), theta, upVector);
 	look = matrix * look;
 	lookDirection = look.xyz();
+
+	std::cout << "{" << lookDirection.x << ", " << lookDirection.y << ", " << lookDirection.z << "}, {" << position.x << ", " << position.y << ", " << position.z << "}, {" << upVector.x << ", " << upVector.y << ", " << upVector.z << "}" << std::endl;
+}
+
+
+
+// Roll the camera along the look axis
+void Camera::roll(float theta)
+{
+	glm::vec4 up(upVector, 0.0);
+	glm::mat4 matrix = glm::rotate(glm::mat4(1.0f), theta, lookDirection);
+	up = matrix * up;
+	upVector = up.xyz();
+
+	std::cout << "{" << lookDirection.x << ", " << lookDirection.y << ", " << lookDirection.z << "}, {" << position.x << ", " << position.y << ", " << position.z << "}, {" << upVector.x << ", " << upVector.y << ", " << upVector.z << "}" << std::endl;
 }
 
 

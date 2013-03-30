@@ -80,12 +80,16 @@ int main(int argc, char **argv)
 		glutSpecialFunc(onSpecialKey);
 
 		glEnable(GL_DEPTH_TEST);
-		glEnable(GL_CULL_FACE);
-		glCullFace(GL_BACK);
+		//glEnable(GL_CULL_FACE);
+		//glCullFace(GL_BACK);
 
 		scene.init();
 		scene.loadCubeModel();
 		camera.setScene(std::make_shared<Scene>(scene));
+
+		camera.lookAt(glm::vec3(0, -0.2, -1));
+		camera.setPosition(glm::vec3(0, 0.03, 2));
+
 		glutMainLoop();
 
 	} catch (std::exception &e) {

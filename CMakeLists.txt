@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 2.6)
 
-project(render)
+project(OpenGL_program)
 
 IF(WIN32)
     set(CMAKE_CXX_FLAGS  "-O2")
@@ -11,11 +11,10 @@ ENDIF()
 include_directories(. parsers glm)
 #link_directories()
 
-add_executable(render
+add_executable(OpenGL_program
     main.cpp
     ShaderLoader/Program.cpp
     ShaderLoader/Shader.cpp
-    Util.cpp
     Modeling/Mesh.cpp
     Scene.cpp
     Camera.cpp
@@ -24,9 +23,9 @@ add_executable(render
 )
 
 IF(WIN32)
-    target_link_libraries(render glut glew32 GL)
+    target_link_libraries(OpenGL_program glut glew32 GL)
 ELSE()
-    target_link_libraries(render glut GLEW GL)
+    target_link_libraries(OpenGL_program glut GLEW GL)
 ENDIF()
 
 
