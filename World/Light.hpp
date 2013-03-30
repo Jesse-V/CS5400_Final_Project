@@ -7,16 +7,16 @@
 class Light
 {
 	public:
-		Light(glm::vec3 position, glm::vec3 color, double power);
+		Light(const glm::vec3& position, const glm::vec3& color, double power);
 
-		void setPosition(glm::vec3 newPos);
-		void setColor(glm::vec3 newColor);
+		void setPosition(const glm::vec3& newPos);
+		void setColor(const glm::vec3& newColor);
 		void setPower(double power);
 		void setEmitting(bool emitting);
 
 		glm::vec3 getPosition() const;
-		glm::vec3 getColor()    const;
-		double getPower()    const;
+		glm::vec3 getColor() const;
+		double getPower() const;
 		bool getEmitting() const;
 
 	private:

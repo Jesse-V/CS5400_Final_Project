@@ -26,7 +26,7 @@ void Scene::init()
 
 
 //todo: addModel
-void Scene::loadCubeModel(glm::mat4 modelMatrix)
+void Scene::loadCubeModel(const glm::mat4& modelMatrix)
 {
 	Cube cube;
 	std::shared_ptr<Mesh> mesh = cube.getMesh();
@@ -38,14 +38,21 @@ void Scene::loadCubeModel(glm::mat4 modelMatrix)
 
 
 
-void Scene::addLight(const Light &light)
+void Scene::setCamera(const std::shared_ptr<Camera>& sceneCamera)
+{
+	camera = sceneCamera;
+}
+
+
+
+void Scene::addLight(const Light& light)
 {
 	lights.push_back(light);
 }
 
 
 
-void Scene::setAmbientLight(glm::vec3 rgb)
+void Scene::setAmbientLight(const glm::vec3& rgb)
 {
 	ambientLight = rgb;
 }
@@ -53,16 +60,16 @@ void Scene::setAmbientLight(glm::vec3 rgb)
 
 
 // Render the scene as it currently is
-void Scene::render(const glm::vec3& eyePosition, const glm::vec3& lookDirection, const glm::vec3& upVector, const glm::mat4& projMatrix)
+void Scene::render(/*const glm::vec3& eyePosition, const glm::vec3& lookDirection, const glm::vec3& upVector, const glm::mat4& projMatrix*/)
 {
 	glUseProgram(program->getHandle());
 
-	glm::mat4 viewMatrix    = glm::lookAt(eyePosition, lookDirection, upVector);
+	glm::mat4 viewMatrix = glm::lookAt(camera->getPosition(), camera->getLookDirection(), camera->getUpVector());
 	glm::vec3 lightPos = glm::vec3(-0.3f, 1.7f, 0.5f);
 
 	// pass our transformation matricies to the shaders
 	glUniformMatrix4fv(viewMatrixUniform, 1, GL_FALSE, glm::value_ptr(viewMatrix));
-	glUniformMatrix4fv(projMatrixUniform, 1, GL_FALSE, glm::value_ptr(projMatrix));
+	glUniformMatrix4fv(projMatrixUniform, 1, GL_FALSE, glm::value_ptr(camera->getProjectionMatrix()));
 
 	// tell the shaders where the light is
 	glUniform3f(lightPosUniform, lightPos.x, lightPos.y, lightPos.z);
@@ -74,6 +81,13 @@ void Scene::render(const glm::vec3& eyePosition, const glm::vec3& lookDirection,
 		{
 			obj.render(modelMatrixUniform);
 		});
+}
+
+
+
+std::shared_ptr<Camera> Scene::getCamera()
+{
+	return camera;
 }
 
 

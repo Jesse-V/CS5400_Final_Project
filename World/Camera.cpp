@@ -2,13 +2,12 @@
 #define GLM_SWIZZLE
 
 #include "Camera.hpp"
-#include "Scene.hpp"
+#include "glm/gtc/matrix_transform.hpp"
 #include <memory>
 #include <iostream>
 
 
-Camera::Camera(const std::shared_ptr<Scene>& scene)
-	: scene(scene)
+Camera::Camera()
 {
 	reset();
 }
@@ -30,15 +29,8 @@ void Camera::reset()
 
 
 
-void Camera::setScene(const std::shared_ptr<Scene>& newScene)
-{
-	scene = newScene;
-}
-
-
-
 // Set the camera to an arbitrary location without changing orientation
-void Camera::setPosition(glm::vec3 pos)
+void Camera::setPosition(const glm::vec3& pos)
 {
 	position = glm::normalize(pos);
 }
@@ -46,10 +38,10 @@ void Camera::setPosition(glm::vec3 pos)
 
 
 // Set the orientation of the camera without changing its position
-void Camera::lookAt(glm::vec3 look, glm::vec3 up)
+void Camera::lookAt(const glm::vec3& newLookVector, const glm::vec3& newUpVector)
 {
-	lookDirection = glm::normalize(look);
-	upVector = glm::normalize(up);
+	lookDirection = glm::normalize(newLookVector);
+	upVector = glm::normalize(newUpVector);
 }
 
 
@@ -92,11 +84,11 @@ void Camera::moveZ(float units)
 
 
 // Translate the camera along X/Y/Z
-void Camera::translate(glm::vec3 v)
+void Camera::translate(const glm::vec3& xyzTheta)
 {
 	glm::vec4 pos(position, 1.0);
 	glm::vec4 look(lookDirection, 1.0);
-	glm::mat4 matrix = glm::translate(glm::mat4(1.0f), v);
+	glm::mat4 matrix = glm::translate(glm::mat4(1.0f), xyzTheta);
 	pos = matrix * pos;
 	look = matrix * look;
 
@@ -199,9 +191,58 @@ void Camera::setFarFieldClipDistance(float distance)
 
 
 
-// Render the scene with the current camera settings
-void Camera::render()
+//accessors:
+
+glm::vec3 Camera::getLookDirection()
 {
-	if (scene)
-		scene->render(position, lookDirection, upVector, projection);
+	return lookDirection;
+}
+
+
+
+glm::vec3 Camera::getPosition()
+{
+	return position;
+}
+
+
+
+glm::vec3 Camera::getUpVector()
+{
+	return upVector;
+}
+
+
+
+float Camera::getFOV()
+{
+	return fieldOfView;
+}
+
+
+
+float Camera::getAspectRatio()
+{
+	return aspectRatio;
+}
+
+
+
+float Camera::getNearFieldClip()
+{
+	return nearFieldClip;
+}
+
+
+
+float Camera::getFarFieldClip()
+{
+	return farFieldClip;
+}
+
+
+
+glm::mat4 Camera::getProjectionMatrix()
+{
+	return projection;
 }

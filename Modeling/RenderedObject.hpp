@@ -14,19 +14,19 @@
 class RenderedObject
 {
 	public:
-		RenderedObject(GLuint program, std::shared_ptr<Mesh> mesh);
+		RenderedObject(GLuint program, const std::shared_ptr<Mesh>& mesh);
 
 		// Rotate the object along the arbitrary axis, by 'theta' degrees
-		void rotate(glm::vec3 axis, double theta);
+		void rotate(const glm::vec3& axis, double theta);
 
 		// Move the object along the x, y, and z axes in the amount specified
-		void translate(glm::vec3 xyz);
+		void translate(const glm::vec3& xyz);
 
 		// Objects that are not 'visible' will not be rendered
 		void setVisible(bool visible);
 
 		// Set the matrix to convert from model coords to world coords
-		void setModelMatrix(glm::mat4 matrix);
+		void setModelMatrix(const glm::mat4& matrix);
 
 		// Render the object
 		void render(GLuint modelmatrixid);

@@ -5,7 +5,6 @@
 
 
 Scene scene;
-Camera camera;
 
 
 void onDisplay()
@@ -15,7 +14,7 @@ void onDisplay()
 	glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
 
 	// render the scene
-	camera.render();
+	scene.render();
 
 	// Display the newly rendered image to the screen
 	glutSwapBuffers();
@@ -25,14 +24,16 @@ void onDisplay()
 
 void onKey(unsigned char key, int, int)
 {
+	std::shared_ptr<Camera> camera = scene.getCamera();
+
 	switch(key)
 	{
-		case 'w':  camera.moveY( 0.01);  break;
-		case 's':  camera.moveY(-0.01);  break;
-		case 'a':  camera.moveX(-0.01);  break;
-		case 'd':  camera.moveX( 0.01);  break;
-		case 'q':  camera.moveZ( 0.01);  break;
-		case 'e':  camera.moveZ(-0.01);  break;
+		case 'w':  camera->moveY( 0.01);  break;
+		case 's':  camera->moveY(-0.01);  break;
+		case 'a':  camera->moveX(-0.01);  break;
+		case 'd':  camera->moveX( 0.01);  break;
+		case 'q':  camera->moveZ( 0.01);  break;
+		case 'e':  camera->moveZ(-0.01);  break;
 	}
 
 	glutPostRedisplay();
@@ -42,14 +43,16 @@ void onKey(unsigned char key, int, int)
 
 void onSpecialKey(int key, int, int)
 {
+	std::shared_ptr<Camera> camera = scene.getCamera();
+
 	switch(key)
 	{
-		case GLUT_KEY_UP:        camera.pitch( 1.0); break;
-		case GLUT_KEY_DOWN:      camera.pitch(-1.0); break;
-		case GLUT_KEY_LEFT:      camera.yaw( 1.0);   break;
-		case GLUT_KEY_RIGHT:     camera.yaw(-1.0);   break;
-		case GLUT_KEY_PAGE_UP:   camera.roll(-1.0);  break;
-		case GLUT_KEY_PAGE_DOWN: camera.roll( 1.0);  break;
+		case GLUT_KEY_UP:        camera->pitch( 1.0); break;
+		case GLUT_KEY_DOWN:      camera->pitch(-1.0); break;
+		case GLUT_KEY_LEFT:      camera->yaw( 1.0);   break;
+		case GLUT_KEY_RIGHT:     camera->yaw(-1.0);   break;
+		case GLUT_KEY_PAGE_UP:   camera->roll(-1.0);  break;
+		case GLUT_KEY_PAGE_DOWN: camera->roll( 1.0);  break;
 	}
 
 	glutPostRedisplay();
@@ -61,17 +64,19 @@ int main(int argc, char **argv)
 {
 	// Glut-related initialising functions
 	glutInit(&argc, argv);
-	glutInitDisplayMode(GLUT_RGBA|GLUT_DOUBLE|GLUT_DEPTH|GLUT_MULTISAMPLE);
+	glutInitDisplayMode(GLUT_RGBA | GLUT_DOUBLE | GLUT_DEPTH | GLUT_MULTISAMPLE);
 	glutInitWindowSize(1024, 768);
 	glutCreateWindow("hw2");
 
 
 	// Extension wrangler initialising
 	GLenum glew_status = glewInit();
-	if (glew_status != GLEW_OK) {
+	if (glew_status != GLEW_OK)
+	{
 		fprintf(stderr, "Error: %s\n", glewGetErrorString(glew_status));
 		return EXIT_FAILURE;
 	}
+
 
 	try
 	{
@@ -85,15 +90,16 @@ int main(int argc, char **argv)
 
 		scene.init();
 		scene.loadCubeModel();
-		camera.setScene(std::make_shared<Scene>(scene));
 
-		camera.lookAt(glm::vec3(0, -0.2, -1));
-		camera.setPosition(glm::vec3(0, 0.03, 2));
+		std::shared_ptr<Camera> camera = std::make_shared<Camera>();
+		camera->lookAt(glm::vec3(0, -0.2, -1));
+		camera->setPosition(glm::vec3(0, 0.03, 2));
+		scene.setCamera(camera);
 
 		glutMainLoop();
 
 	}
-	catch (std::exception &e)
+	catch (std::exception& e)
 	{
 		std::cerr << std::endl << std::endl;
 		std::cerr << e.what();

@@ -8,7 +8,7 @@
 #include <algorithm>
 
 
-RenderedObject::RenderedObject(GLuint program, std::shared_ptr<Mesh> mesh):
+RenderedObject::RenderedObject(GLuint program, const std::shared_ptr<Mesh>& mesh):
 	_mesh(mesh), _modelmatrix(glm::mat4(1.0)), _visible(true)
 {
 	glGenBuffers(1, &_glvertexbuffer);
@@ -76,7 +76,7 @@ void RenderedObject::storeMesh()
 
 
 // Rotate the object along the arbitrary axis, by 'theta' degrees
-void RenderedObject::rotate(glm::vec3 axis, double theta)
+void RenderedObject::rotate(const glm::vec3& axis, double theta)
 {
 
 }
@@ -84,7 +84,7 @@ void RenderedObject::rotate(glm::vec3 axis, double theta)
 
 
 // Move the object along the x, y, and z axes in the amount specified
-void RenderedObject::translate(glm::vec3 xyz)
+void RenderedObject::translate(const glm::vec3& xyz)
 {
 
 }
@@ -100,7 +100,7 @@ void RenderedObject::setVisible(bool visible)
 
 
 // Set the matrix to convert from model coords to world coords
-void RenderedObject::setModelMatrix(glm::mat4 matrix)
+void RenderedObject::setModelMatrix(const glm::mat4& matrix)
 {
 	_modelmatrix = matrix;
 }
