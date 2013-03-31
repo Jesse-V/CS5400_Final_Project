@@ -4,9 +4,6 @@
 attribute vec3 vertex;
 attribute vec3 vertexNormal;
 
-// relates to texture mapping
-attribute vec2 textureCoord;
-
 // Static inputs that are constant for all vertices
 uniform mat4 viewMatrix;
 uniform mat4 projMatrix;
@@ -21,7 +18,8 @@ varying vec3 eyedirection_camera;
 varying vec3 lightdirection_camera;
 
 // relates to texture mapping, page 379
-varying vec2 st;
+attribute vec2 vTexCoord;
+varying vec2 texCoord;
 
 
 void main()
@@ -46,5 +44,5 @@ void main()
 	// normal of the vertex in camera space
 	normal_camera = normalize((viewMatrix * matrixModel * vec4(vertexNormal, 0)).xyz);
 
-	st = textureCoord;
+	texCoord = vTexCoord;
 }

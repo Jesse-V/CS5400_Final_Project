@@ -14,11 +14,16 @@ RenderableObject::RenderableObject(GLuint program, const std::shared_ptr<Mesh>& 
 	glGenBuffers(1, &vertexBuffer);
 	glGenBuffers(1, &normalBuffer);
 	glGenBuffers(1, &meshBuffer);
-	glGenBuffers(1, &textureBuffer);
+	glGenBuffers(1, &buffer);
 
 	vertexAttrib = glGetAttribLocation(program, "vertex");
 	normalAttrib = glGetAttribLocation(program, "vertexNormal");
 	textureAttrib = glGetAttribLocation(program, "textureCoord");
+	vTexCoord = glGetAttribLocation(program, "vTexCoord");
+	//texMapUniform = glGetAttribLocation(program, "texMap");
+
+	glGenTextures(1, &texture);
+	glUniform1i(glGetUniformLocation(program, "texture"), 0);
 
 	storePoints();
 	storeNormals();
@@ -33,17 +38,17 @@ void RenderableObject::storePoints()
 {
 	const std::vector<glm::vec3> &verts = mesh->vertices;
 
-	std::vector<GLfloat> rawpoints;
+	std::vector<GLfloat> rawPoints;
 	for_each (verts.begin(), verts.end(),
-		[&](const glm::vec3& v)
+		[&](const glm::vec3& vert)
 		{
-			rawpoints.push_back(v.x);
-			rawpoints.push_back(v.y);
-			rawpoints.push_back(v.z);
+			rawPoints.push_back(vert.x);
+			rawPoints.push_back(vert.y);
+			rawPoints.push_back(vert.z);
 		});
 
 	glBindBuffer(GL_ARRAY_BUFFER, vertexBuffer);
-	glBufferData(GL_ARRAY_BUFFER, rawpoints.size()*sizeof(GLfloat), rawpoints.data(), GL_STATIC_DRAW);
+	glBufferData(GL_ARRAY_BUFFER, rawPoints.size()*sizeof(GLfloat), rawPoints.data(), GL_STATIC_DRAW);
 }
 
 
@@ -53,11 +58,11 @@ void RenderableObject::storeNormals()
 {
 	std::vector<GLfloat> rawNormals;
 	for_each (mesh->normals.begin(), mesh->normals.end(),
-		[&](const glm::vec3& n)
+		[&](const glm::vec3& norm)
 		{
-			rawNormals.push_back(n.x);
-			rawNormals.push_back(n.y);
-			rawNormals.push_back(n.z);
+			rawNormals.push_back(norm.x);
+			rawNormals.push_back(norm.y);
+			rawNormals.push_back(norm.z);
 		});
 
 	glBindBuffer(GL_ARRAY_BUFFER, normalBuffer);
@@ -78,8 +83,19 @@ void RenderableObject::storeMesh()
 // Send the texture to the GPU
 void RenderableObject::storeTexture()
 {
+	/*std::vector<GLfloat> rawTextureCoords;
+	for_each (mesh->textureMap.begin(), mesh->textureMap.end(),
+		[&](const glm::vec2& coord)
+		{
+			rawTextureCoords.push_back(coord.x);
+			rawTextureCoords.push_back(coord.y);
+		});
+
 	glBindBuffer(GL_ARRAY_BUFFER, textureBuffer);
-	glBufferData(GL_ARRAY_BUFFER, mesh->textureMap.size() * sizeof(GLfloat), mesh->textureMap.data(), GL_STATIC_DRAW);
+	glBufferData(GL_ARRAY_BUFFER, rawTextureCoords.size() * sizeof(GLfloat), rawTextureCoords.data(), GL_STATIC_DRAW);*/
+
+	glBindBuffer(GL_ARRAY_BUFFER, buffer);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(mesh->tex_coords), NULL, GL_STATIC_DRAW);
 }
 
 
@@ -118,9 +134,28 @@ void RenderableObject::render(GLuint modelmatrixid)
 	glBindBuffer(GL_ARRAY_BUFFER, normalBuffer);
 	glVertexAttribPointer(normalAttrib, 3, GL_FLOAT, GL_FALSE, 0, 0);
 
-	glEnableVertexAttribArray(textureAttrib);
-	glBindBuffer(GL_ARRAY_BUFFER, textureBuffer); //todo: finish this
-	glVertexAttribPointer(textureAttrib, 2, GL_FLOAT, GL_FALSE, 0, 0);
+	//glEnableVertexAttribArray(textureAttrib);
+	//glBindBuffer(GL_ARRAY_BUFFER, textureBuffer);
+	//glVertexAttribPointer(textureAttrib, 2, GL_FLOAT, GL_FALSE, 0, 0);
+
+	//begin texture stuff
+
+	glBindTexture(1, texture);
+
+	glBindTexture(GL_TEXTURE_2D, texture);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, 64, 64, 0, GL_RGB, GL_UNSIGNED_BYTE, mesh->image);
+	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+
+	glActiveTexture(GL_TEXTURE0);
+	glBindTexture(GL_TEXTURE_2D, texture);
+
+	glEnableVertexAttribArray(vTexCoord);
+	glVertexAttribPointer(vTexCoord, 2, GL_FLOAT, GL_FALSE, 0, 0);
+
+	//end texture stuff
 
 	glDrawElements(GL_TRIANGLES, mesh->triangles.size() * 3, GL_UNSIGNED_INT, 0);
 

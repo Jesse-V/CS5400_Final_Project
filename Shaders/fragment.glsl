@@ -4,7 +4,7 @@ varying vec3 normal_camera;
 varying vec3 eyedirection_camera;
 varying vec3 lightdirection_camera;
 
-// Static inputs that are constant for all vertices
+// Static inputs that are constant for all vertices. Todo: are these even used?
 uniform mat4 viewMatrix;
 uniform mat4 projMatrix;
 uniform mat4 matrixModel;
@@ -12,8 +12,8 @@ uniform vec3 worldLightPos;
 uniform vec3 ambientLight;
 
 // relates to texture mapping
-varying vec2 st;
-uniform sampler2D texMap;
+varying vec2 texCoord;
+uniform sampler2D texture;
 
 
 float specularLighting(inout vec3 normal, inout vec3 light)
@@ -47,5 +47,5 @@ void main()
 	vec3 lighting = lightColor * lightPower * theta / (lightDistance * lightDistance);
 	vec3 color = ambientLight + surfaceColor * lighting;
 
-	gl_FragColor = vec4(color, 1.0);// * texture2D(texMap, st);
+	gl_FragColor = vec4(color, 1.0) * texture2D(texture, texCoord);
 }

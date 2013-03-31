@@ -31,8 +31,10 @@ class RenderableObject
 		glm::mat4 modelMatrix;
 		bool isVisible;
 
-		GLuint vertexBuffer, normalBuffer, meshBuffer, textureBuffer;
+		GLuint vertexBuffer, normalBuffer, meshBuffer;//, textureBuffer;
 		GLint vertexAttrib, normalAttrib, textureAttrib;
+
+		GLuint texture, buffer, vTexCoord;
 };
 
 #endif

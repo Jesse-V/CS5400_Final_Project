@@ -17,20 +17,3 @@ class Cube
 };
 
 #endif
-
-/*
-
-GLuint mytex[1];
-glGenTextures(1, mytex);
-
-glBindTexture(GL_TEXTURE_2D, mytex[0]);
-
- */
-
-
-/*
-
-#define N 36
-GLfloat tex_coord[N][2];
-
- */

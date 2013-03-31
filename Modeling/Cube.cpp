@@ -67,11 +67,22 @@ void Cube::setIndices(std::shared_ptr<Mesh>& mesh)
 
 void Cube::setTexture(std::shared_ptr<Mesh>& mesh)
 {
-	for (int j = 0; j < 12; j++)
+	for (int j = 0; j < 6; j++)
 	{
-		mesh->textureMap.push_back(glm::vec2(0, 0));
-		mesh->textureMap.push_back(glm::vec2(0, 1));
-		mesh->textureMap.push_back(glm::vec2(1, 1));
-		mesh->textureMap.push_back(glm::vec2(1, 0));
+		mesh->tex_coords[j * 6 + 0] = glm::vec2(0, 0);
+		mesh->tex_coords[j * 6 + 1] = glm::vec2(0, 1);
+		mesh->tex_coords[j * 6 + 2] = glm::vec2(1, 1);
+		mesh->tex_coords[j * 6 + 3] = glm::vec2(0, 0);
+		mesh->tex_coords[j * 6 + 4] = glm::vec2(1, 1);
+		mesh->tex_coords[j * 6 + 5] = glm::vec2(1, 0);
+	}
+
+	for (int j = 0; j < 64; j++)
+	{
+		for (int k = 0; k < 64; k++)
+		{
+			GLubyte c = (((j & 0x8) == 0) ^ ((k & 0x8) == 0)) * 255;
+			mesh->image[j][k][0] = mesh->image[j][k][1] = mesh->image[j][k][2] = c;
+		}
 	}
 }
