@@ -17,7 +17,7 @@ class RenderableObject
 		RenderableObject(GLuint program, const std::shared_ptr<Mesh>& mesh);
 		void setVisible(bool visible);
 		void setModelMatrix(const glm::mat4& matrix); // model coords -> world coords matrix
-		void render(GLuint modelmatrixid);
+		void render(GLuint modelMatrixID);
 		std::shared_ptr<Mesh> getMesh() const;
 
 	private:
@@ -26,12 +26,17 @@ class RenderableObject
 		void storeMesh();
 		void storeTexture();
 
+		void enableVertices();
+		void enableNormals();
+		void enableTexture();
+		void finalizeRendering();
+
 	private:
 		std::shared_ptr<Mesh> mesh;
 		glm::mat4 modelMatrix;
 		bool isVisible;
 
-		GLuint vertexBuffer, normalBuffer, meshBuffer;//, textureBuffer;
+		GLuint vertexBuffer, normalBuffer, meshBuffer;
 		GLint vertexAttrib, normalAttrib, textureAttrib;
 
 		GLuint texture, buffer, vTexCoord;

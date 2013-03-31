@@ -20,7 +20,6 @@ RenderableObject::RenderableObject(GLuint program, const std::shared_ptr<Mesh>& 
 	normalAttrib = glGetAttribLocation(program, "vertexNormal");
 	textureAttrib = glGetAttribLocation(program, "textureCoord");
 	vTexCoord = glGetAttribLocation(program, "vTexCoord");
-	//texMapUniform = glGetAttribLocation(program, "texMap");
 
 	glGenTextures(1, &texture);
 	glUniform1i(glGetUniformLocation(program, "texture"), 0);
@@ -83,17 +82,6 @@ void RenderableObject::storeMesh()
 // Send the texture to the GPU
 void RenderableObject::storeTexture()
 {
-	/*std::vector<GLfloat> rawTextureCoords;
-	for_each (mesh->textureMap.begin(), mesh->textureMap.end(),
-		[&](const glm::vec2& coord)
-		{
-			rawTextureCoords.push_back(coord.x);
-			rawTextureCoords.push_back(coord.y);
-		});
-
-	glBindBuffer(GL_ARRAY_BUFFER, textureBuffer);
-	glBufferData(GL_ARRAY_BUFFER, rawTextureCoords.size() * sizeof(GLfloat), rawTextureCoords.data(), GL_STATIC_DRAW);*/
-
 	glBindBuffer(GL_ARRAY_BUFFER, buffer);
 	glBufferData(GL_ARRAY_BUFFER, sizeof(mesh->tex_coords), NULL, GL_STATIC_DRAW);
 }
@@ -117,29 +105,45 @@ void RenderableObject::setModelMatrix(const glm::mat4& matrix)
 
 
 // Render the object
-void RenderableObject::render(GLuint modelmatrixid)
+void RenderableObject::render(GLuint modelMatrixID)
 {
-	// Don't render if it's been flagged as not visible
-	if (!isVisible)
-		return;
+	if (isVisible)
+	{
+		glUniformMatrix4fv(modelMatrixID, 1, GL_FALSE, glm::value_ptr(modelMatrix));
 
-	glUniformMatrix4fv(modelmatrixid, 1, GL_FALSE, glm::value_ptr(modelMatrix));
+		enableVertices();
+		enableNormals();
+		enableTexture();
 
+		glDrawElements(GL_TRIANGLES, mesh->triangles.size() * 3, GL_UNSIGNED_INT, 0);
+
+		finalizeRendering();
+	}
+}
+
+
+
+void RenderableObject::enableVertices()
+{
 	glEnableVertexAttribArray(vertexAttrib);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, meshBuffer);
 	glBindBuffer(GL_ARRAY_BUFFER, vertexBuffer);
 	glVertexAttribPointer(vertexAttrib, 3, GL_FLOAT, GL_FALSE, 0, 0);
+}
 
+
+
+void RenderableObject::enableNormals()
+{
 	glEnableVertexAttribArray(normalAttrib);
 	glBindBuffer(GL_ARRAY_BUFFER, normalBuffer);
 	glVertexAttribPointer(normalAttrib, 3, GL_FLOAT, GL_FALSE, 0, 0);
+}
 
-	//glEnableVertexAttribArray(textureAttrib);
-	//glBindBuffer(GL_ARRAY_BUFFER, textureBuffer);
-	//glVertexAttribPointer(textureAttrib, 2, GL_FLOAT, GL_FALSE, 0, 0);
 
-	//begin texture stuff
 
+void RenderableObject::enableTexture()
+{
 	glBindTexture(1, texture);
 
 	glBindTexture(GL_TEXTURE_2D, texture);
@@ -154,14 +158,16 @@ void RenderableObject::render(GLuint modelmatrixid)
 
 	glEnableVertexAttribArray(vTexCoord);
 	glVertexAttribPointer(vTexCoord, 2, GL_FLOAT, GL_FALSE, 0, 0);
+}
 
-	//end texture stuff
 
-	glDrawElements(GL_TRIANGLES, mesh->triangles.size() * 3, GL_UNSIGNED_INT, 0);
 
+void RenderableObject::finalizeRendering()
+{
 	glDisableVertexAttribArray(vertexAttrib);
 	glDisableVertexAttribArray(normalAttrib);
 	glDisableVertexAttribArray(textureAttrib);
+	glDisableVertexAttribArray(vTexCoord);
 }
 
 
