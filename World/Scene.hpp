@@ -17,7 +17,7 @@ class Scene
 		void loadCubeModel(const glm::mat4& modelmatrix = glm::translate(glm::mat4(), glm::vec3(0.0, -0.1, 0.0)));
 		void setCamera(const std::shared_ptr<Camera>& camera);
 		void clear();
-		void addLight(const Light& light);
+		void addLight(const std::shared_ptr<Light>& light);
 		void setAmbientLight(const glm::vec3& rgb); // (0,0,0) is total darkness, (1.0,1,0,1,0) is total light
 		void render();
 
@@ -28,7 +28,7 @@ class Scene
 		std::shared_ptr<cs5400::Program> program;
 		std::vector<RenderableObject> objects;
 		std::shared_ptr<Camera> camera;
-		std::vector<Light> lights;
+		std::vector<std::shared_ptr<Light>> lights;
 		glm::vec3 ambientLight;
 
 		GLuint vertexAttrib, vertexNormalAttrib, modelMatrixUniform, viewMatrixUniform, projMatrixUniform, lightPosUniform, ambientLightUniform;

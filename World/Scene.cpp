@@ -42,7 +42,7 @@ void Scene::setCamera(const std::shared_ptr<Camera>& sceneCamera)
 
 
 
-void Scene::addLight(const Light& light)
+void Scene::addLight(const std::shared_ptr<Light>& light)
 {
 	lights.push_back(light);
 }
@@ -62,7 +62,7 @@ void Scene::render(/*const glm::vec3& eyePosition, const glm::vec3& lookDirectio
 	glUseProgram(program->getHandle());
 
 	glm::mat4 viewMatrix = glm::lookAt(camera->getPosition(), camera->getLookDirection(), camera->getUpVector());
-	glm::vec3 lightPos = lights[0].getPosition(); //todo: support for multiple lights
+	glm::vec3 lightPos = lights[0]->getPosition(); //todo: support for multiple lights
 
 	// pass our transformation matricies to the shaders
 	glUniformMatrix4fv(viewMatrixUniform, 1, GL_FALSE, glm::value_ptr(viewMatrix));

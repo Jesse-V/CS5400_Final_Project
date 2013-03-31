@@ -6,9 +6,10 @@
 
 const float ROTATION_SPEED = 0.015;
 const float TRANSLATION_SPEED = 1.1;
+const float LIGHT_MOVEMENT_SPEED = 0.007f;
 
 Scene scene;
-Light light;
+std::shared_ptr<Light> light = std::make_shared<Light>();
 
 
 /*	Causes the current thread to sleep for the specified number of milliseconds */
@@ -26,6 +27,12 @@ void onDisplay()
 	glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
 
 	scene.render();
+
+	glm::vec3 lightPos = light->getPosition();
+	lightPos.x += LIGHT_MOVEMENT_SPEED;
+	lightPos.y += LIGHT_MOVEMENT_SPEED;
+	lightPos.z += LIGHT_MOVEMENT_SPEED;
+	light->setPosition(lightPos);
 
 	glutSwapBuffers();
 	sleep(50); //20 fps
@@ -117,12 +124,12 @@ void initializeApplication()
 	glEnable(GL_DEPTH_TEST);
 	//glEnable(GL_CULL_FACE);
 	//glCullFace(GL_BACK);
-	//
+
 	scene.init();
 	scene.loadCubeModel();
 	scene.setAmbientLight(glm::vec3(0.3, 0, 0));
 
-	light.setPosition(glm::vec3(-0.3f, 1.7f, 0.5f));
+	light->setPosition(glm::vec3(0.3f, -1.7f, -0.5f));
 	scene.addLight(light); //todo: send light color and power to GPU
 
 	std::shared_ptr<Camera> camera = std::make_shared<Camera>();
