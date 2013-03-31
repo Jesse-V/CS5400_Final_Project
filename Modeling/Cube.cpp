@@ -8,6 +8,7 @@ std::shared_ptr<Mesh> Cube::getMesh()
 
 	setVertices(mesh);
 	setIndices(mesh);
+	setTexture(mesh);
 	mesh->calcNormalsMWE();
 
 	return mesh;
@@ -60,4 +61,11 @@ void Cube::setIndices(std::shared_ptr<Mesh>& mesh)
 
 	for (int j = 0; j < 36; j += 3)
 		mesh->triangles.push_back(Triangle(indices[j], indices[j + 1], indices[j + 2]));
+}
+
+
+
+void Cube::setTexture(std::shared_ptr<Mesh>& mesh)
+{
+
 }

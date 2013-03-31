@@ -8,9 +8,9 @@ attribute vec3 vertexNormal;
 //uniform mat4 MVP;
 uniform mat4 viewMatrix;
 uniform mat4 projMatrix;
+uniform mat4 matrixModel;
 uniform vec3 worldLightPos;
 uniform vec3 ambientLight;
-uniform mat4 matrixModel;
 
 // Outputs to fragment shader
 varying vec3 pos_world;

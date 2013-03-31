@@ -6,9 +6,26 @@ varying vec3 lightdirection_camera;
 
 uniform mat4 viewMatrix;
 uniform mat4 projMatrix;
+uniform mat4 matrixModel;
 uniform vec3 worldLightPos;
 uniform vec3 ambientLight;
-uniform mat4 matrixModel;
+
+
+float specularLighting(inout vec3 normal, inout vec3 light)
+{
+	vec3 eye = normalize(eyedirection_camera);
+	vec3 reflect = reflect(-light, normal);
+	return clamp(dot(eye, reflect), 0, 1);
+}
+
+
+
+float diffusedLighting(inout vec3 normal, inout vec3 light)
+{
+	return max(0.0, clamp(dot(normal, -light), 0, 1));
+}
+
+
 
 void main()
 {
@@ -19,15 +36,10 @@ void main()
 	vec3 normal = normalize(normal_camera);
 	vec3 light  = normalize(lightdirection_camera);
 
-	// if you want diffused lighting
-	//float costheta = max(0.0, clamp(dot(normal, -light), 0, 1));
-	//vec3 color = ambientLight + surfaceColor * lightColor * lightPower * costheta / (lightDistance*lightDistance);
+	//float theta = diffusedLighting(normal, light);
+	float theta = specularLighting(normal, light);
 
-	// If you want more specular-like lighting...
-	vec3 eye = normalize(eyedirection_camera);
-	vec3 reflect = reflect(-light, normal);
-	float cosalpha = clamp(dot(eye, reflect), 0, 1);
-	vec3 color = ambientLight + surfaceColor * lightColor * lightPower * cosalpha / (lightDistance*lightDistance);
-
+	vec3 lighting = lightColor * lightPower * theta / (lightDistance * lightDistance);
+	vec3 color = ambientLight + surfaceColor * lighting;
 	gl_FragColor = vec4(color, 1.0);
 }

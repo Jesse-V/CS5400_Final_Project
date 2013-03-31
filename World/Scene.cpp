@@ -31,7 +31,7 @@ void Scene::loadCubeModel(const glm::mat4& modelMatrix)
 	Cube cube;
 	std::shared_ptr<Mesh> mesh = cube.getMesh();
 
-	RenderedObject obj(program->getHandle(), mesh);
+	RenderableObject obj(program->getHandle(), mesh);
 	obj.setModelMatrix(modelMatrix);
 	objects.push_back(obj);
 }
@@ -77,7 +77,7 @@ void Scene::render(/*const glm::vec3& eyePosition, const glm::vec3& lookDirectio
 
 	// now render each object
 	for_each (objects.begin(), objects.end(),
-		[&](RenderedObject& obj)
+		[&](RenderableObject& obj)
 		{
 			obj.render(modelMatrixUniform);
 		});

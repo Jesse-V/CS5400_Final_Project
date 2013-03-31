@@ -54,7 +54,7 @@ void Camera::moveX(float units)
 	position += shiftvector;
 	lookDirection = glm::normalize(lookDirection + shiftvector);
 
-	std::cout << "{" << lookDirection.x << ", " << lookDirection.y << ", " << lookDirection.z << "}, {" << position.x << ", " << position.y << ", " << position.z << "}, {" << upVector.x << ", " << upVector.y << ", " << upVector.z << "}" << std::endl;
+	std::cout << "look:{" << lookDirection.x << ", " << lookDirection.y << ", " << lookDirection.z << "}, pos:{" << position.x << ", " << position.y << ", " << position.z << "}, up:{" << upVector.x << ", " << upVector.y << ", " << upVector.z << "}" << std::endl;
 }
 
 
@@ -66,7 +66,7 @@ void Camera::moveY(float units)
 	position += shiftvector;
 	lookDirection = glm::normalize(lookDirection + shiftvector);
 
-	std::cout << "{" << lookDirection.x << ", " << lookDirection.y << ", " << lookDirection.z << "}, {" << position.x << ", " << position.y << ", " << position.z << "}, {" << upVector.x << ", " << upVector.y << ", " << upVector.z << "}" << std::endl;
+	std::cout << "look:{" << lookDirection.x << ", " << lookDirection.y << ", " << lookDirection.z << "}, pos:{" << position.x << ", " << position.y << ", " << position.z << "}, up:{" << upVector.x << ", " << upVector.y << ", " << upVector.z << "}" << std::endl;
 }
 
 
@@ -78,7 +78,7 @@ void Camera::moveZ(float units)
 	position += shiftvector;
 	lookDirection = glm::normalize(lookDirection + shiftvector);
 
-	std::cout << "{" << lookDirection.x << ", " << lookDirection.y << ", " << lookDirection.z << "}, {" << position.x << ", " << position.y << ", " << position.z << "}, {" << upVector.x << ", " << upVector.y << ", " << upVector.z << "}" << std::endl;
+	std::cout << "look:{" << lookDirection.x << ", " << lookDirection.y << ", " << lookDirection.z << "}, pos:{" << position.x << ", " << position.y << ", " << position.z << "}, up:{" << upVector.x << ", " << upVector.y << ", " << upVector.z << "}" << std::endl;
 }
 
 
@@ -95,7 +95,7 @@ void Camera::translate(const glm::vec3& xyzTheta)
 	position = pos.xyz();
 	lookDirection = look.xyz();
 
-	std::cout << "{" << lookDirection.x << ", " << lookDirection.y << ", " << lookDirection.z << "}, {" << position.x << ", " << position.y << ", " << position.z << "}, {" << upVector.x << ", " << upVector.y << ", " << upVector.z << "}" << std::endl;
+	std::cout << "look:{" << lookDirection.x << ", " << lookDirection.y << ", " << lookDirection.z << "}, pos:{" << position.x << ", " << position.y << ", " << position.z << "}, up:{" << upVector.x << ", " << upVector.y << ", " << upVector.z << "}" << std::endl;
 }
 
 
@@ -116,7 +116,7 @@ void Camera::pitch(float theta)
 	lookDirection = look.xyz();
 	upVector = up.xyz();
 
-	std::cout << "{" << lookDirection.x << ", " << lookDirection.y << ", " << lookDirection.z << "}, {" << position.x << ", " << position.y << ", " << position.z << "}, {" << upVector.x << ", " << upVector.y << ", " << upVector.z << "}" << std::endl;
+	std::cout << "look:{" << lookDirection.x << ", " << lookDirection.y << ", " << lookDirection.z << "}, pos:{" << position.x << ", " << position.y << ", " << position.z << "}, up:{" << upVector.x << ", " << upVector.y << ", " << upVector.z << "}" << std::endl;
 }
 
 
@@ -129,7 +129,7 @@ void Camera::yaw(float theta)
 	look = matrix * look;
 	lookDirection = look.xyz();
 
-	std::cout << "{" << lookDirection.x << ", " << lookDirection.y << ", " << lookDirection.z << "}, {" << position.x << ", " << position.y << ", " << position.z << "}, {" << upVector.x << ", " << upVector.y << ", " << upVector.z << "}" << std::endl;
+	std::cout << "look:{" << lookDirection.x << ", " << lookDirection.y << ", " << lookDirection.z << "}, pos:{" << position.x << ", " << position.y << ", " << position.z << "}, up:{" << upVector.x << ", " << upVector.y << ", " << upVector.z << "}" << std::endl;
 }
 
 
@@ -142,7 +142,7 @@ void Camera::roll(float theta)
 	up = matrix * up;
 	upVector = up.xyz();
 
-	std::cout << "{" << lookDirection.x << ", " << lookDirection.y << ", " << lookDirection.z << "}, {" << position.x << ", " << position.y << ", " << position.z << "}, {" << upVector.x << ", " << upVector.y << ", " << upVector.z << "}" << std::endl;
+	std::cout << "look:{" << lookDirection.x << ", " << lookDirection.y << ", " << lookDirection.z << "}, pos:{" << position.x << ", " << position.y << ", " << position.z << "}, up:{" << upVector.x << ", " << upVector.y << ", " << upVector.z << "}" << std::endl;
 }
 
 

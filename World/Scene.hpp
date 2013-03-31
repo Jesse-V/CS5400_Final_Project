@@ -5,7 +5,7 @@
 #include "Camera.hpp"
 #include "Light.hpp"
 #include "ShaderLoader/Program.hpp"
-#include "Modeling/RenderedObject.hpp"
+#include "Modeling/RenderableObject.hpp"
 #include "glm/gtc/matrix_transform.hpp"
 #include <vector>
 
@@ -26,7 +26,7 @@ class Scene
 
 	private:
 		std::shared_ptr<cs5400::Program> program;
-		std::vector<RenderedObject> objects;
+		std::vector<RenderableObject> objects;
 		std::shared_ptr<Camera> camera;
 		std::vector<Light> lights;
 		glm::vec3 ambientLight;

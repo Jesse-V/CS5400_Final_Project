@@ -1,3 +1,4 @@
+
 #ifndef MESH_H
 #define MESH_H
 
@@ -5,6 +6,7 @@
 #include <GL/glut.h>
 #include <vector>
 #include "glm/glm.hpp"
+
 
 struct Triangle
 {
@@ -14,7 +16,6 @@ struct Triangle
 
 	GLuint a, b, c;
 };
-
 
 
 class Mesh
@@ -38,6 +39,9 @@ class Mesh
 
 		// vertex normals
 		std::vector<glm::vec3> normals;
+
+		// texture map
+		std::vector<GLfloat> textureMap;
 
 		// vertex indicies that make up the triangles of this mesh
 		// (0,1,2), (3,4,5) ...  are indexes for triangles
