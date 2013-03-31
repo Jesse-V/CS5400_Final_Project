@@ -23,6 +23,7 @@ RenderableObject::RenderableObject(GLuint program, const std::shared_ptr<Mesh>& 
 	storePoints();
 	storeNormals();
 	storeMesh();
+	storeTexture();
 }
 
 
@@ -74,26 +75,11 @@ void RenderableObject::storeMesh()
 
 
 
-// Send the texture map to the GPU
-void RenderableObject::storeTextureMap()
+// Send the texture to the GPU
+void RenderableObject::storeTexture()
 {
-
-}
-
-
-
-// Rotate the object along the arbitrary axis, by 'theta' degrees
-void RenderableObject::rotate(const glm::vec3& axis, double theta)
-{
-
-}
-
-
-
-// Move the object along the x, y, and z axes in the amount specified
-void RenderableObject::translate(const glm::vec3& xyz)
-{
-
+	glBindBuffer(GL_ARRAY_BUFFER, textureBuffer);
+	glBufferData(GL_ARRAY_BUFFER, mesh->textureMap.size() * sizeof(GLfloat), mesh->textureMap.data(), GL_STATIC_DRAW);
 }
 
 
@@ -132,11 +118,11 @@ void RenderableObject::render(GLuint modelmatrixid)
 	glBindBuffer(GL_ARRAY_BUFFER, normalBuffer);
 	glVertexAttribPointer(normalAttrib, 3, GL_FLOAT, GL_FALSE, 0, 0);
 
-	//glEnableVertexAttribArray(textureAttrib);
-	//glBindBuffer(GL_ARRAY_BUFFER, textureBuffer); //todo: finish this
-		//glVertexAttribPointer(textureAttrib, 3, GL_FLOAT, GL_FALSE, 0, 0);
+	glEnableVertexAttribArray(textureAttrib);
+	glBindBuffer(GL_ARRAY_BUFFER, textureBuffer); //todo: finish this
+	glVertexAttribPointer(textureAttrib, 2, GL_FLOAT, GL_FALSE, 0, 0);
 
-	glDrawElements(GL_TRIANGLES, mesh->triangles.size()*3, GL_UNSIGNED_INT, 0);
+	glDrawElements(GL_TRIANGLES, mesh->triangles.size() * 3, GL_UNSIGNED_INT, 0);
 
 	glDisableVertexAttribArray(vertexAttrib);
 	glDisableVertexAttribArray(normalAttrib);

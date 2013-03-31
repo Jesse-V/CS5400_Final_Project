@@ -15,8 +15,6 @@ class RenderableObject
 {
 	public:
 		RenderableObject(GLuint program, const std::shared_ptr<Mesh>& mesh);
-		void rotate(const glm::vec3& axis, double theta); //rotate object around axis by theta degrees
-		void translate(const glm::vec3& xyz); //translate the object by <x, y, z>
 		void setVisible(bool visible);
 		void setModelMatrix(const glm::mat4& matrix); // model coords -> world coords matrix
 		void render(GLuint modelmatrixid);
@@ -26,7 +24,7 @@ class RenderableObject
 		void storePoints();
 		void storeNormals();
 		void storeMesh();
-		void storeTextureMap();
+		void storeTexture();
 
 	private:
 		std::shared_ptr<Mesh> mesh;

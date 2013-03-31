@@ -41,7 +41,7 @@ class Mesh
 		std::vector<glm::vec3> normals;
 
 		// texture map
-		std::vector<GLfloat> textureMap;
+		std::vector<glm::vec2> textureMap;
 
 		// vertex indicies that make up the triangles of this mesh
 		// (0,1,2), (3,4,5) ...  are indexes for triangles

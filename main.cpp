@@ -119,10 +119,13 @@ void initializeApplication()
 
 	scene.init();
 	scene.loadCubeModel();
+	scene.setAmbientLight(glm::vec3(0.3, 0, 0));
 
 	std::shared_ptr<Camera> camera = std::make_shared<Camera>();
-	camera->lookAt(glm::vec3(0, -0.2, -1));
-	camera->setPosition(glm::vec3(0, 0.03, 2));
+	//camera->lookAt(glm::vec3(0.66, 0.57, 0.47), glm::vec3(0.544, 0.72, 0.42));
+	//camera->setPosition(glm::vec3(1.98, 1.68, 1.54));
+	camera->lookAt(glm::vec3(0.72, 0.49, 0.49), glm::vec3(0.54, 0.72, 0.42));
+	camera->setPosition(glm::vec3(1.56, 1.23, 1.144));
 	scene.setCamera(camera);
 }
 

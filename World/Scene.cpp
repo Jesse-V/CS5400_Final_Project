@@ -19,9 +19,6 @@ void Scene::init()
 	lightPosUniform			= glGetUniformLocation(handle, "worldLightPos");
 
 	ambientLightUniform		= glGetUniformLocation(handle, "ambientLight");
-
-	// Set the default ambient light
-	setAmbientLight(glm::vec3(0.12, 0.1, 0.1));
 }
 
 

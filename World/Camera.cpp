@@ -32,7 +32,7 @@ void Camera::reset()
 // Set the camera to an arbitrary location without changing orientation
 void Camera::setPosition(const glm::vec3& pos)
 {
-	position = glm::normalize(pos);
+	position = pos;
 }
 
 
@@ -40,8 +40,8 @@ void Camera::setPosition(const glm::vec3& pos)
 // Set the orientation of the camera without changing its position
 void Camera::lookAt(const glm::vec3& newLookVector, const glm::vec3& newUpVector)
 {
-	lookDirection = glm::normalize(newLookVector);
-	upVector = glm::normalize(newUpVector);
+	lookDirection = newLookVector;
+	upVector = newUpVector;
 }
 
 
@@ -53,8 +53,6 @@ void Camera::moveX(float units)
 	glm::vec3 shiftvector = abs_units * (units<0.0? -direction: direction);
 	position += shiftvector;
 	lookDirection = glm::normalize(lookDirection + shiftvector);
-
-	std::cout << "look:{" << lookDirection.x << ", " << lookDirection.y << ", " << lookDirection.z << "}, pos:{" << position.x << ", " << position.y << ", " << position.z << "}, up:{" << upVector.x << ", " << upVector.y << ", " << upVector.z << "}" << std::endl;
 }
 
 
@@ -65,8 +63,6 @@ void Camera::moveY(float units)
 	glm::vec3 shiftvector = abs_units * (units<0.0? -upVector: upVector);
 	position += shiftvector;
 	lookDirection = glm::normalize(lookDirection + shiftvector);
-
-	std::cout << "look:{" << lookDirection.x << ", " << lookDirection.y << ", " << lookDirection.z << "}, pos:{" << position.x << ", " << position.y << ", " << position.z << "}, up:{" << upVector.x << ", " << upVector.y << ", " << upVector.z << "}" << std::endl;
 }
 
 
@@ -77,8 +73,6 @@ void Camera::moveZ(float units)
 	glm::vec3 shiftvector = abs_units * (units<0.0? -lookDirection: lookDirection);
 	position += shiftvector;
 	lookDirection = glm::normalize(lookDirection + shiftvector);
-
-	std::cout << "look:{" << lookDirection.x << ", " << lookDirection.y << ", " << lookDirection.z << "}, pos:{" << position.x << ", " << position.y << ", " << position.z << "}, up:{" << upVector.x << ", " << upVector.y << ", " << upVector.z << "}" << std::endl;
 }
 
 
@@ -94,8 +88,6 @@ void Camera::translate(const glm::vec3& xyzTheta)
 
 	position = pos.xyz();
 	lookDirection = look.xyz();
-
-	std::cout << "look:{" << lookDirection.x << ", " << lookDirection.y << ", " << lookDirection.z << "}, pos:{" << position.x << ", " << position.y << ", " << position.z << "}, up:{" << upVector.x << ", " << upVector.y << ", " << upVector.z << "}" << std::endl;
 }
 
 
@@ -115,8 +107,6 @@ void Camera::pitch(float theta)
 
 	lookDirection = look.xyz();
 	upVector = up.xyz();
-
-	std::cout << "look:{" << lookDirection.x << ", " << lookDirection.y << ", " << lookDirection.z << "}, pos:{" << position.x << ", " << position.y << ", " << position.z << "}, up:{" << upVector.x << ", " << upVector.y << ", " << upVector.z << "}" << std::endl;
 }
 
 
@@ -128,8 +118,6 @@ void Camera::yaw(float theta)
 	glm::mat4 matrix = glm::rotate(glm::mat4(1.0f), theta, upVector);
 	look = matrix * look;
 	lookDirection = look.xyz();
-
-	std::cout << "look:{" << lookDirection.x << ", " << lookDirection.y << ", " << lookDirection.z << "}, pos:{" << position.x << ", " << position.y << ", " << position.z << "}, up:{" << upVector.x << ", " << upVector.y << ", " << upVector.z << "}" << std::endl;
 }
 
 
@@ -141,8 +129,6 @@ void Camera::roll(float theta)
 	glm::mat4 matrix = glm::rotate(glm::mat4(1.0f), theta, lookDirection);
 	up = matrix * up;
 	upVector = up.xyz();
-
-	std::cout << "look:{" << lookDirection.x << ", " << lookDirection.y << ", " << lookDirection.z << "}, pos:{" << position.x << ", " << position.y << ", " << position.z << "}, up:{" << upVector.x << ", " << upVector.y << ", " << upVector.z << "}" << std::endl;
 }
 
 
