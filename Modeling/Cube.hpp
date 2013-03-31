@@ -14,6 +14,7 @@ class Cube
 		void setVertices(std::shared_ptr<Mesh>& mesh);
 		void setIndices(std::shared_ptr<Mesh>& mesh);
 		void setTexture(std::shared_ptr<Mesh>& mesh);
+		void quad(int a, int b, int c, int d, int& index, std::shared_ptr<Mesh>& mesh);
 };
 
 #endif

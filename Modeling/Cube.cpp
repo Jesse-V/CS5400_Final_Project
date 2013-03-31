@@ -67,6 +67,7 @@ void Cube::setIndices(std::shared_ptr<Mesh>& mesh)
 
 void Cube::setTexture(std::shared_ptr<Mesh>& mesh)
 {
+	/*
 	for (int j = 0; j < 6; j++)
 	{
 		mesh->tex_coords[j * 6 + 0] = glm::vec2(0, 0);
@@ -75,7 +76,7 @@ void Cube::setTexture(std::shared_ptr<Mesh>& mesh)
 		mesh->tex_coords[j * 6 + 3] = glm::vec2(0, 0);
 		mesh->tex_coords[j * 6 + 4] = glm::vec2(1, 1);
 		mesh->tex_coords[j * 6 + 5] = glm::vec2(1, 0);
-	}
+	}*/
 
 	for (int j = 0; j < 64; j++)
 	{
@@ -85,4 +86,33 @@ void Cube::setTexture(std::shared_ptr<Mesh>& mesh)
 			mesh->image[j][k][0] = mesh->image[j][k][1] = mesh->image[j][k][2] = c;
 		}
 	}
+
+	//for (int j = 0; j < 36; j++)
+	//	mesh->tex_coords[j] = glm::vec2(0, 0);
+
+	/*int index = 0;
+
+	quad(1, 0, 3, 2, index, mesh);
+	quad(2, 3, 7, 6, index, mesh);
+	quad(3, 0, 4, 7, index, mesh);
+	quad(6, 5, 1, 2, index, mesh);
+	quad(4, 5, 6, 7, index, mesh);
+	quad(5, 4, 0, 1, index, mesh);*/
+
+	//quad(1, 2, 3, 4, index, mesh);
+	//quad(5, 6, 7, 8, index, mesh);
+	//quad(2, 3, 7, 6, index, mesh);
+	//quad(2, 3, 7, 6, index, mesh);
+	//quad(2, 3, 7, 6, index, mesh);
+}
+
+
+void Cube::quad(int a, int b, int c, int d, int& index, std::shared_ptr<Mesh>& mesh)
+{
+	mesh->tex_coords[index++] = glm::vec2(0, 0);
+	mesh->tex_coords[index++] = glm::vec2(0, 1);
+	mesh->tex_coords[index++] = glm::vec2(1, 1);
+	mesh->tex_coords[index++] = glm::vec2(0, 0);
+	mesh->tex_coords[index++] = glm::vec2(1, 1);
+	mesh->tex_coords[index++] = glm::vec2(1, 0);
 }

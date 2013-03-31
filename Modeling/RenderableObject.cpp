@@ -47,7 +47,7 @@ void RenderableObject::storePoints()
 		});
 
 	glBindBuffer(GL_ARRAY_BUFFER, vertexBuffer);
-	glBufferData(GL_ARRAY_BUFFER, rawPoints.size()*sizeof(GLfloat), rawPoints.data(), GL_STATIC_DRAW);
+	glBufferData(GL_ARRAY_BUFFER, rawPoints.size() * sizeof(GLfloat), rawPoints.data(), GL_STATIC_DRAW);
 }
 
 
@@ -83,7 +83,7 @@ void RenderableObject::storeMesh()
 void RenderableObject::storeTexture()
 {
 	glBindBuffer(GL_ARRAY_BUFFER, buffer);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(mesh->tex_coords), NULL, GL_STATIC_DRAW);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(mesh->tex_coords), mesh->tex_coords, GL_STATIC_DRAW);
 }
 
 
@@ -144,9 +144,10 @@ void RenderableObject::enableNormals()
 
 void RenderableObject::enableTexture()
 {
-	glBindTexture(1, texture);
-
+	glEnableVertexAttribArray(vTexCoord);
 	glBindTexture(GL_TEXTURE_2D, texture);
+	glVertexAttribPointer(vTexCoord, 2, GL_FLOAT, GL_FALSE, 0, 0);
+
 	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, 64, 64, 0, GL_RGB, GL_UNSIGNED_BYTE, mesh->image);
 	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
 	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
@@ -154,10 +155,6 @@ void RenderableObject::enableTexture()
 	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
 
 	glActiveTexture(GL_TEXTURE0);
-	glBindTexture(GL_TEXTURE_2D, texture);
-
-	glEnableVertexAttribArray(vTexCoord);
-	glVertexAttribPointer(vTexCoord, 2, GL_FLOAT, GL_FALSE, 0, 0);
 }
 
 

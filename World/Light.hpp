@@ -7,7 +7,7 @@
 class Light
 {
 	public:
-		Light(const glm::vec3& position, const glm::vec3& color, double power);
+		Light(const glm::vec3& position = glm::vec3(0.0, 0.0, 0.0), const glm::vec3& color = glm::vec3(1, 1, 1), double power = 20);
 
 		void setPosition(const glm::vec3& newPos);
 		void setColor(const glm::vec3& newColor);

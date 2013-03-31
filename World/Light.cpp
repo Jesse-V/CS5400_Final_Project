@@ -1,8 +1,8 @@
 
-#include "Light.cpp"
+#include "Light.hpp"
 
 
-Light::LightLight(const glm::vec3& position, const glm::vec3& color, double power):
+Light::Light(const glm::vec3& position, const glm::vec3& color, double power):
 	position(position), color(color), power(power), emitting(true)
 {}
 

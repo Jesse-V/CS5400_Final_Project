@@ -62,7 +62,7 @@ void Scene::render(/*const glm::vec3& eyePosition, const glm::vec3& lookDirectio
 	glUseProgram(program->getHandle());
 
 	glm::mat4 viewMatrix = glm::lookAt(camera->getPosition(), camera->getLookDirection(), camera->getUpVector());
-	glm::vec3 lightPos = glm::vec3(-0.3f, 1.7f, 0.5f);
+	glm::vec3 lightPos = lights[0].getPosition(); //todo: support for multiple lights
 
 	// pass our transformation matricies to the shaders
 	glUniformMatrix4fv(viewMatrixUniform, 1, GL_FALSE, glm::value_ptr(viewMatrix));

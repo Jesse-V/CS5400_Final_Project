@@ -8,6 +8,7 @@ const float ROTATION_SPEED = 0.015;
 const float TRANSLATION_SPEED = 1.1;
 
 Scene scene;
+Light light;
 
 
 /*	Causes the current thread to sleep for the specified number of milliseconds */
@@ -116,14 +117,15 @@ void initializeApplication()
 	glEnable(GL_DEPTH_TEST);
 	//glEnable(GL_CULL_FACE);
 	//glCullFace(GL_BACK);
-
+	//
 	scene.init();
 	scene.loadCubeModel();
 	scene.setAmbientLight(glm::vec3(0.3, 0, 0));
 
+	light.setPosition(glm::vec3(-0.3f, 1.7f, 0.5f));
+	scene.addLight(light); //todo: send light color and power to GPU
+
 	std::shared_ptr<Camera> camera = std::make_shared<Camera>();
-	//camera->lookAt(glm::vec3(0.66, 0.57, 0.47), glm::vec3(0.544, 0.72, 0.42));
-	//camera->setPosition(glm::vec3(1.98, 1.68, 1.54));
 	camera->lookAt(glm::vec3(0.72, 0.49, 0.49), glm::vec3(0.54, 0.72, 0.42));
 	camera->setPosition(glm::vec3(1.56, 1.23, 1.144));
 	scene.setCamera(camera);
