@@ -3,6 +3,8 @@
 #define CUBE_HPP
 
 #include "Mesh.hpp"
+#include "DataBuffers/VertexBuffer.hpp"
+#include "DataBuffers/TextureBuffer.hpp"
 #include <memory>
 
 class Cube

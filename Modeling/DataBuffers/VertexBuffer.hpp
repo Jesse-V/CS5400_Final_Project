@@ -3,6 +3,8 @@
 #define VERTEX_BUFFER
 
 #include "DataBuffer.hpp"
+#include "../Mesh.hpp"
+#include <memory>
 
 class VertexBuffer: public DataBuffer
 {

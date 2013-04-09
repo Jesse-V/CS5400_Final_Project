@@ -73,10 +73,3 @@ void RenderableObject::disableDataBuffers()
 			buffer.disable();
 		});
 }
-
-
-
-std::shared_ptr<Mesh> RenderableObject::getMesh() const
-{
-	return mesh;
-}

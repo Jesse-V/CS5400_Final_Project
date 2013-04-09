@@ -1,6 +1,7 @@
 
 #include "World/Scene.hpp"
 #include "World/Camera.hpp"
+#include "Modeling/Cube.hpp"
 #include <iostream>
 #include <thread>
 
@@ -128,7 +129,7 @@ void initializeApplication()
 	scene.init();
 
 	Cube cube;
-	RenderableObject cubeObj(scene.getProgram(), cube.getDataBuffers());
+	RenderableObject cubeObj(scene.getProgram()->getHandle(), cube.getDataBuffers());
 	cubeObj.setModelMatrix(glm::translate(glm::mat4(), glm::vec3(0.0, -0.1, 0.0)));
 	scene.addModel(cubeObj);
 

@@ -5,16 +5,15 @@
 #include <memory>
 #include <vector>
 #include "glm/glm.hpp"
-#include "Mesh.hpp"
+#include "DataBuffers/DataBuffer.hpp"
 
 class RenderableObject
 {
 	public:
-		RenderableObject(GLuint program, const std::vector<Mesh>& dataBuffers);
+		RenderableObject(GLuint program, const std::vector<DataBuffer>& dataBuffers);
 		void setVisible(bool visible);
 		void setModelMatrix(const glm::mat4& matrix); // model coords -> world coords matrix
 		void render(GLuint modelMatrixID);
-		std::shared_ptr<Mesh> getMesh() const;
 
 	private:
 		std::vector<DataBuffer> dataBuffers;

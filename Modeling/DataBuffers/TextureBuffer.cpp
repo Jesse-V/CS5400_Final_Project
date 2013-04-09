@@ -1,7 +1,7 @@
 
 #include "TextureBuffer.hpp"
 
-void TextureBuffer::initialize(GLuint program);
+void TextureBuffer::initialize(GLuint program)
 {
 	glGenBuffers(1, &buffer);
 	glGenTextures(1, &texture);
