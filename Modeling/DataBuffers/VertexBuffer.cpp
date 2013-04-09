@@ -1,6 +1,7 @@
 
 #include "VertexBuffer.hpp"
 #include <algorithm>
+#include <iostream>
 
 VertexBuffer::VertexBuffer(const std::shared_ptr<Mesh>& mesh):
 	mesh(mesh)

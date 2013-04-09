@@ -1,5 +1,7 @@
 
 #include "TextureBuffer.hpp"
+#include <iostream>
+
 
 void TextureBuffer::initialize(GLuint program)
 {

@@ -15,6 +15,7 @@ RenderableObject::RenderableObject(GLuint program, const std::vector<std::shared
 		[&](const std::shared_ptr<DataBuffer>& buffer)
 		{
 			buffer->initialize(program);
+			buffer->store();
 		});
 
 	//glm::translate(glm::mat4(), glm::vec3(0.0, -0.1, 0.0))
