@@ -13,16 +13,16 @@ include_directories(. parsers glm)
 
 add_executable(OpenGL_program
     main.cpp
-     Modeling/DataBuffers/TextureBuffer.cpp
+    Modeling/DataBuffers/TextureBuffer.cpp
     Modeling/DataBuffers/VertexBuffer.cpp
-    ShaderLoader/Program.cpp
-    ShaderLoader/Shader.cpp
+    Shaders/ShaderLoader/Program.cpp
+    Shaders/ShaderLoader/Shader.cpp
     Modeling/Mesh.cpp
     World/Scene.cpp
     World/Camera.cpp
     World/Light.cpp
     Modeling/RenderableObject.cpp
-    Modeling/Cube.cpp
+    CustomObjects/Cube.cpp
 )
 
 IF(WIN32)

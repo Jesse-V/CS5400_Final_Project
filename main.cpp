@@ -1,7 +1,7 @@
 
 #include "World/Scene.hpp"
 #include "World/Camera.hpp"
-#include "Modeling/Cube.hpp"
+#include "CustomObjects/Cube.hpp"
 #include <iostream>
 #include <thread>
 
@@ -149,7 +149,7 @@ int main(int argc, char **argv)
 {
 	glutInit(&argc, argv);
 	glutInitDisplayMode(GLUT_RGBA | GLUT_DOUBLE | GLUT_DEPTH);
-	initializeGlutWindow(glutGet(GLUT_SCREEN_WIDTH), glutGet(GLUT_SCREEN_HEIGHT), "Lighting and Texture Mapping in OpenGL - Jesse Victors");
+	initializeGlutWindow(glutGet(GLUT_SCREEN_WIDTH), glutGet(GLUT_SCREEN_HEIGHT), "Final OpenGL Project - Jesse Victors");
 
 	GLenum glew_status = glewInit();
 	if (glew_status != GLEW_OK)

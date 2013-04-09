@@ -1,6 +1,5 @@
 
 #include "Scene.hpp"
-#include "Modeling/Cube.hpp"
 #include "glm/gtc/type_ptr.hpp"
 #include <algorithm>
 

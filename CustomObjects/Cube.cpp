@@ -1,5 +1,6 @@
 
 #include "Cube.hpp"
+#include "Modeling/DataBuffers/VertexBuffer.hpp"
 
 
 std::vector<std::shared_ptr<DataBuffer>> Cube::getDataBuffers()
