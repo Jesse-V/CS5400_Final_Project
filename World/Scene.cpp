@@ -25,7 +25,7 @@ void Scene::init()
 
 void Scene::addModel(const RenderableObject& obj)
 {
-	objects.push_back(obj);
+	//objects.push_back(obj);
 }
 
 

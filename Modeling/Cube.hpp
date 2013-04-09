@@ -10,11 +10,11 @@
 class Cube
 {
 	public:
-		std::vector<DataBuffer> getDataBuffers();
+		std::vector<std::shared_ptr<DataBuffer>> getDataBuffers();
 
 	private:
 		std::shared_ptr<Mesh> getMesh();
-		TextureBuffer getTexture();
+		std::shared_ptr<TextureBuffer> getTextureBuffer();
 		void addVertices(std::shared_ptr<Mesh>& mesh);
 		void addIndices(std::shared_ptr<Mesh>& mesh);
 		//void quad(int a, int b, int c, int d, int& index, std::shared_ptr<Mesh>& mesh);

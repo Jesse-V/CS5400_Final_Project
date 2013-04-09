@@ -8,13 +8,13 @@
 #include <algorithm>
 
 
-RenderableObject::RenderableObject(GLuint program, const std::vector<DataBuffer>& dataBuffers):
+RenderableObject::RenderableObject(GLuint program, const std::vector<std::shared_ptr<DataBuffer>>& dataBuffers):
 	modelMatrix(glm::mat4(1.0)), isVisible(true), dataBuffers(dataBuffers)
 {
 	for_each (dataBuffers.begin(), dataBuffers.end(),
-		[&](const DataBuffer& buffer)
+		[&](const std::shared_ptr<DataBuffer>& buffer)
 		{
-			buffer.initialize(program);
+			buffer->initialize(program);
 		});
 
 	//glm::translate(glm::mat4(), glm::vec3(0.0, -0.1, 0.0))
@@ -47,7 +47,6 @@ void RenderableObject::render(GLuint modelMatrixID)
 		glUniformMatrix4fv(modelMatrixID, 1, GL_FALSE, glm::value_ptr(modelMatrix));
 
 		enableDataBuffers();
-		glDrawElements(GL_TRIANGLES, mesh->triangles.size() * 3, GL_UNSIGNED_INT, 0);
 		disableDataBuffers();
 	}
 }
@@ -57,9 +56,9 @@ void RenderableObject::render(GLuint modelMatrixID)
 void RenderableObject::enableDataBuffers()
 {
 	for_each (dataBuffers.begin(), dataBuffers.end(),
-		[&](const DataBuffer& buffer)
+		[&](const std::shared_ptr<DataBuffer>& buffer)
 		{
-			buffer.enable();
+			buffer->enable();
 		});
 }
 
@@ -68,8 +67,8 @@ void RenderableObject::enableDataBuffers()
 void RenderableObject::disableDataBuffers()
 {
 	for_each (dataBuffers.begin(), dataBuffers.end(),
-		[&](const DataBuffer& buffer)
+		[&](const std::shared_ptr<DataBuffer>& buffer)
 		{
-			buffer.disable();
+			buffer->disable();
 		});
 }

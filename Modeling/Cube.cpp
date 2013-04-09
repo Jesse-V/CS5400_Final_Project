@@ -1,14 +1,15 @@
 
 #include "Cube.hpp"
 
-std::vector<DataBuffer> getDataBuffers()
-{
-	std::vector<DataBuffer> buffers;
 
-	VertexBuffer vBuffer(getMesh());
+std::vector<std::shared_ptr<DataBuffer>> Cube::getDataBuffers()
+{
+	std::vector<std::shared_ptr<DataBuffer>> buffers;
+
+	auto vBuffer = std::make_shared<VertexBuffer>(getMesh());
 	buffers.push_back(vBuffer);
 
-	TextureBuffer tBuffer = getTextureBuffer();
+	auto tBuffer = getTextureBuffer();
 	buffers.push_back(tBuffer);
 
 	return buffers;
