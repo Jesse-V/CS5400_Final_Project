@@ -8,13 +8,14 @@
 class Cube
 {
 	public:
-		std::shared_ptr<Mesh> getMesh();
+		std::vector<DataBuffer> getDataBuffers();
 
 	private:
-		void setVertices(std::shared_ptr<Mesh>& mesh);
-		void setIndices(std::shared_ptr<Mesh>& mesh);
-		void setTexture(std::shared_ptr<Mesh>& mesh);
-		void quad(int a, int b, int c, int d, int& index, std::shared_ptr<Mesh>& mesh);
+		std::shared_ptr<Mesh> getMesh();
+		TextureBuffer getTexture();
+		void addVertices(std::shared_ptr<Mesh>& mesh);
+		void addIndices(std::shared_ptr<Mesh>& mesh);
+		//void quad(int a, int b, int c, int d, int& index, std::shared_ptr<Mesh>& mesh);
 };
 
 #endif

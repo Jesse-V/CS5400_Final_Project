@@ -126,13 +126,17 @@ void initializeApplication()
 	//glCullFace(GL_BACK);
 
 	scene.init();
-	scene.loadCubeModel();
-	scene.setAmbientLight(glm::vec3(0.3, 0, 0));
 
+	Cube cube;
+	RenderableObject cubeObj(scene.getProgram(), cube.getDataBuffers());
+	cubeObj.setModelMatrix(glm::translate(glm::mat4(), glm::vec3(0.0, -0.1, 0.0)));
+	scene.addModel(cubeObj);
+
+	scene.setAmbientLight(glm::vec3(0.3, 0, 0));
 	light->setPosition(glm::vec3(0.3f, -1.7f, -0.5f));
 	scene.addLight(light); //todo: send light color and power to GPU
 
-	std::shared_ptr<Camera> camera = std::make_shared<Camera>();
+	auto camera = std::make_shared<Camera>();
 	camera->lookAt(glm::vec3(0.72, 0.49, 0.49), glm::vec3(0.54, 0.72, 0.42));
 	camera->setPosition(glm::vec3(1.56, 1.23, 1.144));
 	scene.setCamera(camera);

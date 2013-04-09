@@ -1,6 +1,12 @@
 
 #include "VertexBuffer.hpp"
 
+VertexBuffer(const std::shared_ptr<Mesh>& mesh):
+	mesh(mesh)
+{}
+
+
+
 void VertexBuffer::initialize(GLuint program);
 {
 	glGenBuffers(1, &vertexBuffer);

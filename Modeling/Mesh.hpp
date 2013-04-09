@@ -40,10 +40,6 @@ class Mesh
 		// vertex normals
 		std::vector<glm::vec3> normals;
 
-		// texture map
-		GLubyte image[64][64][3];
-		glm::vec2 tex_coords[36];
-
 		// vertex indicies that make up the triangles of this mesh
 		// (0,1,2), (3,4,5) ...  are indexes for triangles
 		std::vector<Triangle> triangles;

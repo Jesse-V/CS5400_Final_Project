@@ -16,6 +16,9 @@ RenderableObject::RenderableObject(GLuint program, const std::vector<DataBuffer>
 		{
 			buffer.initialize(program);
 		});
+
+	//glm::translate(glm::mat4(), glm::vec3(0.0, -0.1, 0.0))
+	//glm::mat4(1.0)
 }
 
 

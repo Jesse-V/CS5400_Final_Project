@@ -7,6 +7,7 @@
 class VertexBuffer: public DataBuffer
 {
 	public:
+		VertexBuffer(const std::shared_ptr<Mesh>& mesh);
 		virtual void initialize(GLuint program);
 		virtual void store();
 		virtual void enable();
