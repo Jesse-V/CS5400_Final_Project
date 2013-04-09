@@ -14,7 +14,7 @@ class Scene
 {
 	public:
 		void init();
-		void loadCubeModel(const glm::mat4& modelmatrix = glm::translate(glm::mat4(), glm::vec3(0.0, -0.1, 0.0)));
+		void addModel(const RenderableObject& obj);
 		void setCamera(const std::shared_ptr<Camera>& camera);
 		void clear();
 		void addLight(const std::shared_ptr<Light>& light);

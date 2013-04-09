@@ -22,14 +22,14 @@ void Scene::init()
 }
 
 
-//todo: addModel
-void Scene::loadCubeModel(const glm::mat4& modelMatrix)
+
+void Scene::addModel(const RenderableObject& obj)
 {
-	Cube cube;
+	/*Cube cube;
 	std::shared_ptr<Mesh> mesh = cube.getMesh();
 
-	RenderableObject obj(program->getHandle(), mesh);
-	obj.setModelMatrix(modelMatrix);
+	RenderableObject obj(program->getHandle(), mesh);*/
+	obj.setModelMatrix(glm::translate(glm::mat4(), glm::vec3(0.0, -0.1, 0.0)));
 	objects.push_back(obj);
 }
 
