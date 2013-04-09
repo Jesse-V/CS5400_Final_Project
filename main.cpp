@@ -2,6 +2,8 @@
 #include "World/Scene.hpp"
 #include "World/Camera.hpp"
 #include "CustomObjects/Cube.hpp"
+//#include "CustomObjects/Ground.hpp"
+//#include "CustomObjects/Mandelbrot.hpp"
 #include <iostream>
 #include <thread>
 
@@ -120,6 +122,35 @@ void initializeGlutWindow(int width, int height, const std::string& windowTitle)
 
 
 
+void addModels()
+{
+	Cube cube;
+	RenderableObject cubeObj(scene.getProgram()->getHandle(), cube.getDataBuffers());
+	cubeObj.setModelMatrix(glm::translate(glm::mat4(), glm::vec3(0.0, -0.1, 0.0)));
+	scene.addModel(cubeObj);
+}
+
+
+
+void addLight()
+{
+	scene.setAmbientLight(glm::vec3(0.3, 0, 0));
+	light->setPosition(glm::vec3(0.3f, -1.7f, -0.5f));
+	scene.addLight(light); //todo: send light color and power to GPU
+}
+
+
+
+void addCamera()
+{
+	auto camera = std::make_shared<Camera>();
+	camera->lookAt(glm::vec3(0.72, 0.49, 0.49), glm::vec3(0.54, 0.72, 0.42));
+	camera->setPosition(glm::vec3(1.56, 1.23, 1.144));
+	scene.setCamera(camera);
+}
+
+
+
 void initializeApplication()
 {
 	glEnable(GL_DEPTH_TEST);
@@ -128,19 +159,9 @@ void initializeApplication()
 
 	scene.init();
 
-	Cube cube;
-	RenderableObject cubeObj(scene.getProgram()->getHandle(), cube.getDataBuffers());
-	cubeObj.setModelMatrix(glm::translate(glm::mat4(), glm::vec3(0.0, -0.1, 0.0)));
-	scene.addModel(cubeObj);
-
-	scene.setAmbientLight(glm::vec3(0.3, 0, 0));
-	light->setPosition(glm::vec3(0.3f, -1.7f, -0.5f));
-	scene.addLight(light); //todo: send light color and power to GPU
-
-	auto camera = std::make_shared<Camera>();
-	camera->lookAt(glm::vec3(0.72, 0.49, 0.49), glm::vec3(0.54, 0.72, 0.42));
-	camera->setPosition(glm::vec3(1.56, 1.23, 1.144));
-	scene.setCamera(camera);
+	addModels();
+	addLight();
+	addCamera();
 }
 
 

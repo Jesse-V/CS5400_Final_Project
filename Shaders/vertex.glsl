@@ -18,8 +18,8 @@ varying vec3 eyedirection_camera;
 varying vec3 lightdirection_camera;
 
 // relates to texture mapping, page 379
-attribute vec2 vTexCoord;
-varying vec2 texCoord;
+//attribute vec2 vTexCoord;
+//varying vec2 texCoord;
 
 
 void main()
@@ -44,5 +44,5 @@ void main()
 	// normal of the vertex in camera space
 	normal_camera = normalize((viewMatrix * matrixModel * vec4(vertexNormal, 0)).xyz);
 
-	texCoord = vTexCoord;
+	//texCoord = vTexCoord;
 }

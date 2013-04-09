@@ -23,6 +23,8 @@ add_executable(OpenGL_program
     World/Light.cpp
     Modeling/RenderableObject.cpp
     CustomObjects/Cube.cpp
+    CustomObjects/Ground.cpp
+    CustomObjects/Mandelbrot.cpp
 )
 
 IF(WIN32)
