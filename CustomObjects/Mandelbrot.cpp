@@ -34,10 +34,10 @@ void Mandelbrot::addVertices(std::shared_ptr<Mesh>& mesh)
 {
 	for (float height = 0; height <= RESOLUTION; height++)
 	{
-		float theta = (2 * 2 * PI) * (height / RESOLUTION);
+		float theta = (2.25f * 2 * PI) * (height / RESOLUTION);
 
-		float x = (float)sin(theta) * (theta * 0.02f);
-		float y = (float)cos(theta) * (theta * 0.02f);
+		float x = (float)sin(theta) * (theta * 0.01f);
+		float y = (float)cos(theta) * (theta * 0.01f);
 
 		for (float width = 0; width <= RESOLUTION; width++)
 		{

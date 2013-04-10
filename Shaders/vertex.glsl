@@ -67,8 +67,8 @@ void colorFractal()
 	//modelX's range: [0, ?]
 	//modelY's range: [0, 1]
 
-	float fractalX = modelX * 2.4f - 1.2f;
-	float fractalY = modelY * 0.5f - 2.05f;
+	float fractalX = modelX * 2.6f - 1.2f;
+	float fractalY = modelY * 2.3f - 1.3f;
 
 	vFractalColor = getColorAt(vec2(fractalX, fractalY));
 }

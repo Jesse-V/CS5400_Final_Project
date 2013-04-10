@@ -33,10 +33,10 @@ float diffusedLighting(inout vec3 normal, inout vec3 light)
 
 void main()
 {
-	vec3 lightColor   = vec3(0.5, 0.4, 0.4); //todo: get this in from the Light obj
-	vec3 surfaceColor = vec3(0.1, 0.4, 0.2);
+	vec3 lightColor   = vec3(0.5, 0.5, 0.5); //vec3(0.5, 0.4, 0.4); //todo: get this in from the Light obj
+	vec3 surfaceColor = vec3(0.1, 0.1, 0.1);
 	float lightDistance = length(worldLightPos - pos_world);
-	float lightPower  = 20.0f; //todo: get this in from the Light obj
+	float lightPower  = 10.0f; //todo: get this in from the Light obj
 	vec3 normal = normalize(normal_camera);
 	vec3 light  = normalize(lightdirection_camera);
 
@@ -44,7 +44,7 @@ void main()
 	float theta = specularLighting(normal, light);
 
 	vec3 lighting = lightColor * lightPower * theta / (lightDistance * lightDistance);
-	vec3 color = vFractalColor + ambientLight + surfaceColor * lighting;
+	vec3 color = vFractalColor /*+ ambientLight*/ + surfaceColor * lighting;
 
 	//vec4 texColor = texture2D(texture, texCoord);
 	//texColor += vec4(0.7, 0.7, 0.7, 0); //increase blending with light

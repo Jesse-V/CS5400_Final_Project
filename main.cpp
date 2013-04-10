@@ -9,7 +9,7 @@
 
 const float ROTATION_SPEED = 0.015;
 const float TRANSLATION_SPEED = 1.1;
-const float LIGHT_MOVEMENT_SPEED = 0.007f;
+const float LIGHT_MOVEMENT_SPEED = 0.01f;
 
 Scene scene;
 std::shared_ptr<Light> light = std::make_shared<Light>();
@@ -113,29 +113,6 @@ void onSpecialKey(int key, int, int)
 
 	//std::cout << camera->toString() << std::endl;
 }
-
-
-
-/*
-void onMouseClick(int button, int state, int x, int y)
-{
-	switch (button)
-	{
-		case GLUT_LEFT_BUTTON:
-			mouseDown = true;
-			break;
-
-		default:
-			mouseDown = false;
-	}
-}
-
-
-
-void onMouseMotion(int x, int y)
-{
-	camera->pitchAndRoll(x, y); //TODO: cleanup
-}*/
 
 
 
