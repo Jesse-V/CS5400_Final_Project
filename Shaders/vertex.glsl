@@ -22,6 +22,41 @@ varying vec3 lightdirection_camera;
 //varying vec2 texCoord;
 
 
+vec3 getColorAt(vec3 pt)
+{
+	/*
+	float ptYSq = pt.y * pt.y;
+	float xOff = pt.x - 0.25;
+	float q = Math.pow(xOff, 2) + ptYSq;
+	if (q * (q + xOff) < ptYSq / 4)
+		return vec3(0, 0, 0); //reutrhttp://en.wikipedia.org/wiki/Mandelbrot_fractal#Optimizations
+	*/
+
+	int MAX_ITERATIONS = 512;
+	float COLORING = 1;
+
+	float x = 0, xSq = 0, y = 0, ySq = 0;
+	int iterations;
+	for (iterations = 0; iterations < MAX_ITERATIONS && (xSq + ySq <= 144); iterations++)
+	{
+		y = 2 * x * y + pt.y;
+		x = xSq - ySq + pt.x;
+		xSq = x * x;
+		ySq = y * y;
+	}
+
+	if (iterations == MAX_ITERATIONS)
+		return vec3(0, 0, 0);
+	else
+	{
+		float mu = iterations - log(log(xSq + ySq)) / log(2f);
+		float sinVal = sin(mu / COLORING) / 2 + 0.5f;
+		float cosVal = cos(mu / COLORING) / 2 + 0.5f;
+		return vec3(cosVal, cosVal, sinVal);
+	}
+}
+
+
 void main()
 {
 	// Calculate the Model-View-Projection matrix
