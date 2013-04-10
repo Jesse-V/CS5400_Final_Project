@@ -9,6 +9,8 @@ std::vector<std::shared_ptr<DataBuffer>> Ground::getDataBuffers()
 
 	auto vBuffer = std::make_shared<VertexBuffer>(getMesh());
 	buffers.push_back(vBuffer);
+
+	return buffers;
 }
 
 

@@ -4,7 +4,6 @@
 #include "Camera.hpp"
 #include "glm/gtc/matrix_transform.hpp"
 #include <memory>
-#include <iostream>
 
 
 Camera::Camera()
@@ -50,7 +49,7 @@ void Camera::moveX(float units)
 {
 	float abs_units = (float)fabs(units);
 	glm::vec3 direction = glm::normalize(glm::cross(lookDirection, upVector));
-	glm::vec3 shiftvector = abs_units * (units<0.0? -direction: direction);
+	glm::vec3 shiftvector = abs_units * (units < 0.0f ? -direction : direction);
 	position += shiftvector;
 	lookDirection = glm::normalize(lookDirection + shiftvector);
 }
@@ -60,7 +59,7 @@ void Camera::moveX(float units)
 void Camera::moveY(float units)
 {
 	float abs_units = (float)fabs(units);
-	glm::vec3 shiftvector = abs_units * (units<0.0? -upVector: upVector);
+	glm::vec3 shiftvector = abs_units * (units < 0.0f ? -upVector : upVector);
 	position += shiftvector;
 	lookDirection = glm::normalize(lookDirection + shiftvector);
 }
@@ -70,7 +69,7 @@ void Camera::moveY(float units)
 void Camera::moveZ(float units)
 {
 	float abs_units = (float)fabs(units);
-	glm::vec3 shiftvector = abs_units * (units<0.0? -lookDirection: lookDirection);
+	glm::vec3 shiftvector = abs_units * (units < 0.0f ? -lookDirection : lookDirection);
 	position += shiftvector;
 	lookDirection = glm::normalize(lookDirection + shiftvector);
 }

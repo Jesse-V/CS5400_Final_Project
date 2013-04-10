@@ -5,7 +5,7 @@ project(OpenGL_program)
 IF(WIN32)
     set(CMAKE_CXX_FLAGS  "-O2")
 ELSE()
-    set(CMAKE_CXX_FLAGS  "-g -O2 --std=c++0x")
+    set(CMAKE_CXX_FLAGS  "-g -O2 --std=c++0x -Wall -Wextra -Wdouble-promotion -Wfloat-equal -Wunsafe-loop-optimizations")
 ENDIF()
 
 include_directories(. parsers glm)
@@ -22,7 +22,6 @@ add_executable(OpenGL_program
     World/Camera.cpp
     World/Light.cpp
     Modeling/RenderableObject.cpp
-    CustomObjects/Cube.cpp
     CustomObjects/Ground.cpp
     CustomObjects/Mandelbrot.cpp
 )

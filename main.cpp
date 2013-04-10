@@ -1,11 +1,11 @@
 
 #include "World/Scene.hpp"
 #include "World/Camera.hpp"
-#include "CustomObjects/Cube.hpp"
-//#include "CustomObjects/Ground.hpp"
-//#include "CustomObjects/Mandelbrot.hpp"
+#include "CustomObjects/Ground.hpp"
+#include "CustomObjects/Mandelbrot.hpp"
 #include <iostream>
 #include <thread>
+
 
 const float ROTATION_SPEED = 0.015;
 const float TRANSLATION_SPEED = 1.1;
@@ -121,13 +121,27 @@ void initializeGlutWindow(int width, int height, const std::string& windowTitle)
 }
 
 
+void addGround()
+{
+	Ground ground;
+	RenderableObject rObj(scene.getProgram()->getHandle(), ground.getDataBuffers());
+	scene.addModel(rObj);
+}
+
+
+void addMandelbrot()
+{
+	Mandelbrot mandelbrot;
+	RenderableObject rObj(scene.getProgram()->getHandle(), mandelbrot.getDataBuffers());
+	scene.addModel(rObj);
+}
+
+
 
 void addModels()
 {
-	Cube cube;
-	RenderableObject cubeObj(scene.getProgram()->getHandle(), cube.getDataBuffers());
-	cubeObj.setModelMatrix(glm::translate(glm::mat4(), glm::vec3(0.0, -0.1, 0.0)));
-	scene.addModel(cubeObj);
+	addGround();
+	addMandelbrot();
 }
 
 
@@ -144,8 +158,8 @@ void addLight()
 void addCamera()
 {
 	auto camera = std::make_shared<Camera>();
-	camera->lookAt(glm::vec3(0.72, 0.49, 0.49), glm::vec3(0.54, 0.72, 0.42));
-	camera->setPosition(glm::vec3(1.56, 1.23, 1.144));
+//	camera->lookAt(glm::vec3(1, 0, 0), glm::vec3(1, 0, 0));
+//	camera->setPosition(glm::vec3(1.56, 1.23, 1.144));
 	scene.setCamera(camera);
 }
 

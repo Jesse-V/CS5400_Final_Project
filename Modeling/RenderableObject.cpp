@@ -9,7 +9,7 @@
 
 
 RenderableObject::RenderableObject(GLuint program, const std::vector<std::shared_ptr<DataBuffer>>& dataBuffers):
-	modelMatrix(glm::mat4(1.0)), isVisible(true), dataBuffers(dataBuffers)
+	modelMatrix(glm::mat4()), isVisible(true), dataBuffers(dataBuffers)
 {
 	for_each (dataBuffers.begin(), dataBuffers.end(),
 		[&](const std::shared_ptr<DataBuffer>& buffer)
