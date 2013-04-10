@@ -51,7 +51,7 @@ void Scene::setAmbientLight(const glm::vec3& rgb)
 
 
 // Render the scene as it currently is
-void Scene::render(/*const glm::vec3& eyePosition, const glm::vec3& lookDirection, const glm::vec3& upVector, const glm::mat4& projMatrix*/)
+void Scene::render()
 {
 	glUseProgram(program->getHandle());
 

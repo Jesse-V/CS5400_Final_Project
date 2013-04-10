@@ -4,7 +4,7 @@
 
 #include "glm/glm.hpp"
 #include <memory>
-
+#include <string>
 
 class Camera
 {
@@ -44,6 +44,9 @@ class Camera
 		float getFarFieldClip();
 
 		glm::mat4 getProjectionMatrix();
+		std::string toString();
+
+		//void pitchAndRoll(int x, int y); //TODO: cleanup
 
 	private:
 		glm::vec3 lookDirection, position, upVector;

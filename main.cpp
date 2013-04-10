@@ -74,6 +74,8 @@ void onKey(unsigned char key, int, int)
 			camera->moveZ(-ROTATION_SPEED);
 			break;
 	}
+
+	std::cout << camera->toString() << std::endl;
 }
 
 
@@ -108,7 +110,32 @@ void onSpecialKey(int key, int, int)
 			camera->roll(TRANSLATION_SPEED);
 			break;
 	}
+
+	std::cout << camera->toString() << std::endl;
 }
+
+
+
+/*
+void onMouseClick(int button, int state, int x, int y)
+{
+	switch (button)
+	{
+		case GLUT_LEFT_BUTTON:
+			mouseDown = true;
+			break;
+
+		default:
+			mouseDown = false;
+	}
+}
+
+
+
+void onMouseMotion(int x, int y)
+{
+	camera->pitchAndRoll(x, y); //TODO: cleanup
+}*/
 
 
 
@@ -140,7 +167,7 @@ void addMandelbrot()
 
 void addModels()
 {
-	addGround();
+	//addGround();
 	addMandelbrot();
 }
 
@@ -158,8 +185,8 @@ void addLight()
 void addCamera()
 {
 	auto camera = std::make_shared<Camera>();
-//	camera->lookAt(glm::vec3(1, 0, 0), glm::vec3(1, 0, 0));
-//	camera->setPosition(glm::vec3(1.56, 1.23, 1.144));
+	camera->lookAt(glm::vec3(-0.157905, -0.328774, -0.931114), glm::vec3(-0.080037, 0.877983, -0.471953));
+	camera->setPosition(glm::vec3(0.117748, 0.164188, 1.5894));
 	scene.setCamera(camera);
 }
 
@@ -168,8 +195,8 @@ void addCamera()
 void initializeApplication()
 {
 	glEnable(GL_DEPTH_TEST);
-	//glEnable(GL_CULL_FACE);
-	//glCullFace(GL_BACK);
+	glEnable(GL_CULL_FACE);
+	glCullFace(GL_BACK);
 
 	scene.init();
 
@@ -198,6 +225,9 @@ int main(int argc, char **argv)
 		glutDisplayFunc(onDisplay);
 		glutKeyboardFunc(onKey);
 		glutSpecialFunc(onSpecialKey);
+
+		//glutMotionFunc(onMouseMotion);
+		//glutMouseFunc(onMouseClick);
 
 		initializeApplication();
 		glutMainLoop();
