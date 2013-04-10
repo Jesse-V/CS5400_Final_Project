@@ -75,7 +75,7 @@ void onKey(unsigned char key, int, int)
 			break;
 	}
 
-	std::cout << camera->toString() << std::endl;
+	//std::cout << camera->toString() << std::endl;
 }
 
 
@@ -111,7 +111,7 @@ void onSpecialKey(int key, int, int)
 			break;
 	}
 
-	std::cout << camera->toString() << std::endl;
+	//std::cout << camera->toString() << std::endl;
 }
 
 

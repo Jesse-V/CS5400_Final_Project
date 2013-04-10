@@ -245,29 +245,3 @@ std::string Camera::toString()
 
 	return ss.str();
 }
-
-
-/*
-void Camera::pitchAndRoll(int x, int y)
-{
-	static int doneOnce = 0, cam_x, cam_y;
-
-	glm::vec3 axis_y(0.0, 1.0, 0.0);
-	glm::vec3 axis_x(1.0,0.0,0.0);
-
-	float angleX = 0.0f;
-	float angleY = 0.0f;
-	if(doneOnce)
-		angleX = (cam_x - x)/5.0f;
-	cam_x = x;
-	if(doneOnce)
-		angleY = (cam_y - y)/5.0f;
-	cam_y = y;
-
-	model = glm::rotate(model, angleX, axis_y);
-
-	model = glm::rotate(model, angleY, axis_x);
-
-	doneOnce = 1;
-}
-*/

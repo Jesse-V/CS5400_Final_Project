@@ -21,8 +21,10 @@ varying vec3 lightdirection_camera;
 //attribute vec2 vTexCoord;
 //varying vec2 texCoord;
 
+varying vec3 vFractalColor;
 
-vec3 getColorAt(vec3 pt)
+
+vec3 getColorAt(vec2 pt)
 {
 	/*
 	float ptYSq = pt.y * pt.y;
@@ -57,17 +59,32 @@ vec3 getColorAt(vec3 pt)
 }
 
 
-void main()
+void colorFractal()
 {
-	// Calculate the Model-View-Projection matrix
-	mat4 MVP = projMatrix * viewMatrix * matrixModel;
+	float modelX = sqrt(vertex.x * vertex.x + vertex.y * vertex.y);
+	float modelY = vertex.z;
 
-	// Convert from model space to clip space
-	gl_Position = MVP * vec4(vertex, 1);
+	//modelX's range: [0, ?]
+	//modelY's range: [0, 1]
 
-	// Convert from model space to world space
-	pos_world = (matrixModel * vec4(vertex, 1)).xyz;
+	float fractalX = modelX * 2.4f - 1.2f;
+	float fractalY = modelY * 0.5f - 2.05f;
 
+	vFractalColor = getColorAt(vec2(fractalX, fractalY));
+}
+
+
+
+vec4 projectVertex()
+{
+	mat4 MVP = projMatrix * viewMatrix * matrixModel; //Calculate the Model-View-Projection matrix
+	return MVP * vec4(vertex, 1); // Convert from model space to clip space
+}
+
+
+
+void communicateCamera()
+{
 	// vector from vertex to camera, in camera space
 	vec3 vpos_camera = (viewMatrix * matrixModel * vec4(vertex, 1)).xyz;
 	eyedirection_camera = vec3(0, 0, 0) - vpos_camera;
@@ -78,6 +95,17 @@ void main()
 
 	// normal of the vertex in camera space
 	normal_camera = normalize((viewMatrix * matrixModel * vec4(vertexNormal, 0)).xyz);
+}
+
+
+
+void main()
+{
+	gl_Position = projectVertex();
+	pos_world = (matrixModel * vec4(vertex, 1)).xyz; //Convert from model space to world space
+	communicateCamera();
+
+	colorFractal();
 
 	//texCoord = vTexCoord;
 }

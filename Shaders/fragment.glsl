@@ -12,6 +12,8 @@ uniform vec3 ambientLight;
 //varying vec2 texCoord;
 //uniform sampler2D texture;
 
+varying vec3 vFractalColor;
+
 
 float specularLighting(inout vec3 normal, inout vec3 light)
 {
@@ -42,7 +44,7 @@ void main()
 	float theta = specularLighting(normal, light);
 
 	vec3 lighting = lightColor * lightPower * theta / (lightDistance * lightDistance);
-	vec3 color = ambientLight + surfaceColor * lighting;
+	vec3 color = vFractalColor + ambientLight + surfaceColor * lighting;
 
 	//vec4 texColor = texture2D(texture, texCoord);
 	//texColor += vec4(0.7, 0.7, 0.7, 0); //increase blending with light
