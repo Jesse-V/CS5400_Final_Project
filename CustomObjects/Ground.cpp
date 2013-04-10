@@ -30,10 +30,10 @@ std::shared_ptr<Mesh> Ground::getMesh()
 
 void Ground::addVertices(std::shared_ptr<Mesh>& mesh)
 {
-	mesh->vertices.push_back(glm::vec3(0, 1, 0));
-	mesh->vertices.push_back(glm::vec3(0, 0, 0));
-	mesh->vertices.push_back(glm::vec3(1, 0, 0));
-	mesh->vertices.push_back(glm::vec3(1, 1, 0));
+	mesh->vertices.push_back(glm::vec3(60, -0.2, -60));
+	mesh->vertices.push_back(glm::vec3(-60, -0.2, -60));
+	mesh->vertices.push_back(glm::vec3(-60, -0.2, 60));
+	mesh->vertices.push_back(glm::vec3(60, -0.2, 60));
 }
 
 

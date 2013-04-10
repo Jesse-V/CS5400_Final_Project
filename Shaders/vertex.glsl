@@ -34,7 +34,7 @@ vec3 getColorAt(vec2 pt)
 		return vec3(0, 0, 0); //reutrhttp://en.wikipedia.org/wiki/Mandelbrot_fractal#Optimizations
 	*/
 
-	int MAX_ITERATIONS = 512;
+	int MAX_ITERATIONS = 256;
 	float COLORING = 1;
 
 	float x = 0, xSq = 0, y = 0, ySq = 0;
@@ -64,11 +64,8 @@ void colorFractal()
 	float modelX = sqrt(vertex.x * vertex.x + vertex.y * vertex.y);
 	float modelY = vertex.z;
 
-	//modelX's range: [0, ?]
-	//modelY's range: [0, 1]
-
-	float fractalX = modelX * 2.6f - 1.2f;
-	float fractalY = modelY * 2.3f - 1.3f;
+	float fractalX = modelX * 12.0f - 1.2f;
+	float fractalY = modelY * 2.8f - 1.5f;
 
 	vFractalColor = getColorAt(vec2(fractalX, fractalY));
 }

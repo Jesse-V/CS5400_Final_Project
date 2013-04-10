@@ -9,7 +9,7 @@
 
 const float ROTATION_SPEED = 0.015;
 const float TRANSLATION_SPEED = 1.1;
-const float LIGHT_MOVEMENT_SPEED = 0.01f;
+const glm::vec3 LIGHT_VECTOR = glm::vec3(0.0f, 0.0f, -0.01f);
 
 Scene scene;
 std::shared_ptr<Light> light = std::make_shared<Light>();
@@ -32,9 +32,7 @@ void onDisplay()
 	scene.render();
 
 	glm::vec3 lightPos = light->getPosition();
-	lightPos.x += LIGHT_MOVEMENT_SPEED;
-	lightPos.y += LIGHT_MOVEMENT_SPEED;
-	lightPos.z += LIGHT_MOVEMENT_SPEED;
+	lightPos += LIGHT_VECTOR;
 	light->setPosition(lightPos);
 
 	glutSwapBuffers();
@@ -125,18 +123,27 @@ void initializeGlutWindow(int width, int height, const std::string& windowTitle)
 }
 
 
+
 void addGround()
 {
 	Ground ground;
 	RenderableObject rObj(scene.getProgram()->getHandle(), ground.getDataBuffers());
+	rObj.setModelMatrix(glm::scale(glm::mat4(), glm::vec3(3.0f / 60, 1, 3.0f / 60)));
 	scene.addModel(rObj);
 }
+
 
 
 void addMandelbrot()
 {
 	Mandelbrot mandelbrot;
 	RenderableObject rObj(scene.getProgram()->getHandle(), mandelbrot.getDataBuffers());
+
+	glm::mat4 objMatrix = glm::mat4();
+	objMatrix = glm::scale(objMatrix, glm::vec3(1, 1, 2));
+	objMatrix = glm::rotate(objMatrix, 120.0f, glm::vec3(0, 0, 1));
+	rObj.setModelMatrix(objMatrix);
+
 	scene.addModel(rObj);
 }
 
@@ -144,7 +151,7 @@ void addMandelbrot()
 
 void addModels()
 {
-	//addGround();
+	addGround();
 	addMandelbrot();
 }
 
@@ -152,8 +159,8 @@ void addModels()
 
 void addLight()
 {
-	scene.setAmbientLight(glm::vec3(0.3, 0, 0));
-	light->setPosition(glm::vec3(0.3f, -1.7f, -0.5f));
+	scene.setAmbientLight(glm::vec3(0.2, 0.2, 0.2));
+	light->setPosition(glm::vec3(0.0f, 0.0f, 3.0f)); //light->setPosition(glm::vec3(0.3f, -1.7f, -0.5f));
 	scene.addLight(light); //todo: send light color and power to GPU
 }
 
@@ -162,8 +169,8 @@ void addLight()
 void addCamera()
 {
 	auto camera = std::make_shared<Camera>();
-	camera->lookAt(glm::vec3(-0.157905, -0.328774, -0.931114), glm::vec3(-0.080037, 0.877983, -0.471953));
-	camera->setPosition(glm::vec3(0.117748, 0.164188, 1.5894));
+	camera->lookAt(glm::vec3(-0.041535, -0.813947, -0.579453), glm::vec3(-0.0114782, 0.590822, -0.80672));
+	camera->setPosition(glm::vec3(0.0318538, 0.331304, 2.59333));
 	scene.setCamera(camera);
 }
 
