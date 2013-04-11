@@ -1,6 +1,7 @@
 
 #include "VertexBuffer.hpp"
 #include <algorithm>
+#include <iostream>
 
 
 VertexBuffer::VertexBuffer(const std::shared_ptr<Mesh>& mesh):
@@ -22,9 +23,18 @@ void VertexBuffer::initialize(GLuint program)
 
 void VertexBuffer::store()
 {
+	std::cout << "Sending to GPU... ";
+
+	std::cout << "points... ";
 	storePoints();
+
+	std::cout << "normals... ";
 	storeNormals();
+
+	std::cout << "mesh... ";
 	storeMesh();
+
+	std::cout << "done" << std::endl;
 }
 
 

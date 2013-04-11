@@ -31,7 +31,7 @@ class Scene
 		std::vector<std::shared_ptr<Light>> lights;
 		glm::vec3 ambientLight;
 
-		GLuint vertexAttrib, vertexNormalAttrib, modelMatrixUniform, viewMatrixUniform, projMatrixUniform, lightPosUniform, ambientLightUniform;
+		GLuint modelMatrixUniform, viewMatrixUniform, projMatrixUniform, lightPosUniform, ambientLightUniform;
 };
 
 

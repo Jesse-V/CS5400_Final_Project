@@ -22,7 +22,7 @@ void Camera::reset()
 
 	fieldOfView   = 45.0f; // frustrum viewing apeture
 	aspectRatio   = 4.0f/3.0f;
-	nearFieldClip = 0.1;   // clip anything closer than this
+	nearFieldClip = 0.0001;   // clip anything closer than this
 	farFieldClip  = 200; // clip anything farther than this
 	projection    = glm::perspective(fieldOfView, aspectRatio, nearFieldClip, farFieldClip);
 }
@@ -46,33 +46,23 @@ void Camera::lookAt(const glm::vec3& newLookVector, const glm::vec3& newUpVector
 
 
 
-void Camera::moveX(float units)
+void Camera::translateX(float theta)
 {
-	float abs_units = (float)fabs(units);
-	glm::vec3 direction = glm::normalize(glm::cross(lookDirection, upVector));
-	glm::vec3 shiftvector = abs_units * (units < 0.0f ? -direction : direction);
-	position += shiftvector;
-	lookDirection = glm::normalize(lookDirection + shiftvector);
+	translate(glm::vec3(theta, 0, 0));
 }
 
 
 
-void Camera::moveY(float units)
+void Camera::translateY(float theta)
 {
-	float abs_units = (float)fabs(units);
-	glm::vec3 shiftvector = abs_units * (units < 0.0f ? -upVector : upVector);
-	position += shiftvector;
-	lookDirection = glm::normalize(lookDirection + shiftvector);
+	translate(glm::vec3(0, theta, 0));
 }
 
 
 
-void Camera::moveZ(float units)
+void Camera::translateZ(float theta)
 {
-	float abs_units = (float)fabs(units);
-	glm::vec3 shiftvector = abs_units * (units < 0.0f ? -lookDirection : lookDirection);
-	position += shiftvector;
-	lookDirection = glm::normalize(lookDirection + shiftvector);
+	translate(glm::vec3(0, 0, theta));
 }
 
 
@@ -82,7 +72,7 @@ void Camera::translate(const glm::vec3& xyzTheta)
 {
 	glm::vec4 pos(position, 1.0);
 	glm::vec4 look(lookDirection, 1.0);
-	glm::mat4 matrix = glm::translate(glm::mat4(1.0f), xyzTheta);
+	glm::mat4 matrix = glm::translate(glm::mat4(), xyzTheta);
 	pos = matrix * pos;
 	look = matrix * look;
 
@@ -98,7 +88,7 @@ void Camera::pitch(float theta)
 	glm::vec4 look(lookDirection, 0.0);
 	glm::vec4 up(upVector, 0.0);
 
-	glm::mat4 matrix = glm::translate(glm::mat4(1.0f), -position); // Move to the origin
+	glm::mat4 matrix = glm::translate(glm::mat4(), -position); // Move to the origin
 	matrix = glm::rotate(matrix, theta, glm::cross(lookDirection, upVector)); // Pitch the camera
 	matrix = glm::translate(matrix, position); // Move it back to it's original spot
 
@@ -115,9 +105,8 @@ void Camera::pitch(float theta)
 void Camera::yaw(float theta)
 {
 	glm::vec4 look(lookDirection, 0.0);
-	glm::mat4 matrix = glm::rotate(glm::mat4(1.0f), theta, upVector);
-	look = matrix * look;
-	lookDirection = look.xyz();
+	glm::mat4 matrix = glm::rotate(glm::mat4(), theta, upVector);
+	lookDirection = (matrix * look).xyz();
 }
 
 
@@ -126,9 +115,8 @@ void Camera::yaw(float theta)
 void Camera::roll(float theta)
 {
 	glm::vec4 up(upVector, 0.0);
-	glm::mat4 matrix = glm::rotate(glm::mat4(1.0f), theta, lookDirection);
-	up = matrix * up;
-	upVector = up.xyz();
+	glm::mat4 matrix = glm::rotate(glm::mat4(), theta, lookDirection);
+	upVector = (matrix * up).xyz();
 }
 
 

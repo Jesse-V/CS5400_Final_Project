@@ -1,21 +1,13 @@
 
-// Inputs from C++, these will be different
-// for every vertex that this shader processes
-attribute vec3 vertex;
-attribute vec3 vertexNormal;
+// different for every vertex
+attribute vec3 vertex, vertexNormal;
 
-// Static inputs that are constant for all vertices
-uniform mat4 viewMatrix;
-uniform mat4 projMatrix;
-uniform mat4 matrixModel;
-uniform vec3 worldLightPos;
-uniform vec3 ambientLight;
+//constant data for all vertices
+uniform mat4 viewMatrix, projMatrix, matrixModel;
+uniform vec3 worldLightPos, ambientLight;
 
 // Outputs to fragment shader
-varying vec3 pos_world;
-varying vec3 normal_camera;
-varying vec3 eyedirection_camera;
-varying vec3 lightdirection_camera;
+varying vec3 pos_world, normal_camera, eyedirection_camera, lightdirection_camera;
 
 // relates to texture mapping, page 379
 //attribute vec2 vTexCoord;
@@ -26,15 +18,13 @@ varying vec3 vFractalColor;
 
 vec3 getColorAt(vec2 pt)
 {
-	/*
-	float ptYSq = pt.y * pt.y;
+	float ptYSq = pow(pt.y, 2);
 	float xOff = pt.x - 0.25;
-	float q = Math.pow(xOff, 2) + ptYSq;
+	float q = pow(xOff, 2) + ptYSq;
 	if (q * (q + xOff) < ptYSq / 4)
-		return vec3(0, 0, 0); //reutrhttp://en.wikipedia.org/wiki/Mandelbrot_fractal#Optimizations
-	*/
+		return vec3(0, 0, 0); //it's in the main bulb, so return black (optimization)
 
-	int MAX_ITERATIONS = 256;
+	int MAX_ITERATIONS = 512;
 	float COLORING = 1;
 
 	float x = 0, xSq = 0, y = 0, ySq = 0;
@@ -43,8 +33,8 @@ vec3 getColorAt(vec2 pt)
 	{
 		y = 2 * x * y + pt.y;
 		x = xSq - ySq + pt.x;
-		xSq = x * x;
-		ySq = y * y;
+		xSq = pow(x, 2);
+		ySq = pow(y, 2);
 	}
 
 	if (iterations == MAX_ITERATIONS)
@@ -61,7 +51,7 @@ vec3 getColorAt(vec2 pt)
 
 void colorFractal()
 {
-	float modelX = sqrt(vertex.x * vertex.x + vertex.y * vertex.y);
+	float modelX = sqrt(pow(vertex.x, 2) + pow(vertex.y, 2));
 	float modelY = vertex.z;
 
 	float fractalX = modelX * 12.0f - 1.2f;

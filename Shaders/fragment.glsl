@@ -1,17 +1,9 @@
 
-varying vec3 pos_world;
-varying vec3 normal_camera;
-varying vec3 eyedirection_camera;
-varying vec3 lightdirection_camera;
+//constant data for all vertices
+uniform vec3 worldLightPos, ambientLight;
 
-// Static inputs that are constant for all vertices
-uniform vec3 worldLightPos;
-uniform vec3 ambientLight;
-
-// relates to texture mapping
-//varying vec2 texCoord;
-//uniform sampler2D texture;
-
+//inputs from vertex shader
+varying vec3 pos_world, normal_camera, eyedirection_camera, lightdirection_camera;
 varying vec3 vFractalColor;
 
 

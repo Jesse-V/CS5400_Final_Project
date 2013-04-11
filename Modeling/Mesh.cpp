@@ -18,9 +18,9 @@ void Mesh::calcNormalsMWA()
 	for (size_t i=0; i<triangles.size(); i++)
 	{
 		const Triangle &t = triangles[i];
-		const glm::vec3 &a = vertices[t.a];
-		const glm::vec3 &b = vertices[t.b];
-		const glm::vec3 &c = vertices[t.c];
+		const glm::vec3& a = vertices[t.a];
+		const glm::vec3& b = vertices[t.b];
+		const glm::vec3& c = vertices[t.c];
 		tN.push_back(glm::cross(b-a, c-a));
 
 		vtmap[t.a].push_back(i);

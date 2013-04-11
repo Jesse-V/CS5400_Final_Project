@@ -48,28 +48,28 @@ void onKey(unsigned char key, int, int)
 
 	switch(key)
 	{
-		case 'w':
-			camera->moveY(ROTATION_SPEED);
-			break;
-
-		case 's':
-			camera->moveY(-ROTATION_SPEED);
-			break;
-
 		case 'a':
-			camera->moveX(-ROTATION_SPEED);
+			camera->translateX(-ROTATION_SPEED);
 			break;
 
 		case 'd':
-			camera->moveX(ROTATION_SPEED);
+			camera->translateX(ROTATION_SPEED);
 			break;
 
 		case 'q':
-			camera->moveZ(ROTATION_SPEED);
+			camera->translateY(-ROTATION_SPEED);
 			break;
 
 		case 'e':
-			camera->moveZ(-ROTATION_SPEED);
+			camera->translateY(ROTATION_SPEED);
+			break;
+
+		case 'w':
+			camera->translateZ(-ROTATION_SPEED);
+			break;
+
+		case 's':
+			camera->translateZ(ROTATION_SPEED);
 			break;
 	}
 
@@ -214,8 +214,8 @@ int main(int argc, char **argv)
 		//glutMouseFunc(onMouseClick);
 
 		initializeApplication();
+		std::cout << "Launching application..." << std::endl;
 		glutMainLoop();
-
 	}
 	catch (std::exception& e)
 	{

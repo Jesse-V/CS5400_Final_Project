@@ -10,19 +10,9 @@ namespace cs5400
 	class Program
 	{
 		public:
-			Program(std::shared_ptr<VertexShader> vertex_, std::shared_ptr<FragmentShader> fragment_):
-				handle(glCreateProgram()), vertex(vertex_), fragment(fragment_)
-			{}
-
-			~Program()
-			{
-				glDeleteProgram(handle);
-			}
-
-			GLuint getHandle()
-			{
-				return handle;
-			}
+			Program(std::shared_ptr<VertexShader> vertex_, std::shared_ptr<FragmentShader> fragment_);
+			~Program();
+			GLuint getHandle();
 
 		private:
 			GLuint handle;

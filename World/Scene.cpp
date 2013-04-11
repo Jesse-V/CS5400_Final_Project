@@ -9,9 +9,6 @@ void Scene::init()
 	program = cs5400::make_program(cs5400::make_vertexShader("Shaders/vertex.glsl"), cs5400::make_fragmentShader("Shaders/fragment.glsl"));
 	GLuint handle = program->getHandle();
 
-	vertexAttrib			= glGetAttribLocation(handle, "vertex");
-	vertexNormalAttrib		= glGetAttribLocation(handle, "vertexNormal");
-
 	modelMatrixUniform		= glGetUniformLocation(handle, "matrixModel");
 	viewMatrixUniform       = glGetUniformLocation(handle, "viewMatrix");
 	projMatrixUniform		= glGetUniformLocation(handle, "projMatrix");

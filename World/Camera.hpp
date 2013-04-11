@@ -17,11 +17,11 @@ class Camera
 		void setPosition(const glm::vec3& pos);
 		void lookAt(const glm::vec3& look, const glm::vec3& up = glm::vec3(0.0, 1.0, 0.0));
 
-		void moveX(float units);
-		void moveY(float units);
-		void moveZ(float units);
+		void translateX(float theta);
+		void translateY(float theta);
+		void translateZ(float theta);
+		void translate(const glm::vec3& xyzTheta);
 
-		void translate(const glm::vec3& v);
 		void roll(float theta);
 		void pitch(float theta);
 		void yaw(float theta);

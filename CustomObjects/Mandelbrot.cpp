@@ -21,10 +21,18 @@ std::shared_ptr<Mesh> Mandelbrot::getMesh()
 {
 	auto mesh = std::make_shared<Mesh>();
 
+	std::cout << "Assembling Mandelbrot (" << (RESOLUTION * RESOLUTION) << "), making: ";
+
+	std::cout << "vertices... ";
 	addVertices(mesh);
+
+	std::cout << "triangles... ";
 	addIndices(mesh);
+
+	std::cout << "normals... ";
 	mesh->calcNormalsMWE();
 
+	std::cout << "done" << std::endl;
 	return mesh;
 }
 
@@ -42,8 +50,6 @@ void Mandelbrot::addVertices(std::shared_ptr<Mesh>& mesh)
 		for (float width = 0; width <= RESOLUTION; width++)
 		{
 			float z = 1 * (width / RESOLUTION);
-
-			//std::cout << theta << ": " << x << ", " << y << ", " << z << std::endl;
 			mesh->vertices.push_back(glm::vec3(x, y, z));
 		}
 	}
@@ -61,11 +67,6 @@ void Mandelbrot::addIndices(std::shared_ptr<Mesh>& mesh)
 
 			int z0 = x + RESOLUTION;
 			int z1 = z0 + 1;
-
-			//std::cout << (x % RESOLUTION) << std::endl;
-			//std::cout << x << ", " << y << ", " << z0 << std::endl;
-			//std::cout << x << ", " << y << ", " << z1 << std::endl;
-			//std::cout << std::endl;
 
 			mesh->triangles.push_back(Triangle(x, y, z0));
 			mesh->triangles.push_back(Triangle(y, z1, z0));

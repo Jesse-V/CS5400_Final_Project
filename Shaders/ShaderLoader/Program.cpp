@@ -2,6 +2,26 @@
 #include "Program.hpp"
 
 
+cs5400::Program::Program(std::shared_ptr<VertexShader> vertex_, std::shared_ptr<FragmentShader> fragment_):
+	handle(glCreateProgram()), vertex(vertex_), fragment(fragment_)
+{}
+
+
+
+cs5400::Program::~Program()
+{
+	glDeleteProgram(handle);
+}
+
+
+
+GLuint cs5400::Program::getHandle()
+{
+	return handle;
+}
+
+
+
 std::shared_ptr<cs5400::Program> cs5400::make_program(std::shared_ptr<cs5400::VertexShader> vertex, std::shared_ptr<cs5400::FragmentShader> fragment)
 {
 	GLint link_ok = GL_FALSE;
