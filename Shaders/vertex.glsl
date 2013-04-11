@@ -8,11 +8,6 @@ uniform vec3 worldLightPos, ambientLight;
 
 // Outputs to fragment shader
 varying vec3 pos_world, normal_camera, eyedirection_camera, lightdirection_camera;
-
-// relates to texture mapping, page 379
-//attribute vec2 vTexCoord;
-//varying vec2 texCoord;
-
 varying vec3 vFractalColor;
 
 
@@ -47,6 +42,7 @@ vec3 getColorAt(vec2 pt)
 		return vec3(cosVal, cosVal, sinVal);
 	}
 }
+
 
 
 void colorFractal()

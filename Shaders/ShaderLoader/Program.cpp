@@ -22,7 +22,7 @@ GLuint cs5400::Program::getHandle()
 
 
 
-std::shared_ptr<cs5400::Program> cs5400::make_program(std::shared_ptr<cs5400::VertexShader> vertex, std::shared_ptr<cs5400::FragmentShader> fragment)
+std::shared_ptr<cs5400::Program> cs5400::makeProgram(std::shared_ptr<cs5400::VertexShader> vertex, std::shared_ptr<cs5400::FragmentShader> fragment)
 {
 	GLint link_ok = GL_FALSE;
 	auto program = std::make_shared<Program>(vertex, fragment);

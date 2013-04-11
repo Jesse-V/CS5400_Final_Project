@@ -20,7 +20,7 @@ namespace cs5400
 			std::shared_ptr<FragmentShader> fragment;
 	};
 
-	std::shared_ptr<Program> make_program(std::shared_ptr<VertexShader> vertex, std::shared_ptr<FragmentShader> fragment);
+	std::shared_ptr<Program> makeProgram(std::shared_ptr<VertexShader> vertex, std::shared_ptr<FragmentShader> fragment);
 }
 
 #endif

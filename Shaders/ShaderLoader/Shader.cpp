@@ -62,14 +62,14 @@ std::shared_ptr<cs5400::Shader<T>> make_shader(std::string path)
 
 
 
-std::shared_ptr<cs5400::VertexShader> cs5400::make_vertexShader(std::string path)
+std::shared_ptr<cs5400::VertexShader> cs5400::makeVertexShader(std::string path)
 {
 	return make_shader<detail::VertexShaderTag>(path);
 }
 
 
 
-std::shared_ptr<cs5400::FragmentShader> cs5400::make_fragmentShader(std::string path)
+std::shared_ptr<cs5400::FragmentShader> cs5400::makeFragmentShader(std::string path)
 {
 	return make_shader<detail::FragmentShaderTag>(path);
 }

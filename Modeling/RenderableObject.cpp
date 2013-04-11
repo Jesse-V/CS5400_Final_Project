@@ -8,13 +8,13 @@
 #include <algorithm>
 
 
-RenderableObject::RenderableObject(GLuint program, const std::vector<std::shared_ptr<DataBuffer>>& dataBuffers):
-	modelMatrix(glm::mat4()), isVisible(true), dataBuffers(dataBuffers)
+RenderableObject::RenderableObject(const std::shared_ptr<cs5400::Program>& program, const std::vector<std::shared_ptr<DataBuffer>>& dataBuffers):
+	program(program), modelMatrix(glm::mat4()), isVisible(true), dataBuffers(dataBuffers)
 {
 	for_each (dataBuffers.begin(), dataBuffers.end(),
 		[&](const std::shared_ptr<DataBuffer>& buffer)
 		{
-			buffer->initialize(program);
+			buffer->initialize(program->getHandle());
 			buffer->store();
 		});
 }
@@ -33,6 +33,13 @@ void RenderableObject::setVisible(bool visible)
 void RenderableObject::setModelMatrix(const glm::mat4& matrix)
 {
 	modelMatrix = matrix;
+}
+
+
+
+std::shared_ptr<cs5400::Program> RenderableObject::getProgram()
+{
+	return program;
 }
 
 

@@ -13,7 +13,6 @@
 class Scene
 {
 	public:
-		void init();
 		void addModel(const RenderableObject& obj);
 		void setCamera(const std::shared_ptr<Camera>& camera);
 		void clear();
@@ -25,13 +24,14 @@ class Scene
 		std::shared_ptr<cs5400::Program> getProgram();
 
 	private:
-		std::shared_ptr<cs5400::Program> program;
-		std::vector<RenderableObject> objects;
+		void passCameraMatrix(GLuint handle);
+		void passLightPosition(GLuint handle);
+
+	private:
+		std::vector<RenderableObject> sceneObjects;
 		std::shared_ptr<Camera> camera;
 		std::vector<std::shared_ptr<Light>> lights;
 		glm::vec3 ambientLight;
-
-		GLuint modelMatrixUniform, viewMatrixUniform, projMatrixUniform, lightPosUniform, ambientLightUniform;
 };
 
 
