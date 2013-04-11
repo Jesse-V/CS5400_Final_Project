@@ -11,8 +11,6 @@ const float ROTATION_SPEED = 0.015;
 const float TRANSLATION_SPEED = 1.1;
 const glm::vec3 LIGHT_VECTOR = glm::vec3(0.0f, 0.0f, -0.01f);
 
-std::shared_ptr<cs5400::Program> program;
-
 Scene scene;
 std::shared_ptr<Light> light = std::make_shared<Light>();
 
@@ -129,8 +127,15 @@ void initializeGlutWindow(int width, int height, const std::string& windowTitle)
 void addGround()
 {
 	Ground ground;
+	std::shared_ptr<cs5400::Program> program = cs5400::makeProgram(cs5400::makeVertexShader("Shaders/Ground/vertex.glsl"), cs5400::makeFragmentShader("Shaders/Ground/fragment.glsl"));
+
 	RenderableObject rObj(program, ground.getDataBuffers());
-	rObj.setModelMatrix(glm::scale(glm::mat4(), glm::vec3(3.0f / 60, 1, 3.0f / 60)));
+
+	glm::mat4 objMatrix = glm::mat4();
+	objMatrix = glm::scale(objMatrix, glm::vec3(3, 1, 3));
+	objMatrix = glm::translate(objMatrix, glm::vec3(0, -0.15, 0));
+	rObj.setModelMatrix(objMatrix);
+
 	scene.addModel(rObj);
 }
 
@@ -139,6 +144,7 @@ void addGround()
 void addMandelbrot()
 {
 	Mandelbrot mandelbrot;
+	std::shared_ptr<cs5400::Program> program = cs5400::makeProgram(cs5400::makeVertexShader("Shaders/Mandelbrot/vertex.glsl"), cs5400::makeFragmentShader("Shaders/Mandelbrot/fragment.glsl"));
 	RenderableObject rObj(program, mandelbrot.getDataBuffers());
 
 	glm::mat4 objMatrix = glm::mat4();
@@ -183,8 +189,6 @@ void initializeApplication()
 	glEnable(GL_DEPTH_TEST);
 	glEnable(GL_CULL_FACE);
 	glCullFace(GL_BACK);
-
-	program = cs5400::makeProgram(cs5400::makeVertexShader("Shaders/vertex.glsl"), cs5400::makeFragmentShader("Shaders/fragment.glsl"));
 
 	addModels();
 	addLight();

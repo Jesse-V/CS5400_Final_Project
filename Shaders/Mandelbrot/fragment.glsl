@@ -38,8 +38,5 @@ void main()
 	vec3 lighting = lightColor * lightPower * theta / (lightDistance * lightDistance);
 	vec3 color = vFractalColor + ambientLight + surfaceColor * lighting;
 
-	//vec4 texColor = texture2D(texture, texCoord);
-	//texColor += vec4(0.7, 0.7, 0.7, 0); //increase blending with light
-
-	gl_FragColor = vec4(color, 1.0);// * texColor;
+	gl_FragColor = vec4(color, 1.0);
 }

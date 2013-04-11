@@ -89,6 +89,4 @@ void main()
 	communicateCamera();
 
 	colorFractal();
-
-	//texCoord = vTexCoord;
 }
