@@ -4,6 +4,7 @@ uniform vec3 worldLightPos, ambientLight;
 
 //inputs from vertex shader
 varying vec3 pos_world, normal_camera, eyedirection_camera, lightdirection_camera;
+varying vec3 vColor;
 
 
 float specularLighting(inout vec3 normal, inout vec3 light)
@@ -24,10 +25,10 @@ float diffusedLighting(inout vec3 normal, inout vec3 light)
 
 void main()
 {
-	vec3 lightColor   = vec3(1, 0, 0); //vec3(0.5, 0.4, 0.4); //todo: get this in from the Light obj
+	vec3 lightColor   = vec3(1, 1, 1); //todo: get this in from the Light obj
 	vec3 surfaceColor = vec3(1, 1, 1);
 	float lightDistance = length(worldLightPos - pos_world);
-	float lightPower  = 0.03f; //todo: get this in from the Light obj
+	float lightPower  = 0.01f; //todo: get this in from the Light obj
 	vec3 normal = normalize(normal_camera);
 	vec3 light  = normalize(lightdirection_camera);
 
@@ -35,7 +36,7 @@ void main()
 	float theta = specularLighting(normal, light);
 
 	vec3 lighting = lightColor * lightPower * theta / (lightDistance * lightDistance);
-	vec3 color = ambientLight + surfaceColor * lighting;
+	vec3 color = ambientLight + vColor + surfaceColor * lighting;
 
 	gl_FragColor = vec4(color, 1.0);
 }

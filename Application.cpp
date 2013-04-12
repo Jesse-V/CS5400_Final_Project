@@ -114,7 +114,7 @@ void Application::addGround()
 	auto rObj = ground.makeObject();
 
 	glm::mat4 objMatrix = glm::mat4();
-	objMatrix = glm::scale(objMatrix, glm::vec3(3, 1, 3));
+	objMatrix = glm::scale(objMatrix, glm::vec3(2, 1, 2));
 	objMatrix = glm::translate(objMatrix, glm::vec3(0, -0.15, 0));
 	rObj->setModelMatrix(objMatrix);
 
@@ -130,6 +130,7 @@ void Application::addMandelbrot()
 
 	glm::mat4 objMatrix = glm::mat4();
 	objMatrix = glm::scale(objMatrix, glm::vec3(1, 1, 2));
+	objMatrix = glm::translate(objMatrix, glm::vec3(0, 0, -0.5));
 	objMatrix = glm::rotate(objMatrix, 120.0f, glm::vec3(0, 0, 1));
 	rObj->setModelMatrix(objMatrix);
 

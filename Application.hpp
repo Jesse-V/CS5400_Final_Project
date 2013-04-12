@@ -23,13 +23,12 @@ class Application
 		std::shared_ptr<Light> light = std::make_shared<Light>();
 
 	private:
+		void addModels();
 		void addGround();
 		void addMandelbrot();
-		void addModels();
 		void addLight();
 		void addCamera();
-
-		void sleep(int milliseconds);
+		static void sleep(int milliseconds);
 };
 
 #endif
