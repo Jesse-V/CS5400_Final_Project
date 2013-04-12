@@ -5,6 +5,18 @@
 #include <iostream>
 
 
+std::shared_ptr<RenderableObject> Mandelbrot::makeObject()
+{
+	auto program = cs5400::makeProgram(
+		cs5400::makeVertexShader("CustomObjects/Mandelbrot/vertex.glsl"),
+		cs5400::makeFragmentShader("CustomObjects/Mandelbrot/fragment.glsl")
+	);
+
+	return std::make_shared<RenderableObject>(program, getDataBuffers());
+}
+
+
+
 std::vector<std::shared_ptr<DataBuffer>> Mandelbrot::getDataBuffers()
 {
 	std::vector<std::shared_ptr<DataBuffer>> buffers;

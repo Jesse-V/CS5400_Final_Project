@@ -13,7 +13,7 @@
 class Scene
 {
 	public:
-		void addModel(const RenderableObject& obj);
+		void addModel(const std::shared_ptr<RenderableObject>& obj);
 		void setCamera(const std::shared_ptr<Camera>& camera);
 		void clear();
 		void addLight(const std::shared_ptr<Light>& light);
@@ -28,9 +28,9 @@ class Scene
 		void passLightPosition(GLuint handle);
 
 	private:
-		std::vector<RenderableObject> sceneObjects;
-		std::shared_ptr<Camera> camera;
+		std::vector<std::shared_ptr<RenderableObject>> sceneObjects;
 		std::vector<std::shared_ptr<Light>> lights;
+		std::shared_ptr<Camera> camera;
 		glm::vec3 ambientLight;
 };
 

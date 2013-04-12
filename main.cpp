@@ -123,23 +123,16 @@ void initializeGlutWindow(int width, int height, const std::string& windowTitle)
 }
 
 
-std::shared_ptr<cs5400::Program> getProgram(const std::string& vertShaderPath, const std::string& fragShaderPath)
-{
-	return cs5400::makeProgram(cs5400::makeVertexShader(vertShaderPath), cs5400::makeFragmentShader(fragShaderPath));
-}
-
-
 
 void addGround()
 {
 	Ground ground;
-
-	RenderableObject rObj(getProgram("CustomObjects/Ground/vertex.glsl", "CustomObjects/Ground/fragment.glsl"), ground.getDataBuffers());
+	auto rObj = ground.makeObject();
 
 	glm::mat4 objMatrix = glm::mat4();
 	objMatrix = glm::scale(objMatrix, glm::vec3(3, 1, 3));
 	objMatrix = glm::translate(objMatrix, glm::vec3(0, -0.15, 0));
-	rObj.setModelMatrix(objMatrix);
+	rObj->setModelMatrix(objMatrix);
 
 	scene.addModel(rObj);
 }
@@ -149,12 +142,12 @@ void addGround()
 void addMandelbrot()
 {
 	Mandelbrot mandelbrot;
-	RenderableObject rObj(getProgram("CustomObjects/Mandelbrot/vertex.glsl", "CustomObjects/Mandelbrot/fragment.glsl"), mandelbrot.getDataBuffers());
+	auto rObj = mandelbrot.makeObject();
 
 	glm::mat4 objMatrix = glm::mat4();
 	objMatrix = glm::scale(objMatrix, glm::vec3(1, 1, 2));
 	objMatrix = glm::rotate(objMatrix, 120.0f, glm::vec3(0, 0, 1));
-	rObj.setModelMatrix(objMatrix);
+	rObj->setModelMatrix(objMatrix);
 
 	scene.addModel(rObj);
 }
@@ -172,7 +165,7 @@ void addModels()
 void addLight()
 {
 	scene.setAmbientLight(glm::vec3(0.2, 0.2, 0.2));
-	light->setPosition(glm::vec3(0.0f, 0.0f, 3.0f)); //light->setPosition(glm::vec3(0.3f, -1.7f, -0.5f));
+	light->setPosition(glm::vec3(0.0f, 0.0f, 3.0f));
 	scene.addLight(light); //todo: send light color and power to GPU
 }
 
@@ -206,7 +199,6 @@ int main(int argc, char **argv)
 	glutInit(&argc, argv);
 	glutInitDisplayMode(GLUT_RGBA | GLUT_DOUBLE | GLUT_DEPTH);
 	initializeGlutWindow(glutGet(GLUT_SCREEN_WIDTH), glutGet(GLUT_SCREEN_HEIGHT), "Final OpenGL Project - Jesse Victors");
-	std::cout << "hello1" << std::endl;
 
 	GLenum glew_status = glewInit();
 	if (glew_status != GLEW_OK)
@@ -225,7 +217,7 @@ int main(int argc, char **argv)
 		//glutMouseFunc(onMouseClick);
 
 		initializeApplication();
-		std::cout << "Launching application..." << std::endl;
+		std::cout << "Finished assembly. Launching application..." << std::endl;
 		glutMainLoop();
 	}
 	catch (std::exception& e)

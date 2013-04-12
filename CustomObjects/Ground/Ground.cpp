@@ -4,6 +4,18 @@
 #include <iostream>
 
 
+std::shared_ptr<RenderableObject> Ground::makeObject()
+{
+	auto program = cs5400::makeProgram(
+		cs5400::makeVertexShader("CustomObjects/Ground/vertex.glsl"),
+		cs5400::makeFragmentShader("CustomObjects/Ground/fragment.glsl")
+	);
+
+	return std::make_shared<RenderableObject>(program, getDataBuffers());
+}
+
+
+
 std::vector<std::shared_ptr<DataBuffer>> Ground::getDataBuffers()
 {
 	std::vector<std::shared_ptr<DataBuffer>> buffers;

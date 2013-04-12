@@ -5,7 +5,7 @@
 
 
 
-void Scene::addModel(const RenderableObject& obj)
+void Scene::addModel(const std::shared_ptr<RenderableObject>& obj)
 {
 	sceneObjects.push_back(obj);
 }
@@ -37,9 +37,9 @@ void Scene::setAmbientLight(const glm::vec3& rgb)
 void Scene::render()
 {
 	for_each (sceneObjects.begin(), sceneObjects.end(),
-		[&](RenderableObject& obj)
+		[&](std::shared_ptr<RenderableObject>& obj)
 		{
-			GLuint handle = obj.getProgram()->getHandle();
+			GLuint handle = obj->getProgram()->getHandle();
 			GLuint modelMatrixUniform = glGetUniformLocation(handle, "matrixModel");
 
 			glUseProgram(handle);
@@ -47,7 +47,7 @@ void Scene::render()
 			passCameraMatrix(handle);
 			passLightPosition(handle);
 
-			obj.render(modelMatrixUniform);
+			obj->render(modelMatrixUniform);
 		});
 }
 

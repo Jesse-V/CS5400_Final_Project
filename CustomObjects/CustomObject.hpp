@@ -2,7 +2,7 @@
 #ifndef CUSTOM_OBJECT
 #define CUSTOM_OBJECT
 
-#include "Modeling/DataBuffers/DataBuffer.hpp"
+#include "Modeling/RenderableObject.hpp"
 #include "Modeling/Mesh.hpp"
 #include <memory>
 #include <vector>
@@ -10,6 +10,7 @@
 class CustomObject
 {
 	public:
+		virtual std::shared_ptr<RenderableObject> makeObject() = 0;
 		virtual std::vector<std::shared_ptr<DataBuffer>> getDataBuffers() = 0;
 
 	protected:
