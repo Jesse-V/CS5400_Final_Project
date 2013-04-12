@@ -2,6 +2,7 @@
 #ifndef TRIANGLE_FACE_STRUCT
 #define TRIANGLE_FACE_STRUCT
 
+
 /* Defines a three-dimensional point */
 struct Point
 {
@@ -30,7 +31,7 @@ struct Point
 
 	bool operator<(const Point& other) const
 	{
-		if (x == other.x)//if ((x - other.x) <= 0.0001f)
+		if (fabs(x - other.x) <= 0.000001)
 			return y < other.y;
 		return x < other.x;
 	}
