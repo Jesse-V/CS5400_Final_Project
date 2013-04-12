@@ -26,6 +26,7 @@ class Application
 		void addModels();
 		void addGround();
 		void addMandelbrot();
+		void addMountain();
 		void addLight();
 		void addCamera();
 		static void sleep(int milliseconds);

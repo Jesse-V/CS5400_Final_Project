@@ -1,6 +1,6 @@
 
-#ifndef MESH_H
-#define MESH_H
+#ifndef MESH_HPP
+#define MESH_HPP
 
 #include <GL/glew.h>
 #include <GL/glut.h>

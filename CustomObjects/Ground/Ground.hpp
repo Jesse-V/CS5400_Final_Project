@@ -1,6 +1,6 @@
 
-#ifndef GROUND_OBJECT
-#define GROUND_OBJECT
+#ifndef GROUND_HPP
+#define GROUND_HPP
 
 #include "CustomObjects/CustomObject.hpp"
 

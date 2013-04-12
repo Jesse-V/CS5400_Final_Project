@@ -1,6 +1,6 @@
 
-#ifndef MANDELBROT_OBJECT
-#define MANDELBROT_OBJECT
+#ifndef MANDELBROT_HPP
+#define MANDELBROT_HPP
 
 #include "CustomObjects/CustomObject.hpp"
 

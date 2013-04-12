@@ -2,6 +2,7 @@
 #include "Application.hpp"
 #include "CustomObjects/Ground/Ground.hpp"
 #include "CustomObjects/Mandelbrot/Mandelbrot.hpp"
+#include "CustomObjects/SierpinskiMountain/SierpMountain.hpp"
 #include <thread>
 
 
@@ -18,20 +19,74 @@ Application::Application()
 
 
 
-void Application::render()
+void Application::addModels()
 {
-	glClearColor(.39f, 0.58f, 0.93f, 0.0f);	//nice blue background
-	glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
+	addGround();
+	addMandelbrot();
+	addMountain();
+}
 
-	scene.render();
 
-	glm::vec3 lightPos = light->getPosition();
-	lightPos += LIGHT_VECTOR;
-	light->setPosition(lightPos);
 
-	glutSwapBuffers();
-	sleep(50); //20 fps
-	glutPostRedisplay();
+void Application::addGround()
+{
+	Ground ground;
+	auto rObj = ground.makeObject();
+
+	glm::mat4 objMatrix = glm::mat4();
+	objMatrix = glm::scale(objMatrix, glm::vec3(2, 1, 2));
+	objMatrix = glm::translate(objMatrix, glm::vec3(0, -0.15, 0));
+	rObj->setModelMatrix(objMatrix);
+
+	scene.addModel(rObj);
+}
+
+
+
+void Application::addMandelbrot()
+{
+	Mandelbrot mandelbrot;
+	auto rObj = mandelbrot.makeObject();
+
+	glm::mat4 objMatrix = glm::mat4();
+	objMatrix = glm::scale(objMatrix, glm::vec3(1, 1, 2));
+	objMatrix = glm::translate(objMatrix, glm::vec3(0, 0, -0.5));
+	objMatrix = glm::rotate(objMatrix, 120.0f, glm::vec3(0, 0, 1));
+	rObj->setModelMatrix(objMatrix);
+
+	scene.addModel(rObj);
+}
+
+
+
+void Application::addMountain()
+{
+	SierpMountain mountain;
+	auto rObj = mountain.makeObject();
+
+	glm::mat4 objMatrix = glm::mat4();
+	rObj->setModelMatrix(objMatrix);
+
+	scene.addModel(rObj);
+}
+
+
+
+void Application::addLight()
+{
+	scene.setAmbientLight(glm::vec3(0.2, 0.2, 0.2));
+	light->setPosition(glm::vec3(0.0f, 0.0f, 3.0f));
+	scene.addLight(light); //todo: send light color and power to GPU
+}
+
+
+
+void Application::addCamera()
+{
+	auto camera = std::make_shared<Camera>();
+	camera->lookAt(glm::vec3(-0.041535, -0.813947, -0.579453), glm::vec3(-0.0114782, 0.590822, -0.80672));
+	camera->setPosition(glm::vec3(0.0318538, 0.331304, 2.59333));
+	scene.setCamera(camera);
 }
 
 
@@ -108,60 +163,20 @@ void Application::onSpecialKey(int key, int, int)
 
 
 
-void Application::addGround()
+void Application::render()
 {
-	Ground ground;
-	auto rObj = ground.makeObject();
+	glClearColor(.39f, 0.58f, 0.93f, 0.0f);	//nice blue background
+	glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
 
-	glm::mat4 objMatrix = glm::mat4();
-	objMatrix = glm::scale(objMatrix, glm::vec3(2, 1, 2));
-	objMatrix = glm::translate(objMatrix, glm::vec3(0, -0.15, 0));
-	rObj->setModelMatrix(objMatrix);
+	scene.render();
 
-	scene.addModel(rObj);
-}
+	glm::vec3 lightPos = light->getPosition();
+	lightPos += LIGHT_VECTOR;
+	light->setPosition(lightPos);
 
-
-
-void Application::addMandelbrot()
-{
-	Mandelbrot mandelbrot;
-	auto rObj = mandelbrot.makeObject();
-
-	glm::mat4 objMatrix = glm::mat4();
-	objMatrix = glm::scale(objMatrix, glm::vec3(1, 1, 2));
-	objMatrix = glm::translate(objMatrix, glm::vec3(0, 0, -0.5));
-	objMatrix = glm::rotate(objMatrix, 120.0f, glm::vec3(0, 0, 1));
-	rObj->setModelMatrix(objMatrix);
-
-	scene.addModel(rObj);
-}
-
-
-
-void Application::addModels()
-{
-	addGround();
-	addMandelbrot();
-}
-
-
-
-void Application::addLight()
-{
-	scene.setAmbientLight(glm::vec3(0.2, 0.2, 0.2));
-	light->setPosition(glm::vec3(0.0f, 0.0f, 3.0f));
-	scene.addLight(light); //todo: send light color and power to GPU
-}
-
-
-
-void Application::addCamera()
-{
-	auto camera = std::make_shared<Camera>();
-	camera->lookAt(glm::vec3(-0.041535, -0.813947, -0.579453), glm::vec3(-0.0114782, 0.590822, -0.80672));
-	camera->setPosition(glm::vec3(0.0318538, 0.331304, 2.59333));
-	scene.setCamera(camera);
+	glutSwapBuffers();
+	sleep(50); //20 fps
+	glutPostRedisplay();
 }
 
 

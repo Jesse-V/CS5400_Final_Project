@@ -24,6 +24,7 @@ add_executable(OpenGL_program
     World/Light.cpp
     Modeling/RenderableObject.cpp
     CustomObjects/Ground/Ground.cpp
+    CustomObjects/SierpinskiMountain/SierpMountain.cpp
     CustomObjects/Mandelbrot/Mandelbrot.cpp
 )
 
