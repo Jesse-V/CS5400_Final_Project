@@ -1,117 +1,6 @@
 
-#include "World/Scene.hpp"
-#include "World/Camera.hpp"
-#include "CustomObjects/Ground/Ground.hpp"
-#include "CustomObjects/Mandelbrot/Mandelbrot.hpp"
+#include "Application.hpp"
 #include <iostream>
-#include <thread>
-
-
-const float TRANSLATION_SPEED = 0.015;
-const float ROTATION_SPEED = 1.1;
-const glm::vec3 LIGHT_VECTOR = glm::vec3(0.0f, 0.0f, -0.01f);
-
-Scene scene;
-std::shared_ptr<Light> light = std::make_shared<Light>();
-
-
-/*	Causes the current thread to sleep for the specified number of milliseconds */
-void sleep(int milliseconds)
-{
-	std::chrono::milliseconds duration(milliseconds);
-	std::this_thread::sleep_for(duration); //forget time.h or windows.h, this is the real way to sleep!
-}
-
-
-
-void onDisplay()
-{
-	glClearColor(.39f, 0.58f, 0.93f, 0.0f);	//nice blue background
-	glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
-
-	scene.render();
-
-	glm::vec3 lightPos = light->getPosition();
-	lightPos += LIGHT_VECTOR;
-	light->setPosition(lightPos);
-
-	glutSwapBuffers();
-	sleep(50); //20 fps
-	glutPostRedisplay();
-}
-
-
-
-void onKey(unsigned char key, int, int)
-{
-	std::shared_ptr<Camera> camera = scene.getCamera();
-
-	switch(key)
-	{
-		case 'a':
-			camera->translateX(-TRANSLATION_SPEED);
-			break;
-
-		case 'd':
-			camera->translateX(TRANSLATION_SPEED);
-			break;
-
-		case 'q':
-			camera->translateY(-TRANSLATION_SPEED);
-			break;
-
-		case 'e':
-			camera->translateY(TRANSLATION_SPEED);
-			break;
-
-		case 'w':
-			camera->translateZ(-TRANSLATION_SPEED);
-			break;
-
-		case 's':
-			camera->translateZ(TRANSLATION_SPEED);
-			break;
-	}
-
-	//std::cout << camera->toString() << std::endl;
-}
-
-
-
-void onSpecialKey(int key, int, int)
-{
-	std::shared_ptr<Camera> camera = scene.getCamera();
-
-	switch(key)
-	{
-		case GLUT_KEY_UP:
-			camera->pitch(ROTATION_SPEED);
-			break;
-
-		case GLUT_KEY_DOWN:
-			camera->pitch(-ROTATION_SPEED);
-			break;
-
-		case GLUT_KEY_LEFT:
-			camera->yaw(ROTATION_SPEED);
-			break;
-
-		case GLUT_KEY_RIGHT:
-			camera->yaw(-ROTATION_SPEED);
-			break;
-
-		case GLUT_KEY_PAGE_UP:
-			camera->roll(-ROTATION_SPEED);
-			break;
-
-		case GLUT_KEY_PAGE_DOWN:
-			camera->roll(ROTATION_SPEED);
-			break;
-	}
-
-	//std::cout << camera->toString() << std::endl;
-}
-
 
 
 /* Initializes glut. Sets the window size and title to the specified values */
@@ -120,76 +9,6 @@ void initializeGlutWindow(int width, int height, const std::string& windowTitle)
 	glutInitDisplayMode(GLUT_RGBA | GLUT_DOUBLE | GLUT_DEPTH);
 	glutInitWindowSize(width, height);
 	glutCreateWindow(windowTitle.c_str());
-}
-
-
-
-void addGround()
-{
-	Ground ground;
-	auto rObj = ground.makeObject();
-
-	glm::mat4 objMatrix = glm::mat4();
-	objMatrix = glm::scale(objMatrix, glm::vec3(3, 1, 3));
-	objMatrix = glm::translate(objMatrix, glm::vec3(0, -0.15, 0));
-	rObj->setModelMatrix(objMatrix);
-
-	scene.addModel(rObj);
-}
-
-
-
-void addMandelbrot()
-{
-	Mandelbrot mandelbrot;
-	auto rObj = mandelbrot.makeObject();
-
-	glm::mat4 objMatrix = glm::mat4();
-	objMatrix = glm::scale(objMatrix, glm::vec3(1, 1, 2));
-	objMatrix = glm::rotate(objMatrix, 120.0f, glm::vec3(0, 0, 1));
-	rObj->setModelMatrix(objMatrix);
-
-	scene.addModel(rObj);
-}
-
-
-
-void addModels()
-{
-	addGround();
-	addMandelbrot();
-}
-
-
-
-void addLight()
-{
-	scene.setAmbientLight(glm::vec3(0.2, 0.2, 0.2));
-	light->setPosition(glm::vec3(0.0f, 0.0f, 3.0f));
-	scene.addLight(light); //todo: send light color and power to GPU
-}
-
-
-
-void addCamera()
-{
-	auto camera = std::make_shared<Camera>();
-	camera->lookAt(glm::vec3(-0.041535, -0.813947, -0.579453), glm::vec3(-0.0114782, 0.590822, -0.80672));
-	camera->setPosition(glm::vec3(0.0318538, 0.331304, 2.59333));
-	scene.setCamera(camera);
-}
-
-
-
-void initializeApplication()
-{
-	glEnable(GL_DEPTH_TEST);
-	glEnable(GL_CULL_FACE);
-	glCullFace(GL_BACK);
-
-	addModels();
-	addLight();
-	addCamera();
 }
 
 
@@ -209,14 +28,13 @@ int main(int argc, char **argv)
 
 	try
 	{
-		glutDisplayFunc(onDisplay);
-		glutKeyboardFunc(onKey);
-		glutSpecialFunc(onSpecialKey);
+		glutDisplayFunc(Application::onDisplay);
+		glutKeyboardFunc(Application::onKey);
+		glutSpecialFunc(Application::onSpecialKey);
 
 		//glutMotionFunc(onMouseMotion);
 		//glutMouseFunc(onMouseClick);
 
-		initializeApplication();
 		std::cout << "Finished assembly. Launching application..." << std::endl;
 		glutMainLoop();
 	}
