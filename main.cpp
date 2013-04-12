@@ -3,7 +3,7 @@
 #include <iostream>
 
 
-std::shared_ptr<Application> application;
+std::shared_ptr<Application> application; //make_unique is not included in C++11 yet...
 
 
 void displayCallback()
@@ -33,6 +33,8 @@ void initializeGlutWindow(int width, int height, const std::string& windowTitle)
 	glutInitDisplayMode(GLUT_RGBA | GLUT_DOUBLE | GLUT_DEPTH);
 	glutInitWindowSize(width, height);
 	glutCreateWindow(windowTitle.c_str());
+
+	std::cout << width << ", " << height << " " << (width / (float)height) << std::endl;
 }
 
 
@@ -52,7 +54,7 @@ int main(int argc, char **argv)
 
 	try
 	{
-		application = std::make_shared<Application>(); //make_unique is not included in C++11 yet...
+		application = std::make_shared<Application>(glutGet(GLUT_SCREEN_WIDTH), glutGet(GLUT_SCREEN_HEIGHT));
 
 		glutDisplayFunc(displayCallback);
 		glutKeyboardFunc(keyCallback);

@@ -6,7 +6,8 @@
 #include <thread>
 
 
-Application::Application()
+Application::Application(int screenWidth, int screenHeight):
+	screenWidth(screenWidth), screenHeight(screenHeight)
 {
 	glEnable(GL_DEPTH_TEST);
 	glEnable(GL_CULL_FACE);
@@ -22,8 +23,8 @@ Application::Application()
 void Application::addModels()
 {
 	addGround();
-	//addMandelbrot();
-	addMountain();
+	addMandelbrot();
+	addMountains();
 }
 
 
@@ -50,8 +51,8 @@ void Application::addMandelbrot()
 
 	glm::mat4 objMatrix = glm::mat4();
 	objMatrix = glm::scale(objMatrix, glm::vec3(1, 1, 2));
-	objMatrix = glm::translate(objMatrix, glm::vec3(0, 0, -0.5));
 	objMatrix = glm::rotate(objMatrix, 120.0f, glm::vec3(0, 0, 1));
+	objMatrix = glm::translate(objMatrix, glm::vec3(0, 0, -0.5));
 	rObj->setModelMatrix(objMatrix);
 
 	scene.addModel(rObj);
@@ -59,13 +60,37 @@ void Application::addMandelbrot()
 
 
 
-void Application::addMountain()
+void Application::addMountains()
+{
+	addFirstMountain();
+	addSecondMountain();
+}
+
+
+
+void Application::addFirstMountain()
 {
 	SierpMountain mountain;
 	auto rObj = mountain.makeObject();
 
 	glm::mat4 objMatrix = glm::mat4();
-	objMatrix = glm::translate(objMatrix, glm::vec3(0, 0.5, 0));
+	objMatrix = glm::scale(objMatrix, glm::vec3(0.3, 0.3, 0.3));
+	objMatrix = glm::translate(objMatrix, glm::vec3(1.1, -0.5, 0.5));
+	rObj->setModelMatrix(objMatrix);
+
+	scene.addModel(rObj);
+}
+
+
+
+void Application::addSecondMountain()
+{
+	SierpMountain mountain;
+	auto rObj = mountain.makeObject();
+
+	glm::mat4 objMatrix = glm::mat4();
+	objMatrix = glm::scale(objMatrix, glm::vec3(0.3, 0.3, 0.3));
+	objMatrix = glm::translate(objMatrix, glm::vec3(-1.3, -0.5, 0.5));
 	rObj->setModelMatrix(objMatrix);
 
 	scene.addModel(rObj);
@@ -75,8 +100,8 @@ void Application::addMountain()
 
 void Application::addLight()
 {
-	scene.setAmbientLight(glm::vec3(0.2, 0.2, 0.2));
-	light->setPosition(glm::vec3(0.0f, 0.0f, 3.0f));
+	scene.setAmbientLight(glm::vec3(0.75, 0.75, 0.75));
+	light->setPosition(glm::vec3(0.0f, 0.0f, 2.0f));
 	scene.addLight(light); //todo: send light color and power to GPU
 }
 
@@ -171,13 +196,26 @@ void Application::render()
 
 	scene.render();
 
-	glm::vec3 lightPos = light->getPosition();
-	lightPos += LIGHT_VECTOR;
-	light->setPosition(lightPos);
+	moveLight();
 
 	glutSwapBuffers();
 	sleep(50); //20 fps
 	glutPostRedisplay();
+}
+
+
+
+void Application::moveLight()
+{
+	glm::vec3 lightPos = light->getPosition();
+
+	if (lightPos.z < -2)
+		lightVector.z = -lightVector.z;
+	else if (lightPos.z > 2)
+		lightVector.z = -lightVector.z;
+
+	lightPos += lightVector;
+	light->setPosition(lightPos);
 }
 
 

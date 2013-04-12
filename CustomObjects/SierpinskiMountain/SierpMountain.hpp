@@ -29,7 +29,7 @@ class SierpMountain: public CustomObject
 		const std::vector<Point> BASE = {{-1, 1, 0}, {-1, -1, 0}, {1, -1, 0}, {1, 1, 0}};
 		const float RANDOMNESS_SCALE = 0.085f;//shouldn't be more than 0.2
 		const int RESOLUTION = 7; //8 is a good max
-		const int NUM_VERTICES = 262144; //= 4 ^ (RESOLUTION + 2)
+		//const int NUM_VERTICES = 262144; //= 4 ^ (RESOLUTION + 2)
 };
 
 #endif

@@ -10,7 +10,7 @@ namespace cs5400
 	class Program
 	{
 		public:
-			Program(std::shared_ptr<VertexShader> vertex_, std::shared_ptr<FragmentShader> fragment_);
+			Program(const std::shared_ptr<VertexShader>& vertex_, const std::shared_ptr<FragmentShader>& fragment_);
 			~Program();
 			GLuint getHandle();
 
@@ -20,7 +20,7 @@ namespace cs5400
 			std::shared_ptr<FragmentShader> fragment;
 	};
 
-	std::shared_ptr<Program> makeProgram(std::shared_ptr<VertexShader> vertex, std::shared_ptr<FragmentShader> fragment);
+	std::shared_ptr<Program> makeProgram(const std::shared_ptr<VertexShader>& vertex, const std::shared_ptr<FragmentShader>& fragment);
 }
 
 #endif

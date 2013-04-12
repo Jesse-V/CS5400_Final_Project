@@ -23,7 +23,7 @@ void Camera::reset()
 	fieldOfView   = 45.0f; // frustrum viewing apeture
 	aspectRatio   = 4.0f/3.0f;
 	nearFieldClip = 0.0001;   // clip anything closer than this
-	farFieldClip  = 200; // clip anything farther than this
+	farFieldClip  = 100; // clip anything farther than this
 	projection    = glm::perspective(fieldOfView, aspectRatio, nearFieldClip, farFieldClip);
 }
 
@@ -85,18 +85,13 @@ void Camera::translate(const glm::vec3& xyzTheta)
 // Pitch the camera along the axis orthogonal to the up and look vectors
 void Camera::pitch(float theta)
 {
+	glm::mat4 matrix = glm::rotate(glm::mat4(), theta, glm::cross(lookDirection, upVector));
+
 	glm::vec4 look(lookDirection, 0.0);
+	lookDirection = (matrix * look).xyz();
+
 	glm::vec4 up(upVector, 0.0);
-
-	glm::mat4 matrix = glm::translate(glm::mat4(), -position); // Move to the origin
-	matrix = glm::rotate(matrix, theta, glm::cross(lookDirection, upVector)); // Pitch the camera
-	matrix = glm::translate(matrix, position); // Move it back to it's original spot
-
-	look = matrix * look;
-	up = matrix * up;
-
-	lookDirection = look.xyz();
-	upVector = up.xyz();
+	upVector = (matrix * up).xyz();
 }
 
 
@@ -104,8 +99,9 @@ void Camera::pitch(float theta)
 // Yaw the camera along the up vector
 void Camera::yaw(float theta)
 {
-	glm::vec4 look(lookDirection, 0.0);
 	glm::mat4 matrix = glm::rotate(glm::mat4(), theta, upVector);
+
+	glm::vec4 look(lookDirection, 0.0);
 	lookDirection = (matrix * look).xyz();
 }
 
@@ -114,8 +110,9 @@ void Camera::yaw(float theta)
 // Roll the camera along the look axis
 void Camera::roll(float theta)
 {
-	glm::vec4 up(upVector, 0.0);
 	glm::mat4 matrix = glm::rotate(glm::mat4(), theta, lookDirection);
+
+	glm::vec4 up(upVector, 0.0);
 	upVector = (matrix * up).xyz();
 }
 

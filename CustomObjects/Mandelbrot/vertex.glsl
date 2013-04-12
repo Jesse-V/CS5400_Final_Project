@@ -19,7 +19,7 @@ vec3 getColorAt(vec2 pt)
 	if (q * (q + xOff) < ptYSq / 4)
 		return vec3(0, 0, 0); //it's in the main bulb, so return black (optimization)
 
-	int MAX_ITERATIONS = 40;
+	int MAX_ITERATIONS = 30;
 	float COLORING = 1;
 
 	float x = 0, xSq = 0, y = 0, ySq = 0;
@@ -53,7 +53,7 @@ void colorFractal()
 	float fractalX = modelX * 12.0f - 1.2f;
 	float fractalY = modelY * 2.8f - 1.5f;
 
-	vFractalColor = getColorAt(vec2(fractalX, fractalY));
+	vFractalColor = getColorAt(vec2(fractalX, fractalY)) + vec3(0.05, 0.05, 0.05);
 }
 
 

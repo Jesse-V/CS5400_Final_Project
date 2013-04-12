@@ -30,7 +30,7 @@ struct Point
 
 	bool operator<(const Point& other) const
 	{
-		if ((x - other.x) <= 0.0001f)
+		if (x == other.x)//if ((x - other.x) <= 0.0001f)
 			return y < other.y;
 		return x < other.x;
 	}
