@@ -14,7 +14,7 @@ class Application
 
 	public:
 		Application();
-		void onDisplay();
+		void render();
 		void onKey(unsigned char key, int, int);
 		void onSpecialKey(int key, int, int);
 

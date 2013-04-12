@@ -18,7 +18,7 @@ Application::Application()
 
 
 
-void Application::onDisplay()
+void Application::render()
 {
 	glClearColor(.39f, 0.58f, 0.93f, 0.0f);	//nice blue background
 	glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);

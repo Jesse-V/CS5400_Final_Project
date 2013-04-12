@@ -3,6 +3,30 @@
 #include <iostream>
 
 
+std::shared_ptr<Application> application;
+
+
+void displayCallback()
+{
+	application->render();
+}
+
+
+
+void keyCallback(unsigned char key, int x, int y)
+{
+	application->onKey(key, x, y);
+}
+
+
+
+void specialKeyCallback(int key, int x, int y)
+{
+	application->onSpecialKey(key, x, y);
+}
+
+
+
 /* Initializes glut. Sets the window size and title to the specified values */
 void initializeGlutWindow(int width, int height, const std::string& windowTitle)
 {
@@ -28,9 +52,11 @@ int main(int argc, char **argv)
 
 	try
 	{
-		glutDisplayFunc(Application::onDisplay);
-		glutKeyboardFunc(Application::onKey);
-		glutSpecialFunc(Application::onSpecialKey);
+		application = std::make_shared<Application>(); //make_unique is not included in C++11 yet...
+
+		glutDisplayFunc(displayCallback);
+		glutKeyboardFunc(keyCallback);
+		glutSpecialFunc(specialKeyCallback);
 
 		//glutMotionFunc(onMouseMotion);
 		//glutMouseFunc(onMouseClick);
