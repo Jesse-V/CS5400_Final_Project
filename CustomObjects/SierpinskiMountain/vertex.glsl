@@ -35,24 +35,43 @@ void communicateCamera()
 
 
 
+/* Scales val, which is the range of (0, 1) to the given range and returns the result */
+float scale(float val, int begin, int end)
+{
+	return val * (end - begin) + begin;
+}
+
+
+
 void main()
 {
 	gl_Position = projectVertex();
 	pos_world = (matrixModel * vec4(vertex, 1)).xyz; //Convert from model space to world space
 	communicateCamera();
 
-	if (vertex.x == -1)
+	float height = vertex.y;
+	const float SNOW_LEVEL = 0.6;
+	const float MOUNTAIN_HEIGHT = 1.0;
+
+	if (height > SNOW_LEVEL)
 	{
-		if (vertex.z == -1)
-			vColor = vec3(1, 0, 0);
-		else
-			vColor = vec3(0, 0, 1);
+		float topScale = (height - SNOW_LEVEL) / (MOUNTAIN_HEIGHT - SNOW_LEVEL);
+		height * 2 - 1;
+
+		vColor = vec3(
+			scale(topScale, 34, 238) / 255,
+			scale(topScale, 139, 233) / 255,
+			scale(topScale, 34, 233) / 255
+		);
 	}
 	else
 	{
-		if (vertex.z == 1)
-			vColor = vec3(1, 0, 0);
-		else
-			vColor = vec3(0, 1, 0);
+		float topScale = height / SNOW_LEVEL;
+
+		vColor = vec3(
+			scale(topScale, 160, 34) / 255,
+			scale(topScale, 82, 139) / 255,
+			scale(topScale, 45, 34) / 255
+		);
 	}
 }

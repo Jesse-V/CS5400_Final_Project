@@ -9,8 +9,8 @@
 std::shared_ptr<RenderableObject> SierpMountain::makeObject()
 {
 	auto program = cs5400::makeProgram(
-		cs5400::makeVertexShader("CustomObjects/Ground/vertex.glsl"),
-		cs5400::makeFragmentShader("CustomObjects/Ground/fragment.glsl")
+		cs5400::makeVertexShader("CustomObjects/SierpinskiMountain/vertex.glsl"),
+		cs5400::makeFragmentShader("CustomObjects/SierpinskiMountain/fragment.glsl")
 	);
 
 	return std::make_shared<RenderableObject>(program, getDataBuffers());
@@ -53,18 +53,30 @@ std::shared_ptr<Mesh> SierpMountain::getMesh()
 
 void SierpMountain::addVertices(std::shared_ptr<Mesh>& mesh)
 {
-	mesh->vertices.push_back(glm::vec3(	1, 0.1, -1));
-	mesh->vertices.push_back(glm::vec3(-1, 0.1, -1));
-	mesh->vertices.push_back(glm::vec3(-1, 0.1,  1));
-	mesh->vertices.push_back(glm::vec3(	1, 0.1,  1));
+	static std::vector<TriangleFace> modelTriangles;
+	createMountain(modelTriangles);
+	std::cout << "Triangle count: " << modelTriangles.size() << std::endl;
+
+	for_each (modelTriangles.begin(), modelTriangles.end(), //iterate through all the gasket's triangles
+		[&](const TriangleFace& triangle)
+		{
+			mesh->vertices.push_back(glm::vec3(triangle.A.x, triangle.A.y, triangle.A.z));
+			mesh->vertices.push_back(glm::vec3(triangle.B.x, triangle.B.y, triangle.B.z));
+			mesh->vertices.push_back(glm::vec3(triangle.C.x, triangle.C.y, triangle.C.z));
+		});
+
+	std::cout << "Coord count: " << mesh->vertices.size() << std::endl;
 }
 
 
 
 void SierpMountain::addIndices(std::shared_ptr<Mesh>& mesh)
 {
-	mesh->triangles.push_back(Triangle(0, 1, 2));
-	mesh->triangles.push_back(Triangle(0, 2, 3));
+	//mesh->triangles.push_back(Triangle(0, 1, 2));
+	//mesh->triangles.push_back(Triangle(0, 2, 3));
+
+	for (unsigned int j = 0; j < mesh->vertices.size() - 3; j++)
+		mesh->triangles.push_back(Triangle(0, 1, j));
 }
 
 
@@ -75,7 +87,7 @@ void SierpMountain::createMountain(std::vector<TriangleFace>& modelTriangles)
 	auto oppositeCorners = std::make_pair(BASE[0], BASE[2]);
 
 	auto topPeak = getMidpoint(oppositeCorners.first, oppositeCorners.second);
-	topPeak.z = MOUNTAIN_HEIGHT;
+	topPeak.z = 1;
 
 	createFace(modelTriangles, {topPeak, BASE[0], BASE[1]}, RESOLUTION);
 	createFace(modelTriangles, {topPeak, BASE[1], BASE[2]}, RESOLUTION);

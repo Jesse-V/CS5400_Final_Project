@@ -22,7 +22,7 @@ Application::Application()
 void Application::addModels()
 {
 	addGround();
-	addMandelbrot();
+	//addMandelbrot();
 	addMountain();
 }
 
@@ -65,6 +65,7 @@ void Application::addMountain()
 	auto rObj = mountain.makeObject();
 
 	glm::mat4 objMatrix = glm::mat4();
+	objMatrix = glm::translate(objMatrix, glm::vec3(0, 0.5, 0));
 	rObj->setModelMatrix(objMatrix);
 
 	scene.addModel(rObj);
