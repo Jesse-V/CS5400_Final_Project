@@ -46,6 +46,8 @@ std::shared_ptr<Mesh> SierpMountain::getMesh()
 	mesh->calcNormalsMWE();
 
 	std::cout << "done" << std::endl;
+	std::cout << "vertex count: " << mesh->vertices.size() << std::endl;
+
 	return mesh;
 }
 
@@ -53,9 +55,8 @@ std::shared_ptr<Mesh> SierpMountain::getMesh()
 
 void SierpMountain::addVertices(std::shared_ptr<Mesh>& mesh)
 {
-	static std::vector<TriangleFace> modelTriangles;
+	std::vector<TriangleFace> modelTriangles;
 	createMountain(modelTriangles);
-	std::cout << "Triangle count: " << modelTriangles.size() << std::endl;
 
 	for_each (modelTriangles.begin(), modelTriangles.end(), //iterate through all the gasket's triangles
 		[&](const TriangleFace& triangle)
@@ -64,25 +65,14 @@ void SierpMountain::addVertices(std::shared_ptr<Mesh>& mesh)
 			mesh->vertices.push_back(glm::vec3(triangle.B.x, triangle.B.z, triangle.B.y));
 			mesh->vertices.push_back(glm::vec3(triangle.C.x, triangle.C.z, triangle.C.y));
 		});
-
-	std::cout << "Coord count: " << mesh->vertices.size() << std::endl;
 }
 
 
 
 void SierpMountain::addIndices(std::shared_ptr<Mesh>& mesh)
 {
-	//for (unsigned int j = 0; j < mesh->vertices.size(); j++)
-	//	std::cout << mesh->vertices[j].x << ", " << mesh->vertices[j].y << ", " << mesh->vertices[j].z << std::endl;
-
-	//std::cout << "here are the indices..." << std::endl;
-
 	for (unsigned int j = 0; j < mesh->vertices.size() - 2; j += 3)
-	{
 		mesh->triangles.push_back(Triangle(j + 2, j + 1, j));
-		//std::cout << j << ", " << (j + 1) << ", " << (j + 2) << std::endl;
-	}
-
 }
 
 

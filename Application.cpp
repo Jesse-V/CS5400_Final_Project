@@ -90,7 +90,7 @@ void Application::addSecondMountain()
 
 	glm::mat4 objMatrix = glm::mat4();
 	objMatrix = glm::scale(objMatrix, glm::vec3(0.3, 0.3, 0.3));
-	objMatrix = glm::translate(objMatrix, glm::vec3(-1.3, -0.5, 0.5));
+	objMatrix = glm::translate(objMatrix, glm::vec3(-1.35, -0.5, 0.5));
 	rObj->setModelMatrix(objMatrix);
 
 	scene.addModel(rObj);

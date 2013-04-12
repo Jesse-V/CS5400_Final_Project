@@ -28,7 +28,7 @@ class SierpMountain: public CustomObject
 	private:
 		const std::vector<Point> BASE = {{-1, 1, 0}, {-1, -1, 0}, {1, -1, 0}, {1, 1, 0}};
 		const float RANDOMNESS_SCALE = 0.085f;//shouldn't be more than 0.2
-		const int RESOLUTION = 8; //8 is a good max
+		const int RESOLUTION = 9; //8 is a good max
 };
 
 #endif
