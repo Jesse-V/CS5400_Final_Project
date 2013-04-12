@@ -1,14 +1,14 @@
 
 #include "World/Scene.hpp"
 #include "World/Camera.hpp"
-#include "CustomObjects/Ground.hpp"
-#include "CustomObjects/Mandelbrot.hpp"
+#include "CustomObjects/Ground/Ground.hpp"
+#include "CustomObjects/Mandelbrot/Mandelbrot.hpp"
 #include <iostream>
 #include <thread>
 
 
-const float ROTATION_SPEED = 0.015;
-const float TRANSLATION_SPEED = 1.1;
+const float TRANSLATION_SPEED = 0.015;
+const float ROTATION_SPEED = 1.1;
 const glm::vec3 LIGHT_VECTOR = glm::vec3(0.0f, 0.0f, -0.01f);
 
 Scene scene;
@@ -49,27 +49,27 @@ void onKey(unsigned char key, int, int)
 	switch(key)
 	{
 		case 'a':
-			camera->translateX(-ROTATION_SPEED);
+			camera->translateX(-TRANSLATION_SPEED);
 			break;
 
 		case 'd':
-			camera->translateX(ROTATION_SPEED);
+			camera->translateX(TRANSLATION_SPEED);
 			break;
 
 		case 'q':
-			camera->translateY(-ROTATION_SPEED);
+			camera->translateY(-TRANSLATION_SPEED);
 			break;
 
 		case 'e':
-			camera->translateY(ROTATION_SPEED);
+			camera->translateY(TRANSLATION_SPEED);
 			break;
 
 		case 'w':
-			camera->translateZ(-ROTATION_SPEED);
+			camera->translateZ(-TRANSLATION_SPEED);
 			break;
 
 		case 's':
-			camera->translateZ(ROTATION_SPEED);
+			camera->translateZ(TRANSLATION_SPEED);
 			break;
 	}
 
@@ -85,27 +85,27 @@ void onSpecialKey(int key, int, int)
 	switch(key)
 	{
 		case GLUT_KEY_UP:
-			camera->pitch(TRANSLATION_SPEED);
+			camera->pitch(ROTATION_SPEED);
 			break;
 
 		case GLUT_KEY_DOWN:
-			camera->pitch(-TRANSLATION_SPEED);
+			camera->pitch(-ROTATION_SPEED);
 			break;
 
 		case GLUT_KEY_LEFT:
-			camera->yaw(TRANSLATION_SPEED);
+			camera->yaw(ROTATION_SPEED);
 			break;
 
 		case GLUT_KEY_RIGHT:
-			camera->yaw(-TRANSLATION_SPEED);
+			camera->yaw(-ROTATION_SPEED);
 			break;
 
 		case GLUT_KEY_PAGE_UP:
-			camera->roll(-TRANSLATION_SPEED);
+			camera->roll(-ROTATION_SPEED);
 			break;
 
 		case GLUT_KEY_PAGE_DOWN:
-			camera->roll(TRANSLATION_SPEED);
+			camera->roll(ROTATION_SPEED);
 			break;
 	}
 
@@ -123,13 +123,18 @@ void initializeGlutWindow(int width, int height, const std::string& windowTitle)
 }
 
 
+std::shared_ptr<cs5400::Program> getProgram(const std::string& vertShaderPath, const std::string& fragShaderPath)
+{
+	return cs5400::makeProgram(cs5400::makeVertexShader(vertShaderPath), cs5400::makeFragmentShader(fragShaderPath));
+}
+
+
 
 void addGround()
 {
 	Ground ground;
-	std::shared_ptr<cs5400::Program> program = cs5400::makeProgram(cs5400::makeVertexShader("Shaders/Ground/vertex.glsl"), cs5400::makeFragmentShader("Shaders/Ground/fragment.glsl"));
 
-	RenderableObject rObj(program, ground.getDataBuffers());
+	RenderableObject rObj(getProgram("CustomObjects/Ground/vertex.glsl", "CustomObjects/Ground/fragment.glsl"), ground.getDataBuffers());
 
 	glm::mat4 objMatrix = glm::mat4();
 	objMatrix = glm::scale(objMatrix, glm::vec3(3, 1, 3));
@@ -144,8 +149,7 @@ void addGround()
 void addMandelbrot()
 {
 	Mandelbrot mandelbrot;
-	std::shared_ptr<cs5400::Program> program = cs5400::makeProgram(cs5400::makeVertexShader("Shaders/Mandelbrot/vertex.glsl"), cs5400::makeFragmentShader("Shaders/Mandelbrot/fragment.glsl"));
-	RenderableObject rObj(program, mandelbrot.getDataBuffers());
+	RenderableObject rObj(getProgram("CustomObjects/Mandelbrot/vertex.glsl", "CustomObjects/Mandelbrot/fragment.glsl"), mandelbrot.getDataBuffers());
 
 	glm::mat4 objMatrix = glm::mat4();
 	objMatrix = glm::scale(objMatrix, glm::vec3(1, 1, 2));

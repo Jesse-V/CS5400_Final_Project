@@ -5,7 +5,7 @@
 
 namespace
 {
-	std::string getCode(std::string path)
+	std::string getCode(const std::string& path)
 	{
 		std::string contents;
 		std::ifstream fin(path, std::ios::in | std::ios::binary);
@@ -33,7 +33,7 @@ namespace
 
 
 
-	void setCode(GLuint handle, const std::string &code)
+	void setCode(GLuint handle, const std::string& code)
 	{
 		const GLchar *source[1] = { code.c_str() };
 		glShaderSource(handle, 1, source, NULL);
@@ -52,7 +52,7 @@ namespace
 
 
 template<typename T>
-std::shared_ptr<cs5400::Shader<T>> make_shader(std::string path)
+std::shared_ptr<cs5400::Shader<T>> make_shader(const std::string& path)
 {
 	auto code = getCode(path);
 	auto shader = std::make_shared<cs5400::Shader<T>>();
@@ -62,14 +62,14 @@ std::shared_ptr<cs5400::Shader<T>> make_shader(std::string path)
 
 
 
-std::shared_ptr<cs5400::VertexShader> cs5400::makeVertexShader(std::string path)
+std::shared_ptr<cs5400::VertexShader> cs5400::makeVertexShader(const std::string& path)
 {
 	return make_shader<detail::VertexShaderTag>(path);
 }
 
 
 
-std::shared_ptr<cs5400::FragmentShader> cs5400::makeFragmentShader(std::string path)
+std::shared_ptr<cs5400::FragmentShader> cs5400::makeFragmentShader(const std::string& path)
 {
 	return make_shader<detail::FragmentShaderTag>(path);
 }

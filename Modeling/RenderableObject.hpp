@@ -6,7 +6,7 @@
 #include <vector>
 #include "glm/glm.hpp"
 #include "DataBuffers/DataBuffer.hpp"
-#include "Shaders/ShaderLoader/Program.hpp"
+#include "ShaderLoader/Program.hpp"
 
 class RenderableObject
 {

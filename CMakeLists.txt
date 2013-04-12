@@ -15,15 +15,15 @@ add_executable(OpenGL_program
     main.cpp
     Modeling/DataBuffers/TextureBuffer.cpp
     Modeling/DataBuffers/VertexBuffer.cpp
-    Shaders/ShaderLoader/Program.cpp
-    Shaders/ShaderLoader/Shader.cpp
+    ShaderLoader/Program.cpp
+    ShaderLoader/Shader.cpp
     Modeling/Mesh.cpp
     World/Scene.cpp
     World/Camera.cpp
     World/Light.cpp
     Modeling/RenderableObject.cpp
-    CustomObjects/Ground.cpp
-    CustomObjects/Mandelbrot.cpp
+    CustomObjects/Ground/Ground.cpp
+    CustomObjects/Mandelbrot/Mandelbrot.cpp
 )
 
 IF(WIN32)
