@@ -199,7 +199,7 @@ void Application::render()
 	moveLight();
 
 	glutSwapBuffers();
-	sleep(50); //20 fps
+	sleep(17); //60 fps
 	glutPostRedisplay();
 }
 

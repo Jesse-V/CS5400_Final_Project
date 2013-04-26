@@ -9,7 +9,7 @@
 
 
 RenderableObject::RenderableObject(const std::shared_ptr<cs5400::Program>& program, const std::vector<std::shared_ptr<DataBuffer>>& dataBuffers):
-	program(program), modelMatrix(glm::mat4()), isVisible(true), dataBuffers(dataBuffers)
+	program(program), dataBuffers(dataBuffers), modelMatrix(glm::mat4()), isVisible(true)
 {
 	for_each (dataBuffers.begin(), dataBuffers.end(),
 		[&](const std::shared_ptr<DataBuffer>& buffer)

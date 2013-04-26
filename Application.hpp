@@ -8,8 +8,8 @@
 class Application
 {
 	public:
-		const float TRANSLATION_SPEED = 0.015;
-		const float ROTATION_SPEED = 1.1;
+		const float TRANSLATION_SPEED = 0.0078125f;
+		const float ROTATION_SPEED = 0.5f;
 
 	public:
 		Application(int screenWidth, int screenHeight);
