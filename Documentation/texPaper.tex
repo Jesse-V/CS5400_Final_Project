@@ -56,6 +56,17 @@ Software engineering principles was one of the main driving factors behind devel
 
 Work on this final project started in late February. I knew what my scene wanted to look like, but the challenge was how to get there. I started with the code that I had written for my Sierpinski Mountain. That assignment involved what was essentially a vertex buffer, an index buffer, and a vertex-coloring buffer. I could also pitch, yaw, and roll the mountain using the keyboard's WSADQE keys, which gave the appearance of camera controls. That code was based off of the Rotating 3D Cube example in the book, which used some code from the authors as a basic framework. Using the software engineering principles, I wanted to cleanly separate the various elements of the Sierpinski Mountain assignment, and make them flexible enough to support the scene that I wanted for the final project.
 
+\begin{figure}[htbp]
+\centering
+\fbox
+{
+	\begin{minipage}{8 cm}
+		\includegraphics[width=80mm]{resources/Sierpinski_Mountain.jpg}
+		\caption{My original Sierpinski Mountain.}
+	\end{minipage}
+}
+\end{figure}
+
 In this initial framework, I had a World class, which held various Models. A Model was an abstract class because it contained pure virtual functions, which were defined in subclasses, such as a MandelModel and a GroundModel.
 
 \section{Git}
@@ -66,12 +77,71 @@ One of my main goals was focused responsibility and separation of dependencies.
 
 \section{Development}
 
+\begin{figure}[htbp]
+\centering
+\fbox
+{
+	\begin{minipage}{8 cm}
+		\includegraphics[width=80mm]{resources/editing_in_sublime.png}
+		\caption{Sublime Text 2 was my primary text editor. I compiled in the command-line.}
+	\end{minipage}
+}
+\end{figure}
+
 I developed all of my graphics assignments in Linux Mint 14. I used the Sublime Text editor, and command-line.
 
 \section{CMake}
-OpenGL
 
-\section{Results}
+\section{Visual Results}
+
+Visually, I have a scene containing four models: a large square representing the ground, two artificially- and randomly- generated mountains, and a three-dimensional spiral that is textured using the Mandelbrot fractal.
+
+\subsubsection{Ground} test
+
+\begin{figure}[htbp]
+\centering
+\fbox
+{
+	\begin{minipage}{8 cm}
+		\includegraphics[width=80mm]{resources/screenshot1.png}
+		\caption{Each corner of the ground is assigned a color, with red assigned twice (to opposite corners). The colors are then blended.}
+	\end{minipage}
+}
+\end{figure}
+
+The ground is a simple 2D square. It is constructed to be a 1-by-1 square consisting of two triangles, but the Application::addGround method transforms it to a 2-by-2 matrix using a GLM scaling matrix. Coloring is done in the shaders. The vertex shader detects what corner it is dealing with, and assigns a solid RGB color accordingly, which is then passed to the fragment shaders via a varying data type. This color is blended across the triangles in the graphics card, and the fragment shader picks this up and uses it as the main color for that fragment. Ambient and specular lighting is further applied to generate the final color for the particular pixel.
+
+\subsubsection{3D Mountains}
+
+\begin{figure}[htbp]
+\centering
+\fbox
+{
+	\begin{minipage}{8 cm}
+		\includegraphics[width=80mm]{resources/screenshot2.png}
+		\caption{The 3D spiral is centered in between two artificially-generated snow-capped mountains.}
+	\end{minipage}
+}
+\end{figure}
+
+The scene contains two artificially-generated mountains. As with all the other models, the data is set up on the CPU side and passed to the GPU for rendering. The generation algorithm starts a basic pyramid shape. Four triangles meet at the top, connect at a central top, and form a square at the bottom. A modified form of the Sierpinski Gasket algorithm is then used to generate the mountain. Each triangle is subdivided into four equally-sized sub-triangles. This involves finding the midpoint in the side of the main triangle. If the triangle face was recursively subdivided N levels deep, there would basically no difference in the appearance, as it would still look like a flat triangle. However, if an randomized offset is added after the midpoint is found, a level of randomness can be added. By making the magnitude of the random offset poportional to the length of the triangle leg, there are big changes at first, and as the recursion gets deeper, smaller and smaller offset are added. This results in a lightly rough surface which contains fine details.
+
+I used the Mersenne Twister pseudo random number generator for generating the random offset. This generator produces high quality random numbers at high speed, and is built into the C++ STL. I will strive to use this algorithm for any future for applications which need random numbers. It is far superior to the Linear Congruent Generator used in many simple applications.
+
+Better mountains could have been produced using Perlin noise. With Perlin noise, values at points far away from each other are essentially uncorrelated and are random, but values at points close to each other are highly likely to be similar to one another. For example, a point that becomes the top of a hill or mountain is at a value random from far-away points on a landscape, but points closer will be of a similar height. This produces rounded and smooth-looking terrain. The downside of the Sierpinski Gasket algorithm is that the mountain still looks roughly like a pyramid. From above or below, it's obvious that it has square base. This could be partially resolved by changing from a four-sided base to a 5-, 6-, or even 7- sided base. Perlin noise would still be a better and more efficient choice however, but the mountains look pretty decent just as they are.
+
+\subsubsection{Mandlebrot Fractal on a 3D spiral}
+
+\begin{figure}[htbp]
+\centering
+\fbox
+{
+	\begin{minipage}{8 cm}
+		\includegraphics[width=80mm]{resources/screenshot3.png}
+		\caption{The end of the fractal reaches right to the end of the spiral. Figure 2 also illustrates the fractal wrapping around one side of the spiral.}
+	\end{minipage}
+}
+\end{figure}
 
 \subsection{Limitations}
 
@@ -92,6 +162,11 @@ One of the disadvantages of my code is its inefficiencies, which become more obv
 too many verticies for spiral, rendered even if offscreen
 
 \subsubsection{Incompleteness}
+
+
+
+\subsubsection{Repetition of shader code}
+
 
 
 \section{Conclusion}
