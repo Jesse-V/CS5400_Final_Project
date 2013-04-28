@@ -8,30 +8,47 @@
 
 \maketitle
 
-\begin{abstract}
-The abstract text goes here.
-\end{abstract}
-
-\section{Introduction}
-
-Prior to this class, C++ Ox11, OpenGL, CMake, and GLM were all relatively unknown to me.
-
 \section{OpenGL}
 
-OpenGL
+Throughout the semester, we used OpenGL as our rendering engine API. One of the advantages of OpenGL is that it's cross-platform and can be used by multiple programming languages. For example, OpenGL can be used in the PC by JavaScript as WebGL, as well as in smartphones under iOS and Android. OpenGL is mainly a set of functions and named constants, through which data can be sent down to the graphics card for rendering.
 
 \subsection{Vertex and Index Buffers}
 
+Simple meshes can be described using a basic vertex buffer: just a collection of points that is passed down and rendered. However, since of these points are shared across multiple triangles, it's fairly inefficient for models with a large polygon count. This wasn't a big deal for the first several applications that we did in class. A better method is to use an index buffer that references the vertices in the vertex buffer. Then each triangle is expressed as ``vertex 57, 84, and 17'' and there's no repetition of vertices. This method had to be done for the PLY assignment, because the .ply file contained a list of vertices and indicies that we had to parse and assemble. In my project, I use an vertex and index buffer for all of my objects. This becomes important for high-resolution models such as the 3D spiral and the artificial mountains.
+
+A normal buffer is another buffer commonly associated with a mesh, and each vertex has its own normal. Normals are essential for lighting calculations, because the vertex shader only has access to one vertex and not any of its neighbors. Thus, the normals must be calculated CPU-side and sent down to the shader. I adopted the normal calculation from Shawn Badger's texture mapping assignment when I peer reviewed his project.
+
 \subsection{Texture Buffers}
+
+In \textit{texture mapping}, an image or pattern determines the main color of a fragment. In class, we learned how to apply a checkered pattern to a cube. I peer reviewed several classmates who loaded a .bmp file and applied that texture to the cube instead. I was impressed and tried to study their approach. My C++ project includes a TextureBuffer class that can handle the responsibilities of basic texture mapping, but I don't use it on the screen.
+
+Bump mapping is one application of texture mapping. Instead of a texture affecting the coloring of an object, it can influence the normals used during the lighting calculation. This causes the object to look rough and natural with using extra polygons for the model. I was quite impressed by the bump mapping presentation that we saw in class.
 
 \subsection{Lighting}
 
+On the C++ side, lights are fairly simple objects. A point light can be described using a position, color, power, and whether or not it is emitting. These values are set to uniforms that are passed down to all vertices and dealt with by the shaders. Since each RenderableObject in my code has its own shaders, these values have to sent to all the objects in the scene.
+
+A number of different lighting effects can be applied in the shaders. In my program, I applied both specular and diffuse lighting. With specular lighting, the object appears shiny because the light appears to reflect off an object, and looks different depending on the light's position, the normal of the surface, and the position of the camera. This effects helps highlight the shape of the object and its location to the light source. By contrast, diffuse lighting appears to scatter in all directions off an object's surface, and objects are lit more smoothly. This type of the lighting is one that we most commonly see.
+
+Since each RenderableObject has its own shaders, I have the ability to choose whether I apply specular or diffuse lighting on each object. For example, I apply specular lighting to the 3D mountains and ground and diffuse lighting on the Mandelbrot spiral model. This helps improve the visual appearance of the scene overall.
+
 \subsection{Camera}
+
+A simple description of a camera would be that it views the scene, and that the screen shows what the camera sees from its position and viewpoint. However, this is a slightly backwards way of thinking about how the camera actually works. The camera is basically nothing more than a matrix, wrapped by a number of useful methods that modify it in various ways. When the scene is rendered, the camera matrix is passed down to the shaders and incorporated in their projection calculations. Consequently, an object appears on the screen according to its model matrix, its position and orientation in the world, and the values in the camera matrix. Thus, the camera is nothing more than a transformation matrix that applies to all objects in the scene.
+
+A camera consists of two basic parts: a position and an orientation. The position is relatively straightforward; it's just a set of X, Y, and Z coordinates. This is commonly known as the \textit{eye} of the camera. The orientation is slightly more complicated. In order to orient the camera on all three axises in three-dimensional space, two vectors are required: a \textit{look vector} and an \textit{up vector}. The latter describes what the camera means by ``up'', whereas the former represents the direction that the camera is looking. The two direction vectors are perpendicular to one another. The camera is panned by translating the camera's eye. Pitch can be accomplished by rotating both vectors around the cross-product of the look and up vectors. For yaw, the look vector is rotated around the up vector, and for roll the up vector is rotated around the up vector. These basic functions were all implemented using GLM.
+
+Another common component of the camera is the perspective matrix. With perspective viewing, parallel lines appear to converge at a common point at the center. This is in contrast to an orthogonal view, where parallel lines actually appear parallel on the screen. Orthogonal views are useful for architectural or engineering applications, where it's important to have objects appear exactly to their measurements. However, perspective viewing appears more natural.
+
+I used GLM to set up a projection matrix. The field-of-view (FOV) parameter controlled how quickly parallel lines appeared to converge, and a value close to zero made the perspective projection appear almost orthogonal. The near and far field clip describe the distances of the clipping plane.
 
 \subsection{Shaders}
 
+The shaders deal with the objects on the graphics card. First, the vertex shader projects each vertex of a mesh to a particular point on the screen. It can also send information down to the fragment shader. This is important because the fragment shader knows nothing about the model's geometry. The fragment shader decides the coloring of a certain pixel on the screen. They can apply lighting calculations, bump mapping, shadows, and other effects for that pixel. This process is embarrassingly parallel, which is why a GPU can handle thousands of pixels at one and render scene contains millions of triangles at sixty frames per second.
+
 \section{C++ 0x11}
-Here is the text of your introduction.
+
+On the first hour of the first day of class, I quickly realized that everything that I knew about C++ dated to the 1998 standard. This frustrated and irritated me, and I decided to learn as much about the latest 0x11 standard as I could. Instead of using raw pointers, I switched to the smart pointers. This automatically deallocate themselves when there's no more references, so I don't have to worry about automatically deallocating memory manually anymore. Once I learned how to use them along with lambda functions and the useful STL, C++ quickly went from a syntactically irritating language to one that was extremely powerful, flexible, and much easier to deal with. Within the first few weeks of the semester my programming language of choice changed from Java to C++, and I expect that it will stay that way for some time.
 
 \section{GLM}
 
@@ -50,7 +67,8 @@ Software engineering principles was one of the main driving factors behind devel
 \item Focused responsibility. It seemed very unorganized to have a single class execute multiple high-level classes. For example, I wanted one class to build the model I was dealing with, another class to control how it rendered, and another class to contain all objects in scene that I was looking at. If I added a light to the world, everything about the light, including all data and methods, should be contained within its own class.
 \item Reduction of inter-dependencies. This is a very related to focused responsibilities, but the main distinction is that I don't have any particular variables in one class that are a particular value because of the values of some variables in another class. Such dependencies would make debugging and adjustments very difficult, and I felt was a bad idea overall. Instead, I opted to have all the world entities adjusted by a higher-level class in order to assemble the scene.
 \end{itemize}
-1) focused responsibility
+
+Now the main class handles GLEW and GLUT functions, the Application class assembles the scene at a high level. A Scene contains multiple RenderableObjects, a collection of Lights, and a Camera. I have classes that construct each RenderableObject and tell it how to render itself using appropriate DataBuffers. DataBuffers is an abstract class because it contains pure virtual functions. Vertex, Index, and Texture Buffers are subclasses of DataBuffers. This keeps the code very organized and focused.
 
 \subsubsection{Origin}
 
@@ -69,13 +87,9 @@ Work on this final project started in late February. I knew what my scene wanted
 
 In this initial framework, I had a World class, which held various Models. A Model was an abstract class because it contained pure virtual functions, which were defined in subclasses, such as a MandelModel and a GroundModel.
 
-\section{Git}
-
-Git is a brilliant distributed revision control and source-code management system, and makes it exceptionally easy to branch, merge, and navigating changes. Git is also very amendable to distributed development of a large project. However, in this project I primarily used Git to assist me with developing my framework.
+\section{Development}
 
 One of my main goals was focused responsibility and separation of dependencies.
-
-\section{Development}
 
 \begin{figure}[htbp]
 \centering
@@ -88,9 +102,7 @@ One of my main goals was focused responsibility and separation of dependencies.
 }
 \end{figure}
 
-I developed all of my graphics assignments in Linux Mint 14. I used the Sublime Text editor, and command-line.
-
-\section{CMake}
+I developed all of my graphics assignments in Linux Mint 14. I used the Sublime Text editor, and command-line. I used Cmake to generate my makefiles for me, and I know CMake is capable of generating project files for Visual Studio, but I did not use that capability.
 
 \section{Visual Results}
 
@@ -124,13 +136,15 @@ The ground is a simple 2D square. It is constructed to be a 1-by-1 square consis
 }
 \end{figure}
 
-The scene contains two artificially-generated mountains. As with all the other models, the data is set up on the CPU side and passed to the GPU for rendering. The generation algorithm starts a basic pyramid shape. Four triangles meet at the top, connect at a central top, and form a square at the bottom. A modified form of the Sierpinski Gasket algorithm is then used to generate the mountain. Each triangle is subdivided into four equally-sized sub-triangles. This involves finding the midpoint in the side of the main triangle. If the triangle face was recursively subdivided N levels deep, there would basically no difference in the appearance, as it would still look like a flat triangle. However, if an randomized offset is added after the midpoint is found, a level of randomness can be added. By making the magnitude of the random offset poportional to the length of the triangle leg, there are big changes at first, and as the recursion gets deeper, smaller and smaller offset are added. This results in a lightly rough surface which contains fine details.
+The scene contains two artificially-generated mountains. As with all the other models, the data is set up on the CPU side and passed to the GPU for rendering. The generation algorithm starts a basic pyramid shape. Four triangles meet at the top, connect at a central top, and form a square at the bottom. A modified form of the Sierpinski Gasket algorithm is then used to generate the mountain. Each triangle is subdivided into four equally-sized sub-triangles. This involves finding the midpoint in the side of the main triangle. If the triangle face was recursively subdivided N levels deep, there would basically no difference in the appearance, as it would still look like a flat triangle. However, if an randomized offset is added after the midpoint is found, a level of randomness can be added. By making the magnitude of the random offset proportional to the length of the triangle leg, there are big changes at first, and as the recursion gets deeper, smaller and smaller offset are added. This results in a lightly rough surface which contains fine details.
 
 I used the Mersenne Twister pseudo random number generator for generating the random offset. This generator produces high quality random numbers at high speed, and is built into the C++ STL. I will strive to use this algorithm for any future for applications which need random numbers. It is far superior to the Linear Congruent Generator used in many simple applications.
 
 Better mountains could have been produced using Perlin noise. With Perlin noise, values at points far away from each other are essentially uncorrelated and are random, but values at points close to each other are highly likely to be similar to one another. For example, a point that becomes the top of a hill or mountain is at a value random from far-away points on a landscape, but points closer will be of a similar height. This produces rounded and smooth-looking terrain. The downside of the Sierpinski Gasket algorithm is that the mountain still looks roughly like a pyramid. From above or below, it's obvious that it has square base. This could be partially resolved by changing from a four-sided base to a 5-, 6-, or even 7- sided base. Perlin noise would still be a better and more efficient choice however, but the mountains look pretty decent just as they are.
 
 \subsubsection{Mandlebrot Fractal on a 3D spiral}
+
+I rendered the Mandelbrot fractal onto a three-dimensional spiral. The fractal iterations were performed in the vertex shader, and then passed down to the fragment for smooth coloring.
 
 \begin{figure}[htbp]
 \centering
@@ -142,6 +156,10 @@ Better mountains could have been produced using Perlin noise. With Perlin noise,
 	\end{minipage}
 }
 \end{figure}
+
+I used a smooth coloring algorithm on the fractal to improve its visual quality. The majority of Mandelbrot fractals on the Internet produced bands of color. However, my algorithm uses the escape value after the iterations and a sine function to produce a nice wavy color. A more efficient approach would be to generate the fractal before rendering, load it as a texture map, and apply it to the spiral. However, I wanted to do the fractal loops in the shaders themselves, and I think it turned out well overall.
+
+Fractal calculations on the graphics card reminded me of GPGPU, where general purpose algorithms receive a significant speedup from a GPU's specialized hardware. OpenCL and CUDA are two libraries that are commonly used for GPGPU. The distributed computing project Folding@home uses both of these libraries to speedup its molecular dynamics calculations. The project is currently the world's most powerful distributed computing project, and over 11 petaFLOPS out its total 12.2 petaFLOPS comes from GPUs.
 
 \subsection{Limitations}
 
@@ -157,20 +175,15 @@ One of the problems with simplistic hierarchical modeling is that 1) there can b
 
 \subsubsection{Inefficiencies}
 
-One of the disadvantages of my code is its inefficiencies, which become more obvious when the detail is turned up and the program is executed on slower hardware, such as a Nvidia GT 240m (released November 2009).
-
-too many verticies for spiral, rendered even if offscreen
-
-\subsubsection{Incompleteness}
-
-
+One of the disadvantages of my code is its inefficiencies, which become more obvious when the detail is turned up and the program is executed on slower hardware, such as my Nvidia GT 240m (released November 2009). For one, it appears to render objects that are offscreen. If I turn up the vertex count on the 3D spiral and increase the Mandelbrot fractal iteration resolution to the point where my framerate significantly drops, the program continues to be slow even when the 3D spiral is not on the screen. I will have to do some research for some possible solutions to this. If the models continue to project onto off-screen coordinates, I will have to perform some checks for this before rendering them. I know some games, such as Assassin's Creed III, do not render objects that are a sufficient distance away, or render them in less detail. Improving the efficiency of my code would be a useful improvement to my code.
 
 \subsubsection{Repetition of shader code}
 
-
+GLSL does not support polymorphism or inheritance, and this because difficult when writing shaders for objects that behaved or colored themselves in very similar ways. For example, the lighting calculations were common to all shaders. After some research, I learned that there's no practically way to have GLSL inherit/import code from somewhere else. It is shader code and runs on the graphics card after all, so I didn't expect it to have any knowledge of a file system. I learned that some workarounds to this problem have been to build a monolithic shader that is capable of doing whatever needs to be done. This method seemed problematic to me, since the shader code becomes large and very complex to maintain. I opted to just repeat some of the code across multiple shaders, at that seemed like the lesser of two evils. I understand that Microsoft's HLSL for DirectX supports imports like that, and hopefully OpenGL adopts that feature as well.
 
 \section{Conclusion}
-Write your conclusion here.
+
+For my project, I have developed a flexible framework from which I can do many basic OpenGL projects. Further improvements could and will be made to it, but at the moment it allows me to construct and render 3D objects in C++ in an organized fashion. This is a significant improvement over what I was doing for previous assignments in this class. I've learned a significant amount about graphics principles, the functionality of the graphics card, the C++ 0x11 standard, and OpenGL functions as a result of working on this project. I'm confident that I'll be able to apply this code down the road.
 
 \LaTeX{}
 
